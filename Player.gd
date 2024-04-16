@@ -53,18 +53,15 @@ func _input(event):
 		
 		for i in current_point_path.size():
 			current_point_path[i] = current_point_path[i] + Vector2(8, 8)
-		
+
 func _physics_process(_delta):
-	var mouse_position = get_global_mouse_position()
-	var tile_position = tile_map.local_to_map(mouse_position)
+	var tile_position = tile_map.local_to_map(get_global_mouse_position())
 	
-	test_point_path = astar_grid.get_point_path(
+	test_point_path = astar_grid.get_id_path(
 		tile_map.local_to_map(global_position), 
 		tile_position
 	)
-	
-	for i in test_point_path.size():
-			test_point_path[i] = test_point_path[i] + Vector2(8, 8)
+	test_point_path = test_point_path.slice(1, test_point_path.size() - 1)
 	
 	if current_id_path.is_empty():
 		return
