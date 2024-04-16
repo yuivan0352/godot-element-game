@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcem6cteq40gr"]
+[gd_scene load_steps=9 format=3 uid="uid://bcem6cteq40gr"]
 
 [ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Texture/TX Tileset Grass.png" id="1_rv7r0"]
 [ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Texture/TX Tileset Wall.png" id="2_5bmkf"]
 [ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://fire sprite.png" id="2_84ope"]
 [ext_resource type="Script" path="res://Player.gd" id="2_chj6r"]
+[ext_resource type="Script" path="res://Path.gd" id="5_jxqgi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
 texture = ExtResource("1_rv7r0")
@@ -738,3 +739,6 @@ scale = Vector2(0.0876289, 0.0918367)
 texture = ExtResource("2_84ope")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Path" type="Node2D" parent="."]
+script = ExtResource("5_jxqgi")

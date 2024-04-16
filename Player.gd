@@ -3,6 +3,10 @@ extends Node2D
 @onready var tile_map = $"../TileMap"
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]
+var current_point_path: PackedVector2Array
+var test_point_path: PackedVector2Array
+var target_position: Vector2
+var is_moving: bool
 
 func _ready():
 	astar_grid = AStarGrid2D.new()
@@ -27,20 +31,55 @@ func _input(event):
 	if event.is_action_pressed("move") == false:
 		return
 	
-	var id_path = astar_grid.get_id_path(
-		tile_map.local_to_map(global_position), 
-		tile_map.local_to_map(get_global_mouse_position())
-	).slice(1)
+	var id_path
+	
+	if is_moving:
+		id_path = astar_grid.get_id_path(
+			tile_map.local_to_map(target_position), 
+			tile_map.local_to_map(get_global_mouse_position())
+		).slice(1)
+	else:
+		id_path = astar_grid.get_id_path(
+			tile_map.local_to_map(global_position), 
+			tile_map.local_to_map(get_global_mouse_position())
+		).slice(1)
 	
 	if id_path.is_empty() == false:
 		current_id_path = id_path
+		current_point_path = astar_grid.get_point_path(
+			tile_map.local_to_map(target_position), 
+			tile_map.local_to_map(get_global_mouse_position())
+		)
 		
-func _physics_process(delta):
+		for i in current_point_path.size():
+			current_point_path[i] = current_point_path[i] + Vector2(8, 8)
+		
+func _physics_process(_delta):
+	var mouse_position = get_global_mouse_position()
+	var tile_position = tile_map.local_to_map(mouse_position)
+	
+	test_point_path = astar_grid.get_point_path(
+		tile_map.local_to_map(global_position), 
+		tile_position
+	)
+	
+	for i in test_point_path.size():
+			test_point_path[i] = test_point_path[i] + Vector2(8, 8)
+	
 	if current_id_path.is_empty():
 		return
 	
-	var target_position = tile_map.map_to_local(current_id_path.front())
+	if is_moving == false:
+		target_position = tile_map.map_to_local(current_id_path.front())
+		is_moving = true
+		
 	global_position = global_position.move_toward(target_position, 1)
 	
 	if global_position == target_position:
 		current_id_path.pop_front()
+		
+		if current_id_path.is_empty() == false:
+			target_position = tile_map.map_to_local(current_id_path.front())
+		else:
+			is_moving = false
+			current_point_path.clear()
