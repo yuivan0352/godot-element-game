@@ -25,4 +25,7 @@ func _process(_delta):
 			erase_cell(1, tile)
 	
 	if dictionary.has(str(tile_position)):
-		set_cell(1, tile_position, 2, Vector2i(3, 3), 0)
+		if get_cell_tile_data(0, tile_position).get_custom_data("walkable") == false:
+			set_cell(1, tile_position, 2, Vector2i(2, 3), 0)
+		else:
+			set_cell(1, tile_position, 2, Vector2i(3, 3), 0)

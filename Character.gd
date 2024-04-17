@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var tile_map = $"../TileMap"
+@onready var tile_map = $"../../TileMap"
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]
 var current_point_path: PackedVector2Array
