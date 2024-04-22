@@ -4,7 +4,8 @@ extends Node2D
 @onready var tile_map = $"../../../TileMap"
 
 func _process(_delta):
-	queue_redraw()
+	if get_parent() == get_parent().get_parent().active_char:
+		queue_redraw()
 
 func _draw():
 	if character.current_point_path.is_empty():
