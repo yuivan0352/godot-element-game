@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpu1flu0wb7nj"
-path="res://.godot/imported/water sprite.png-13275660ba196ed09cf30cf885e7b94a.ctex"
+uid="uid://bu5ndhxfs1r3a"
+path="res://.godot/imported/TX Struct.png-176ab1d6fa86eac6d664d28d0f4a71f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://water sprite.png"
-dest_files=["res://.godot/imported/water sprite.png-13275660ba196ed09cf30cf885e7b94a.ctex"]
+source_file="res://Images/Texture/TX Struct.png"
+dest_files=["res://.godot/imported/TX Struct.png-176ab1d6fa86eac6d664d28d0f4a71f0.ctex"]
 
 [params]
 

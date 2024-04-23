@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfrwipqf0kcwr"
-path="res://.godot/imported/TX Props.png-e77c5354c7c6ddcc91292634bf2f6cb8.ctex"
+uid="uid://yrrpr5lxu84m"
+path="res://.godot/imported/wood sprite.png-872a54b40a25938e3a279482d6d69275.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/TX Props.png"
-dest_files=["res://.godot/imported/TX Props.png-e77c5354c7c6ddcc91292634bf2f6cb8.ctex"]
+source_file="res://Images/Sprites/wood sprite.png"
+dest_files=["res://.godot/imported/wood sprite.png-872a54b40a25938e3a279482d6d69275.ctex"]
 
 [params]
 
