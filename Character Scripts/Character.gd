@@ -6,7 +6,7 @@ class_name Character
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]
 var current_point_path: PackedVector2Array
-var test_point_path: PackedVector2Array
+var hover_id_path: PackedVector2Array
 var target_position: Vector2
 var is_moving: bool
 var is_active_char: bool
@@ -18,6 +18,7 @@ func _ready():
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
+	
 	
 	for x in tile_map.get_used_rect().size.x:
 		for y in tile_map.get_used_rect().size.y:
@@ -63,11 +64,11 @@ func _physics_process(_delta):
 	if self == get_parent().active_char:
 		var tile_position = tile_map.local_to_map(get_global_mouse_position())
 		
-		test_point_path = astar_grid.get_id_path(
+		hover_id_path = astar_grid.get_id_path(
 			tile_map.local_to_map(global_position), 
 			tile_position
 		)
-		test_point_path = test_point_path.slice(1, test_point_path.size() - 1)
+		hover_id_path = hover_id_path.slice(1, hover_id_path.size() - 1)
 		
 		if current_id_path.is_empty():
 			return

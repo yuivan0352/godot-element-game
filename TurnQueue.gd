@@ -12,6 +12,5 @@ func _ready():
 
 func _play_turn():
 	var new_index = (active_char.get_index() + 1) % get_child_count()
-	print(new_index)
 	active_char = get_child(new_index)
 	active_char.find_child("Camera2D").make_current()
