@@ -1,13 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bcem6cteq40gr"]
+[gd_scene load_steps=11 format=3 uid="uid://bcem6cteq40gr"]
 
 [ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Images/Texture/TX Tileset Grass.png" id="1_1knkp"]
 [ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Images/Texture/TX Tileset Wall.png" id="2_k3b8q"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Images/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Script" path="res://Images/TileMap.gd" id="4_4o7b2"]
 [ext_resource type="Script" path="res://TurnQueue.gd" id="5_4rsxs"]
-[ext_resource type="Script" path="res://Character Scripts/Character.gd" id="6_wik31"]
-[ext_resource type="Script" path="res://Images/Path.gd" id="7_j3wot"]
-[ext_resource type="Texture2D" uid="uid://eblhwolmn460" path="res://Images/Texture/TX Player.png" id="8_emi2a"]
+[ext_resource type="PackedScene" uid="uid://brhl8kkmkf8im" path="res://Character/Character.tscn" id="6_74pcq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
 texture = ExtResource("1_1knkp")
@@ -768,18 +766,6 @@ sources/0 = SubResource("TileSetAtlasSource_fwg0k")
 sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t8xnr"]
-atlas = ExtResource("8_emi2a")
-region = Rect2(4.58546, 12.3783, 23.1067, 46.777)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xaa43"]
-atlas = ExtResource("8_emi2a")
-region = Rect2(38, 10, 21, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bumlh"]
-atlas = ExtResource("8_emi2a")
-region = Rect2(69, 13, 21, 45)
-
 [node name="World" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -793,47 +779,11 @@ script = ExtResource("4_4o7b2")
 position = Vector2(144, 128)
 script = ExtResource("5_4rsxs")
 
-[node name="Character" type="Node2D" parent="TurnQueue"]
-position = Vector2(8, 8)
-script = ExtResource("6_wik31")
+[node name="Character" parent="TurnQueue" instance=ExtResource("6_74pcq")]
+position = Vector2(8, -8)
 
-[node name="Path" type="Node2D" parent="TurnQueue/Character"]
-position = Vector2(-8, -8)
-script = ExtResource("7_j3wot")
+[node name="Character2" parent="TurnQueue" instance=ExtResource("6_74pcq")]
+position = Vector2(-8, 8)
 
-[node name="Sprite2D" type="Sprite2D" parent="TurnQueue/Character"]
-position = Vector2(0, -8)
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_t8xnr")
-
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Character"]
-
-[node name="Character2" type="Node2D" parent="TurnQueue"]
-position = Vector2(-8, 40)
-script = ExtResource("6_wik31")
-
-[node name="Path" type="Node2D" parent="TurnQueue/Character2"]
-position = Vector2(-8, -8)
-script = ExtResource("7_j3wot")
-
-[node name="Sprite2D" type="Sprite2D" parent="TurnQueue/Character2"]
-position = Vector2(0, -8)
-scale = Vector2(0.478, 0.5)
-texture = SubResource("AtlasTexture_xaa43")
-
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Character2"]
-
-[node name="Character3" type="Node2D" parent="TurnQueue"]
-position = Vector2(-56, 8)
-script = ExtResource("6_wik31")
-
-[node name="Path" type="Node2D" parent="TurnQueue/Character3"]
-position = Vector2(-8, -8)
-script = ExtResource("7_j3wot")
-
-[node name="Sprite2D" type="Sprite2D" parent="TurnQueue/Character3"]
-position = Vector2(0, -8)
-scale = Vector2(0.478, 0.5)
-texture = SubResource("AtlasTexture_bumlh")
-
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Character3"]
+[node name="Character3" parent="TurnQueue" instance=ExtResource("6_74pcq")]
+position = Vector2(24, 24)
