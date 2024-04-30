@@ -3,6 +3,7 @@ extends Node2D
 class_name Character
 
 @onready var tile_map = $"../../TileMap"
+@export var char_stats : Stats
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]
 var current_point_path: PackedVector2Array
@@ -13,6 +14,13 @@ var is_active_char: bool
 signal turn_complete
 
 func _ready():
+	print("Health: %s" % char_stats.health)
+	print("Armor Class: %s" % char_stats.armor_class)
+	print("Strength: %s" % char_stats.strength)
+	print("Dexterity: %s" % char_stats.dexterity)
+	print("Constitution: %s" % char_stats.constitution)
+	print("Wisdom: %s" % char_stats.wisdom)
+	print("Charisma: %s" % char_stats.charisma)
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = tile_map.get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
@@ -88,4 +96,3 @@ func _physics_process(_delta):
 				is_moving = false
 				current_point_path.clear()
 				turn_complete.emit()
-				print(self == get_parent().active_char)

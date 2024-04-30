@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://d015bfgy5mxk2"]
+
+[ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="1_4a11b"]
+
+[resource]
+script = ExtResource("1_4a11b")
+name = ""
+health = 0
+armor_class = 0
+strength = 0
+dexterity = 0
+constitution = 0
+wisdom = 0
+charisma = 0

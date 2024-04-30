@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://cjd6sgx3cubdy"]
+
+[ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="1_m3qut"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_m3qut")
+name = ""
+health = 14
+armor_class = 13
+strength = 16
+dexterity = 13
+constitution = 14
+intelligence = 8
+wisdom = 10
+charisma = 8
