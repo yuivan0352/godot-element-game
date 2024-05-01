@@ -3,6 +3,8 @@ extends Node2D
 class_name TurnQueue
 
 var active_char : Character
+var prev_char : Character
+@onready var camera_transition = $"../CameraTransition"
 
 func _ready():
 	var characters = get_children()
@@ -12,5 +14,6 @@ func _ready():
 
 func _play_turn():
 	var new_index = (active_char.get_index() + 1) % get_child_count()
+	prev_char = active_char
 	active_char = get_child(new_index)
-	active_char.find_child("Camera2D").make_current()
+	camera_transition.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"))

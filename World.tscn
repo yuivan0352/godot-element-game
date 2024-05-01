@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcem6cteq40gr"]
+[gd_scene load_steps=15 format=3 uid="uid://bcem6cteq40gr"]
 
 [ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Images/Texture/TX Tileset Grass.png" id="1_1knkp"]
 [ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Images/Texture/TX Tileset Wall.png" id="2_k3b8q"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Images/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Script" path="res://Images/TileMap.gd" id="4_4o7b2"]
 [ext_resource type="Script" path="res://TurnQueue.gd" id="5_4rsxs"]
+[ext_resource type="PackedScene" uid="uid://drg0q2xkfbjcm" path="res://CameraTransition.tscn" id="5_unu7q"]
 [ext_resource type="PackedScene" uid="uid://brhl8kkmkf8im" path="res://Character/Character.tscn" id="6_74pcq"]
 [ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="7_88uww"]
 
@@ -767,7 +768,7 @@ sources/0 = SubResource("TileSetAtlasSource_fwg0k")
 sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 
-[sub_resource type="Resource" id="Resource_x2evn"]
+[sub_resource type="Resource" id="Resource_q8fdc"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -780,7 +781,7 @@ intelligence = 0
 wisdom = 10
 charisma = 10
 
-[sub_resource type="Resource" id="Resource_yxa0u"]
+[sub_resource type="Resource" id="Resource_03t5y"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -802,17 +803,19 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 720896, 6, 131072, 0, 0, 19
 layer_1/tile_data = PackedInt32Array()
 script = ExtResource("4_4o7b2")
 
+[node name="CameraTransition" parent="." instance=ExtResource("5_unu7q")]
+
 [node name="TurnQueue" type="Node2D" parent="."]
 position = Vector2(144, 128)
 script = ExtResource("5_4rsxs")
 
 [node name="Character" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(8, -8)
-char_stats = SubResource("Resource_x2evn")
+char_stats = SubResource("Resource_q8fdc")
 
 [node name="Character2" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(-8, 8)
-char_stats = SubResource("Resource_yxa0u")
+char_stats = SubResource("Resource_03t5y")
 
 [node name="Character3" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)
