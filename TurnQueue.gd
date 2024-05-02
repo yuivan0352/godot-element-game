@@ -9,8 +9,10 @@ var prev_char : Character
 func _ready():
 	var characters = get_children()
 	active_char = get_child(0)
+	camera_transition.set_camera_position(active_char)
 	for i in characters.size():
 		characters[i].turn_complete.connect(_play_turn)
+		characters[i].char_moving.connect(camera_transition.track_char_cam(characters[i]))
 
 func _play_turn():
 	var new_index = (active_char.get_index() + 1) % get_child_count()

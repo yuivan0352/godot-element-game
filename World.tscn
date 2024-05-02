@@ -768,7 +768,7 @@ sources/0 = SubResource("TileSetAtlasSource_fwg0k")
 sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 
-[sub_resource type="Resource" id="Resource_q8fdc"]
+[sub_resource type="Resource" id="Resource_eu1ra"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -781,7 +781,7 @@ intelligence = 0
 wisdom = 10
 charisma = 10
 
-[sub_resource type="Resource" id="Resource_03t5y"]
+[sub_resource type="Resource" id="Resource_5t57a"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -804,6 +804,7 @@ layer_1/tile_data = PackedInt32Array()
 script = ExtResource("4_4o7b2")
 
 [node name="CameraTransition" parent="." instance=ExtResource("5_unu7q")]
+speed = null
 
 [node name="TurnQueue" type="Node2D" parent="."]
 position = Vector2(144, 128)
@@ -811,11 +812,11 @@ script = ExtResource("5_4rsxs")
 
 [node name="Character" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(8, -8)
-char_stats = SubResource("Resource_q8fdc")
+char_stats = SubResource("Resource_eu1ra")
 
 [node name="Character2" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(-8, 8)
-char_stats = SubResource("Resource_03t5y")
+char_stats = SubResource("Resource_5t57a")
 
 [node name="Character3" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)

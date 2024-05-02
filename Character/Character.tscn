@@ -23,3 +23,11 @@ texture = SubResource("AtlasTexture_1gm32")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
+enabled = false
+zoom = Vector2(4.5, 4.5)
+limit_left = 0
+limit_top = -32
+limit_right = 256
+limit_bottom = 256
+limit_smoothed = true
+rotation_smoothing_enabled = true

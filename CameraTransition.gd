@@ -1,16 +1,20 @@
 extends Node2D
 
+@export var speed = 20
 @onready var camera : Camera2D = $OverviewCamera
 var transitioning: bool = false
+var inputX : int
+var inputY : int
+var char_moving : bool = false
 var tween : Tween
 
-func _ready():
-	camera.enabled = false
-	
-func switch_camera(from: Camera2D, to: Camera2D):
-	from.enabled = false
-	to.enabled = true
-	
+func track_char_cam(char: Character):
+	char_moving = true
+	transition_camera(camera, char.find_child("CharacterCamera"))
+
+func set_camera_position(target: Character):
+	global_position = target.global_position
+
 func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
 	if transitioning: return
 	camera.zoom = from.zoom
@@ -19,7 +23,6 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
 	
 	camera.global_transform = from.global_transform
 	
-	camera.enabled = true
 	camera.make_current()
 	transitioning = true
 	
@@ -32,6 +35,26 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
 	tween.tween_property(camera, "offset", to.offset, duration).from(camera.offset)
 	await tween.finished
 	
-	to.enabled = true
 	to.make_current()
 	transitioning = false
+
+func _process(delta):
+	if transitioning == false && char_moving == false:
+		inputX = int(Input.is_action_pressed("cam_right")) - int(Input.is_action_pressed("cam_left"))
+		inputY = int(Input.is_action_pressed("cam_down")) - int(Input.is_action_pressed("cam_up"))
+		
+		if (position.x >= 144 && inputX > 0):
+			position.x = 144
+		elif (position.x <= 112 && inputX < 0):
+			position.x = 112
+		else:
+			position.x = lerp(position.x, position.x + inputX * speed, speed * delta)
+			
+		if (position.y >= 192 && inputY > 0):
+			position.y = 192
+		elif (position.y <= 32 && inputY < 0):
+			position.y = 32
+		else:
+			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
+		
+		print(global_position)
