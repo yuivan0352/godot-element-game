@@ -12,21 +12,14 @@ var target_position: Vector2
 var is_moving: bool
 var is_active_char: bool
 signal turn_complete
+signal char_moving
 
 func _ready():
-	print("Health: %s" % char_stats.health)
-	print("Armor Class: %s" % char_stats.armor_class)
-	print("Strength: %s" % char_stats.strength)
-	print("Dexterity: %s" % char_stats.dexterity)
-	print("Constitution: %s" % char_stats.constitution)
-	print("Wisdom: %s" % char_stats.wisdom)
-	print("Charisma: %s" % char_stats.charisma)
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = tile_map.get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
-	
 	
 	for x in tile_map.get_used_rect().size.x:
 		for y in tile_map.get_used_rect().size.y:
@@ -57,6 +50,9 @@ func _input(event):
 				tile_map.local_to_map(global_position), 
 				tile_map.local_to_map(get_global_mouse_position())
 			).slice(1)
+			
+		char_moving.emit()
+		await get_tree().create_timer(1.0).timeout
 		
 		if id_path.is_empty() == false:
 			current_id_path = id_path
