@@ -1,45 +1,51 @@
-extends Node2D
+extends Camera2D
 
 @export var speed = 20
-@onready var camera : Camera2D = $OverviewCamera
 var transitioning: bool = false
 var inputX : int
 var inputY : int
-var char_moving : bool = false
 var tween : Tween
 
-func track_char_cam(char: Character):
-	char_moving = true
-	transition_camera(camera, char.find_child("CharacterCamera"))
+func track_char_cam(character: Character):
+	transition_camera(self, character.find_child("CharacterCamera"))
 
 func set_camera_position(target: Character):
 	global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
 	if transitioning: return
-	camera.zoom = from.zoom
-	camera.offset = from.offset
-	camera.light_mask = from.light_mask
+	zoom = from.zoom
+	offset = from.offset
+	light_mask = from.light_mask
 	
-	camera.global_transform = from.global_transform
+	global_transform = from.global_transform
 	
-	camera.make_current()
+	if from != self:
+		from.enabled = true
+	make_current()
 	transitioning = true
 	
 	tween = create_tween()
 	tween.set_parallel(true)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(camera, "global_transform", to.global_transform, duration).from(camera.global_transform)
-	tween.tween_property(camera, "zoom", to.zoom, duration).from(camera.zoom)
-	tween.tween_property(camera, "offset", to.offset, duration).from(camera.offset)
+	tween.tween_property(self, "global_transform", to.global_transform, duration).from(global_transform)
+	tween.tween_property(self, "zoom", to.zoom, duration).from(zoom)
+	tween.tween_property(self, "offset", to.offset, duration).from(offset)
 	await tween.finished
 	
+	if from != self:
+		from.enabled = false
+	if from != self && to != self:
+		to.enabled = false
+	if from == self && to != self:
+		to.enabled = true
 	to.make_current()
 	transitioning = false
 
 func _process(delta):
-	if transitioning == false && char_moving == false:
+	if transitioning == false:
+		print(global_position)
 		inputX = int(Input.is_action_pressed("cam_right")) - int(Input.is_action_pressed("cam_left"))
 		inputY = int(Input.is_action_pressed("cam_down")) - int(Input.is_action_pressed("cam_up"))
 		
@@ -57,4 +63,3 @@ func _process(delta):
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
 		
-		print(global_position)

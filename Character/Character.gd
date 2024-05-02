@@ -50,6 +50,9 @@ func _input(event):
 				tile_map.local_to_map(global_position), 
 				tile_map.local_to_map(get_global_mouse_position())
 			).slice(1)
+			
+		char_moving.emit()
+		await get_tree().create_timer(1.0).timeout
 		
 		if id_path.is_empty() == false:
 			current_id_path = id_path
@@ -77,7 +80,6 @@ func _physics_process(_delta):
 		if is_moving == false:
 			target_position = tile_map.map_to_local(current_id_path.front())
 			is_moving = true
-			char_moving.emit()
 			
 		global_position = global_position.move_toward(target_position, 1)
 		
