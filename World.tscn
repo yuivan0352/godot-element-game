@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Images/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Script" path="res://Images/TileMap.gd" id="4_4o7b2"]
 [ext_resource type="Script" path="res://TurnQueue.gd" id="5_4rsxs"]
-[ext_resource type="PackedScene" uid="uid://drg0q2xkfbjcm" path="res://OverviewCamera.tscn" id="5_unu7q"]
+[ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://OverviewCamera.tscn" id="5_qj4ji"]
 [ext_resource type="PackedScene" uid="uid://brhl8kkmkf8im" path="res://Character/Character.tscn" id="6_74pcq"]
 [ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="7_88uww"]
 
@@ -768,7 +768,7 @@ sources/0 = SubResource("TileSetAtlasSource_fwg0k")
 sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 
-[sub_resource type="Resource" id="Resource_te0t2"]
+[sub_resource type="Resource" id="Resource_uy6i8"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -781,7 +781,7 @@ intelligence = 0
 wisdom = 10
 charisma = 10
 
-[sub_resource type="Resource" id="Resource_xkquo"]
+[sub_resource type="Resource" id="Resource_ibn8a"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -803,9 +803,7 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 720896, 6, 131072, 0, 0, 19
 layer_1/tile_data = PackedInt32Array()
 script = ExtResource("4_4o7b2")
 
-[node name="OverviewCamera" parent="." instance=ExtResource("5_unu7q")]
-position = Vector2(271.516, 132.627)
-speed = 20
+[node name="OverviewCamera" parent="." instance=ExtResource("5_qj4ji")]
 
 [node name="TurnQueue" type="Node2D" parent="."]
 position = Vector2(144, 128)
@@ -813,11 +811,11 @@ script = ExtResource("5_4rsxs")
 
 [node name="Character" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(8, -8)
-char_stats = SubResource("Resource_te0t2")
+char_stats = SubResource("Resource_uy6i8")
 
 [node name="Character2" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(-8, 8)
-char_stats = SubResource("Resource_xkquo")
+char_stats = SubResource("Resource_ibn8a")
 
 [node name="Character3" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)
