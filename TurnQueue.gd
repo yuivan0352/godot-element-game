@@ -6,6 +6,8 @@ var active_char : Character
 var prev_char : Character
 @onready var overview_camera = $"../OverviewCamera"
 
+signal active
+
 func _ready():
 	var characters = get_children()
 	active_char = get_child(0)
@@ -13,6 +15,11 @@ func _ready():
 	for i in characters.size():
 		characters[i].turn_complete.connect(_play_turn)
 		characters[i].char_moving.connect(transition_character_cam)
+	active.connect(pass_active)
+	active.emit()
+	
+func pass_active():
+	overview_camera.set_active(active_char)
 
 func transition_character_cam():
 	overview_camera.track_char_cam(active_char)

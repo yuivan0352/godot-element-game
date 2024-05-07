@@ -6,6 +6,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_bf0jc")
 name = ""
+max_health = 12
 health = 12
 armor_class = 10
 strength = 16

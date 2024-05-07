@@ -13,8 +13,18 @@ var is_moving: bool
 var is_active_char: bool
 signal turn_complete
 signal char_moving
+# just to test health
+signal health_changed
 
 func _ready():
+	print("Health: %s" % char_stats.health)
+	print("Armor Class: %s" % char_stats.armor_class)
+	print("Strength: %s" % char_stats.strength)
+	print("Dexterity: %s" % char_stats.dexterity)
+	print("Constitution: %s" % char_stats.constitution)
+	print("Intelligence: %s" % char_stats.intelligence)
+	print("Wisdom: %s" % char_stats.wisdom)
+	print("Charisma: %s" % char_stats.charisma)
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = tile_map.get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
@@ -88,7 +98,13 @@ func _physics_process(_delta):
 			
 			if current_id_path.is_empty() == false:
 				target_position = tile_map.map_to_local(current_id_path.front())
-			else:
+			else: 
 				is_moving = false
+				
+				# here just to test health
+				char_stats.health = char_stats.health - 1
+				health_changed.emit()
+				
 				current_point_path.clear()
 				turn_complete.emit()
+

@@ -4,6 +4,7 @@ class_name Stats
 
 @export var name : String
 # Class based health die + con mod
+@export var max_health : int
 @export var health : int
 # If tank class, presume armor class is 10 + dex mod + con mod
 @export var armor_class : int
@@ -13,3 +14,7 @@ class_name Stats
 @export var intelligence : int
 @export var wisdom : int
 @export var charisma : int
+
+func get_health():
+	return (health)
+	
