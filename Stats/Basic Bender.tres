@@ -8,6 +8,7 @@ script = ExtResource("1_m3qut")
 name = ""
 health = 14
 armor_class = 13
+movement_speed = 30
 strength = 16
 dexterity = 13
 constitution = 14

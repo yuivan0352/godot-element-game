@@ -45,7 +45,6 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
 
 func _process(delta):
 	if transitioning == false:
-		print(global_position)
 		inputX = int(Input.is_action_pressed("cam_right")) - int(Input.is_action_pressed("cam_left"))
 		inputY = int(Input.is_action_pressed("cam_down")) - int(Input.is_action_pressed("cam_up"))
 		

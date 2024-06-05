@@ -8,6 +8,7 @@ script = ExtResource("1_bf0jc")
 name = ""
 health = 12
 armor_class = 10
+movement_speed = 30
 strength = 16
 dexterity = 13
 constitution = 14

@@ -22,5 +22,4 @@ func _play_turn():
 	prev_char = active_char
 	active_char = get_child(new_index)
 	overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"))
-	print(active_char.find_child("CharacterCamera").enabled)
 	overview_camera.make_current()
