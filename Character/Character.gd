@@ -49,7 +49,6 @@ func _input(event):
 				).slice(1, movement_limit - moved_distance + 1)
 				
 			char_moving.emit()
-			await get_tree().create_timer(1.0).timeout
 			
 			if id_path.is_empty() == false:
 				current_id_path = id_path
@@ -73,24 +72,25 @@ func _physics_process(_delta):
 		if current_id_path.is_empty():
 			return
 		
-		if is_moving == false:
-			target_position = tile_map.map_to_local(current_id_path.front())
-			is_moving = true
-			
-		global_position = global_position.move_toward(target_position, 1)
-		
-		if global_position == target_position:
-			current_id_path.pop_front()
-			moved_distance += 1
-				
-			if current_id_path.is_empty() == false:
+		if get_child(2).is_current():
+			if is_moving == false:
 				target_position = tile_map.map_to_local(current_id_path.front())
-			else:
-				is_moving = false
-				if (moved_distance == movement_limit):
-					moved_distance = 0
-					turn_complete.emit()
+				is_moving = true
+			
+			global_position = global_position.move_toward(target_position, 1)
+			
+			if global_position == target_position:
+				current_id_path.pop_front()
+				moved_distance += 1
+					
+				if current_id_path.is_empty() == false:
+					target_position = tile_map.map_to_local(current_id_path.front())
 				else:
-					overview_camera.enabled = true
-					overview_camera.set_camera_position(self)
-					overview_camera.make_current()
+					is_moving = false
+					if (moved_distance == movement_limit):
+						moved_distance = 0
+						turn_complete.emit()
+					else:
+						overview_camera.enabled = true
+						overview_camera.set_camera_position(self)
+						overview_camera.make_current()

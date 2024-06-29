@@ -31,3 +31,7 @@ limit_right = 256
 limit_bottom = 256
 limit_smoothed = true
 rotation_smoothing_enabled = true
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.535651, 0.520002)

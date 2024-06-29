@@ -21,5 +21,5 @@ func _play_turn():
 	var new_index = (active_char.get_index() + 1) % get_child_count()
 	prev_char = active_char
 	active_char = get_child(new_index)
-	overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"))
+	overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"), 1.0)
 	overview_camera.make_current()

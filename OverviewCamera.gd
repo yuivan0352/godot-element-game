@@ -7,12 +7,15 @@ var inputY : int
 var tween : Tween
 
 func track_char_cam(character: Character):
-	transition_camera(self, character.find_child("CharacterCamera"))
+	if (character.get_child(3).is_on_screen()):
+		transition_camera(self, character.find_child("CharacterCamera"), 0.5)
+	else:
+		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
 func set_camera_position(target: Character):
 	global_position = target.global_position
 
-func transition_camera(from: Camera2D, to: Camera2D, duration: float = 1.0):
+func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if transitioning: return
 	zoom = from.zoom
 	offset = from.offset
