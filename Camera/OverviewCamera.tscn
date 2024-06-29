@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://66bfojldfelb"]
+[gd_scene load_steps=2 format=3 uid="uid://66bfojldfelb"]
 
 [ext_resource type="Script" path="res://Camera/OverviewCamera.gd" id="1_mmlud"]
-[ext_resource type="PackedScene" uid="uid://gymja1x7cn2o" path="res://UI/StatUI.tscn" id="2_aju0a"]
 
 [node name="OverviewCamera" type="Camera2D"]
 zoom = Vector2(5, 5)
@@ -12,5 +11,3 @@ limit_bottom = 256
 limit_smoothed = true
 rotation_smoothing_enabled = true
 script = ExtResource("1_mmlud")
-
-[node name="StatUI" parent="." instance=ExtResource("2_aju0a")]

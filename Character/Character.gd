@@ -14,7 +14,7 @@ var is_active_char: bool
 signal turn_complete
 signal char_moving
 # just to test health
-signal health_changed
+signal update_characterhealth
 
 func _ready():
 	print("Health: %s" % char_stats.health)
@@ -102,9 +102,17 @@ func _physics_process(_delta):
 				is_moving = false
 				
 				# here just to test health
-				char_stats.health = char_stats.health - 1
-				health_changed.emit()
+				#char_stats.health = char_stats.health - 1
 				
 				current_point_path.clear()
 				turn_complete.emit()
+		
+			emit_signal("update_characterhealth", char_stats.health)
+
+func take_damage(damageAmount):
+	char_stats.health -= damageAmount
+	if char_stats.health <= 0:
+		char_stats.health = 0
+	emit_signal("update_characterhealth", char_stats.health)
+	
 

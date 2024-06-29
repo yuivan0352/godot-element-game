@@ -31,5 +31,3 @@ limit_right = 256
 limit_bottom = 256
 limit_smoothed = true
 rotation_smoothing_enabled = true
-
-[connection signal="health_changed" from="." to="." method="_on_health_changed"]

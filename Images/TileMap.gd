@@ -29,3 +29,7 @@ func _process(_delta):
 			set_cell(1, tile_position, 2, Vector2i(2, 3), 0)
 		else:
 			set_cell(1, tile_position, 2, Vector2i(3, 3), 0)
+
+
+func _on_turn_queue_active(active_char):
+	pass # Replace with function body.
