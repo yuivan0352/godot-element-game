@@ -771,7 +771,7 @@ sources/0 = SubResource("TileSetAtlasSource_fwg0k")
 sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 
-[sub_resource type="Resource" id="Resource_g21b6"]
+[sub_resource type="Resource" id="Resource_tol5p"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -785,7 +785,7 @@ intelligence = 0
 wisdom = 10
 charisma = 10
 
-[sub_resource type="Resource" id="Resource_f7d4q"]
+[sub_resource type="Resource" id="Resource_1omey"]
 resource_local_to_scene = true
 script = ExtResource("7_88uww")
 name = ""
@@ -827,8 +827,8 @@ script = ExtResource("8_441bh")
 [node name="CharacterHealthBar" type="ProgressBar" parent="StatLayer/StatUI"]
 layout_mode = 0
 offset_left = 8.0
-offset_right = 128.0
-offset_bottom = 27.0
+offset_right = 326.0
+offset_bottom = 59.0
 
 [node name="OverviewCamera" parent="." instance=ExtResource("5_qj4ji")]
 
@@ -838,14 +838,13 @@ script = ExtResource("5_4rsxs")
 
 [node name="Character" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(8, -8)
-char_stats = SubResource("Resource_g21b6")
+char_stats = SubResource("Resource_tol5p")
 
 [node name="Character2" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(-8, 8)
-char_stats = SubResource("Resource_f7d4q")
+char_stats = SubResource("Resource_1omey")
 
 [node name="Character3" parent="TurnQueue" instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)
 
-[connection signal="active" from="TurnQueue" to="StatLayer" method="_on_active_char"]
-[connection signal="update_characterhealth" from="TurnQueue/Character" to="StatLayer/StatUI" method="_on_character_update_characterhealth"]
+[connection signal="char" from="TurnQueue" to="StatLayer/StatUI" method="_on_turn_queue_char"]
