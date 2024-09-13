@@ -47,6 +47,8 @@ func _input(event):
 					tile_map.local_to_map(global_position), 
 					tile_map.local_to_map(get_global_mouse_position())
 				).slice(1, movement_limit - moved_distance + 1)
+			elif is_moving:
+				return
 				
 			char_moving.emit()
 			
