@@ -12,9 +12,9 @@ func _ready():
 	overview_camera.set_camera_position(active_char)
 	for i in characters.size():
 		characters[i].turn_complete.connect(_play_turn)
-		characters[i].char_moving.connect(transition_character_cam)
+		characters[i].char_moving.connect(_transition_character_cam)
 
-func transition_character_cam():
+func _transition_character_cam():
 	overview_camera.track_char_cam(active_char)
 
 func _play_turn():

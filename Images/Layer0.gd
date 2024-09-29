@@ -1,7 +1,8 @@
-extends TileMap
+extends TileMapLayer
 
 var dictionary = {}
 @export var turn_queue : Node2D
+@onready var layer_one = $"../Layer1"
 var in_movement_range : bool = false
 
 func _ready():
@@ -27,14 +28,14 @@ func _process(_delta):
 				x + get_used_rect().position.x,
 				y + get_used_rect().position.y
 			)
-			erase_cell(1, tile)
+			layer_one.erase_cell(tile)
 	
 	if dictionary.has(str(tile_position)):
-		if get_cell_tile_data(0, tile_position).get_custom_data("walkable") == false:
-			set_cell(1, tile_position, 3, Vector2i(2, 3), 0)
+		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false:
+			layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 		else:
 			if (in_movement_range):
-				set_cell(1, tile_position, 2, Vector2i(3, 3), 0)
+				layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)
 			else:
-				set_cell(1, tile_position, 3, Vector2i(3, 3), 0)
+				layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
 			in_movement_range = false
