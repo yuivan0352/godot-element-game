@@ -14,6 +14,8 @@ var is_moving: bool
 var is_active_char: bool
 var movement_limit: int
 var moved_distance: int
+var initiative_roll: int
+var rng = RandomNumberGenerator.new()
 signal turn_complete
 signal char_moving
 
@@ -25,6 +27,7 @@ func _ready():
 	astar_grid.update()
 	@warning_ignore("integer_division")
 	movement_limit = char_stats.movement_speed / 5
+	initiative_roll = rng.randi_range(1, 20) + char_stats.brawns
 	
 	for x in tile_layer_zero.get_used_rect().size.x:
 		for y in tile_layer_zero.get_used_rect().size.y:
