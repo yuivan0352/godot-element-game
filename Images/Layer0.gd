@@ -11,7 +11,7 @@ func _ready():
 			var tile = Vector2i(
 				x + get_used_rect().position.x,
 				y + get_used_rect().position.y
-			)
+			)		
 			dictionary[str(tile)] = {
 				"Tile Type": "Normal"
 			}

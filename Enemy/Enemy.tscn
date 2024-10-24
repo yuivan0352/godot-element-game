@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnxpo1564okgn"]
+
+[ext_resource type="Texture2D" uid="uid://beheelslfnump" path="res://icon.svg" id="1_8n4n1"]
+
+[sub_resource type="GDScript" id="GDScript_u6tnd"]
+script/source = "extends Node2D
+"
+
+[node name="Enemy" type="Node2D"]
+script = SubResource("GDScript_u6tnd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(5.96046e-08, 0)
+scale = Vector2(0.118652, 0.120361)
+texture = ExtResource("1_8n4n1")
