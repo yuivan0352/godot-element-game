@@ -37,4 +37,5 @@ position = Vector2(0, -1)
 scale = Vector2(0.535651, 0.520002)
 
 [connection signal="char_moving" from="." to="Path" method="_on_character_char_moving"]
-[connection signal="turn_complete" from="." to="Path" method="_on_character_turn_complete"]
+[connection signal="char_still" from="." to="Path" method="_on_character_movement_stopped"]
+[connection signal="turn_complete" from="." to="Path" method="_on_character_movement_stopped"]

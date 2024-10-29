@@ -22,6 +22,5 @@ func _draw():
 func _on_character_char_moving():
 	path_set = true
 
-
-func _on_character_turn_complete() -> void:
+func _on_character_movement_stopped() -> void:
 	path_set = false

@@ -17,6 +17,7 @@ var moved_distance: int
 var initiative_roll: int
 var rng = RandomNumberGenerator.new()
 signal turn_complete
+signal char_still
 signal char_moving
 
 func _ready():
@@ -57,6 +58,7 @@ func _input(event):
 		elif event.is_action_pressed("stop_move"):
 			if is_moving:
 				current_id_path = current_id_path.slice(0, 1)
+			char_still.emit()
 		else:
 			return
 
@@ -96,3 +98,4 @@ func _physics_process(_delta):
 						overview_camera.enabled = true
 						overview_camera.set_camera_position(self)
 						overview_camera.make_current()
+						char_still.emit()

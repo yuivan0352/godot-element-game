@@ -10,7 +10,6 @@ func _ready():
 	var characters = get_children()
 	characters.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
 	for i in characters.size():
-		print(characters[i].initiative_roll)
 		move_child(characters[i], i);
 	active_char = get_child(0)
 	overview_camera.set_camera_position(active_char)
