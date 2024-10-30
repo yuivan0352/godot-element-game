@@ -40,12 +40,21 @@ func _ready():
 			var tile_data = tile_layer_zero.get_cell_tile_data(tile_position)
 			
 			if tile_data == null or tile_data.get_custom_data("walkable") == false:
-				astar_grid.set_point_solid(tile_position)
+				astar_grid.set_point_solid(tile_position, true)
+
+func _set_char_pos_solid():
+	for key in get_parent().char_positions:
+		astar_grid.set_point_solid(get_parent().char_positions[key])
+		
+func _unsolid_coords(coords):
+	astar_grid.set_point_solid(coords, false)
+
+func _solid_coords(coords):
+	astar_grid.set_point_solid(coords, true)
 
 func _input(event):
 	if self == get_parent().active_char:
 		if event.is_action_pressed("move"):
-			
 			if !is_moving:
 				current_id_path = astar_grid.get_id_path(
 					tile_layer_zero.local_to_map(global_position),
@@ -54,7 +63,9 @@ func _input(event):
 			elif is_moving:
 				return
 				
-			char_moving.emit()
+			if !current_id_path.is_empty():
+				get_parent()._unsolid_coords(tile_layer_zero.local_to_map(global_position))
+				char_moving.emit()
 		elif event.is_action_pressed("stop_move"):
 			if is_moving:
 				current_id_path = current_id_path.slice(0, 1)
@@ -91,6 +102,8 @@ func _physics_process(_delta):
 					target_position = tile_layer_zero.map_to_local(current_id_path.front())
 				else:
 					is_moving = false
+					get_parent()._solid_coords(tile_layer_zero.local_to_map(global_position))
+					get_parent()._update_char_pos(tile_layer_zero.local_to_map(global_position))
 					if (moved_distance == movement_limit):
 						moved_distance = 0
 						turn_complete.emit()
