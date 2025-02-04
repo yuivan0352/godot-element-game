@@ -1,6 +1,7 @@
-[gd_scene load_steps=19 format=4 uid="uid://oahkdu8jl2l5"]
+[gd_scene load_steps=20 format=4 uid="uid://oahkdu8jl2l5"]
 
 [ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Images/Texture/TX Tileset Grass.png" id="1_1knkp"]
+[ext_resource type="Script" path="res://World.gd" id="1_7pjhh"]
 [ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Images/Texture/TX Tileset Wall.png" id="2_k3b8q"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Images/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Texture2D" uid="uid://hauh51jafug7" path="res://Images/Texture/red point and click cursor.png" id="4_l7ajx"]
@@ -9,32 +10,7 @@
 [ext_resource type="Script" path="res://Images/Layer0.gd" id="5_tu08y"]
 [ext_resource type="PackedScene" uid="uid://brhl8kkmkf8im" path="res://Character/Character.tscn" id="6_74pcq"]
 [ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="9_p1oqw"]
-
-[sub_resource type="GDScript" id="GDScript_70ef4"]
-script/source = "extends Node2D
-
-var enemy = preload(\"res://Enemy/Enemy.tscn\")
-@onready var layer_zero = $\"Layer0\" 
-var tile_size = 16 
-var enemy_spawned = 10
-var enemy_spawned_tiles = {}
-
-func _ready():
-	for i in range(enemy_spawned):    
-		spawn(Vector2i(randi() % tile_size, randi() % tile_size))
-# 16x16 tile map spawned within boundaries
-
-func spawn(tile_position: Vector2i):
-	if not enemy_spawned_tiles.has(tile_position):
-		var enemy_position = Vector2(tile_position.x, tile_position.y) * tile_size + Vector2(tile_size / 2, tile_size / 2)
-		var instance = enemy.instantiate()
-		instance.position = enemy_position
-		add_child(instance)
-		enemy_spawned_tiles[tile_position] = true
-	else:
-		spawn(Vector2i(randi() % tile_size, randi() % tile_size))
-	# try again to randomize spawn at a unoccupied tile
-"
+[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://user_interface.tscn" id="10_r0dvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
 texture = ExtResource("1_1knkp")
@@ -841,10 +817,10 @@ sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 sources/3 = SubResource("TileSetAtlasSource_a0ytw")
 
-[sub_resource type="Resource" id="Resource_b63hf"]
+[sub_resource type="Resource" id="Resource_juixm"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
-name = ""
+name = "Char1"
 health = 14
 armor_class = 13
 movement_speed = 30
@@ -852,10 +828,10 @@ brains = 3
 brawns = 3
 bewitchment = 3
 
-[sub_resource type="Resource" id="Resource_8drfg"]
+[sub_resource type="Resource" id="Resource_00163"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
-name = ""
+name = "Char2"
 health = 14
 armor_class = 13
 movement_speed = 30
@@ -863,10 +839,10 @@ brains = 3
 brawns = 3
 bewitchment = 3
 
-[sub_resource type="Resource" id="Resource_4nl4a"]
+[sub_resource type="Resource" id="Resource_s3yw5"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
-name = ""
+name = "Char3"
 health = 14
 armor_class = 13
 movement_speed = 30
@@ -875,7 +851,7 @@ brawns = 3
 bewitchment = 3
 
 [node name="World" type="Node2D"]
-script = SubResource("GDScript_70ef4")
+script = ExtResource("1_7pjhh")
 
 [node name="Layer0" type="TileMapLayer" parent="."]
 use_parent_material = true
@@ -896,18 +872,23 @@ tile_set = SubResource("TileSet_ivcak")
 
 [node name="OverviewCamera" parent="." instance=ExtResource("5_qj4ji")]
 
-[node name="TurnQueue" type="Node2D" parent="."]
+[node name="TurnQueue" type="Node2D" parent="." node_paths=PackedStringArray("ui")]
 position = Vector2(128, 115)
 script = ExtResource("5_4rsxs")
+ui = NodePath("../UserInterface")
 
 [node name="Character" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(-24, -11)
-char_stats = SubResource("Resource_b63hf")
+char_stats = SubResource("Resource_juixm")
 
 [node name="Character2" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(-89, -56)
-char_stats = SubResource("Resource_8drfg")
+char_stats = SubResource("Resource_00163")
 
 [node name="Character3" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)
-char_stats = SubResource("Resource_4nl4a")
+char_stats = SubResource("Resource_s3yw5")
+
+[node name="UserInterface" parent="." instance=ExtResource("10_r0dvc")]
+
+[connection signal="active_character" from="TurnQueue" to="UserInterface" method="_update_name_label"]

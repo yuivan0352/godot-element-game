@@ -11,7 +11,6 @@ var current_id_path: Array[Vector2i]
 var hover_id_path: PackedVector2Array
 var target_position: Vector2
 var is_moving: bool
-var is_active_char: bool
 var movement_limit: int
 var moved_distance: int
 var initiative_roll: int
