@@ -6,7 +6,7 @@ var tile_size = 16
 var enemy_spawned = 10
 var enemy_spawned_tiles = {}
 
-func _ready():\
+func _ready():
 	for i in range(enemy_spawned):    
 		spawn(Vector2i(randi() % tile_size, randi() % tile_size))
 # 16x16 tile map spawned within boundaries

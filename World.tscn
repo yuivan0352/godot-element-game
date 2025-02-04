@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Images/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Texture2D" uid="uid://hauh51jafug7" path="res://Images/Texture/red point and click cursor.png" id="4_l7ajx"]
 [ext_resource type="Script" path="res://TurnQueue.gd" id="5_4rsxs"]
-[ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://OverviewCamera.tscn" id="5_qj4ji"]
+[ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://Camera/OverviewCamera.tscn" id="5_qj4ji"]
 [ext_resource type="Script" path="res://Images/Layer0.gd" id="5_tu08y"]
 [ext_resource type="PackedScene" uid="uid://brhl8kkmkf8im" path="res://Character/Character.tscn" id="6_74pcq"]
 [ext_resource type="Script" path="res://Stats/stat_sheet.gd" id="9_p1oqw"]
-[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://user_interface.tscn" id="10_r0dvc"]
+[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://UI/user_interface.tscn" id="10_r0dvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
 texture = ExtResource("1_1knkp")
@@ -817,7 +817,7 @@ sources/1 = SubResource("TileSetAtlasSource_qcekg")
 sources/2 = SubResource("TileSetAtlasSource_141pg")
 sources/3 = SubResource("TileSetAtlasSource_a0ytw")
 
-[sub_resource type="Resource" id="Resource_tl5ck"]
+[sub_resource type="Resource" id="Resource_6je5t"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
 name = "Char1"
@@ -828,7 +828,7 @@ brains = 3
 brawns = 3
 bewitchment = 3
 
-[sub_resource type="Resource" id="Resource_g28t0"]
+[sub_resource type="Resource" id="Resource_u3dsa"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
 name = "Char2"
@@ -839,7 +839,7 @@ brains = 3
 brawns = 3
 bewitchment = 3
 
-[sub_resource type="Resource" id="Resource_ha1p6"]
+[sub_resource type="Resource" id="Resource_gk06i"]
 resource_local_to_scene = true
 script = ExtResource("9_p1oqw")
 name = "Char3"
@@ -874,21 +874,20 @@ tile_set = SubResource("TileSet_ivcak")
 
 [node name="OverviewCamera" parent="." instance=ExtResource("5_qj4ji")]
 
-[node name="TurnQueue" type="Node2D" parent="." node_paths=PackedStringArray("ui")]
+[node name="TurnQueue" type="Node2D" parent="."]
 position = Vector2(128, 115)
 script = ExtResource("5_4rsxs")
-ui = NodePath("../UserInterface")
 
 [node name="Character" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(-24, -11)
-char_stats = SubResource("Resource_tl5ck")
+char_stats = SubResource("Resource_6je5t")
 
 [node name="Character2" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(-89, -56)
-char_stats = SubResource("Resource_g28t0")
+char_stats = SubResource("Resource_u3dsa")
 
 [node name="Character3" parent="TurnQueue" groups=["characters"] instance=ExtResource("6_74pcq")]
 position = Vector2(24, 24)
-char_stats = SubResource("Resource_ha1p6")
+char_stats = SubResource("Resource_gk06i")
 
-[connection signal="active_character" from="TurnQueue" to="UserInterface" method="_update_name_label"]
+[connection signal="active_character" from="TurnQueue" to="UserInterface" method="_get_active_char"]

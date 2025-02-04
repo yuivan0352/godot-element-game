@@ -2,10 +2,12 @@ extends CanvasLayer
 class_name UserInterface
 
 @onready var name_label = %Name
+var active_char_stats
 
-func _update_name_label(active_char):
+func _get_active_char(ac_stats):
+	active_char_stats = ac_stats
 	if name_label:
-		name_label.text = active_char.char_stats.name
+		name_label.text = ac_stats.name
 
 func _ready() -> void:
 	pass
