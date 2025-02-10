@@ -1,15 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://l5f56njyk6gi"]
+[gd_scene load_steps=5 format=3 uid="uid://l5f56njyk6gi"]
 
-[ext_resource type="Script" path="res://UI/HealthLabel.gd" id="1_t4jns"]
+[ext_resource type="Texture2D" uid="uid://da8lv6mfhynr5" path="res://Images/Texture/HealthBarUnder.png" id="1_bfvxg"]
+[ext_resource type="Script" path="res://UI/health_bar.gd" id="1_egww6"]
+[ext_resource type="Texture2D" uid="uid://b52mhooi3nfhj" path="res://Images/Texture/HealthBarOver.png" id="2_8saaa"]
 
-[node name="HealthBar" type="HBoxContainer"]
-offset_right = 84.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_55yp0"]
+atlas = ExtResource("1_bfvxg")
+
+[node name="HealthBar" type="MarginContainer"]
+offset_right = 40.0
 offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+script = ExtResource("1_egww6")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HealthLabel" type="Label" parent="."]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HBoxContainer"]
 layout_mode = 2
-text = "5 / 8"
-script = ExtResource("1_t4jns")
+value = 100.0
+texture_under = SubResource("AtlasTexture_55yp0")
+texture_progress = ExtResource("2_8saaa")
+
+[node name="HealthLabel" type="Label" parent="HBoxContainer/TextureProgressBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -22.5
+offset_right = 0.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
