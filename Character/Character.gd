@@ -20,36 +20,10 @@ signal char_still
 signal char_moving
 
 func _ready():
-	astar_grid = AStarGrid2D.new()
-	astar_grid.region = tile_layer_zero.get_used_rect()
-	astar_grid.cell_size = Vector2(16, 16)
-	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	astar_grid.update()
+	astar_grid = tile_layer_zero.astar_grid
 	@warning_ignore("integer_division")
 	movement_limit = char_stats.movement_speed / 5
 	initiative_roll = rng.randi_range(1, 20) + char_stats.brawns
-	
-	for x in tile_layer_zero.get_used_rect().size.x:
-		for y in tile_layer_zero.get_used_rect().size.y:
-			var tile_position = Vector2i(
-				x + tile_layer_zero.get_used_rect().position.x,
-				y + tile_layer_zero.get_used_rect().position.y
-			)
-			
-			var tile_data = tile_layer_zero.get_cell_tile_data(tile_position)
-			
-			if tile_data == null or tile_data.get_custom_data("walkable") == false:
-				astar_grid.set_point_solid(tile_position, true)
-
-func _set_char_pos_solid():
-	for key in get_parent().char_positions:
-		astar_grid.set_point_solid(get_parent().char_positions[key])
-		
-func _unsolid_coords(coords):
-	astar_grid.set_point_solid(coords, false)
-
-func _solid_coords(coords):
-	astar_grid.set_point_solid(coords, true)
 
 func _input(event):
 	if self == get_parent().active_char:
@@ -63,7 +37,7 @@ func _input(event):
 				return
 				
 			if !current_id_path.is_empty():
-				get_parent()._unsolid_coords(tile_layer_zero.local_to_map(global_position))
+				tile_layer_zero._unsolid_coords(tile_layer_zero.local_to_map(global_position))
 				char_moving.emit()
 		elif event.is_action_pressed("stop_move"):
 			if is_moving:
@@ -101,7 +75,7 @@ func _physics_process(_delta):
 					target_position = tile_layer_zero.map_to_local(current_id_path.front())
 				else:
 					is_moving = false
-					get_parent()._solid_coords(tile_layer_zero.local_to_map(global_position))
+					tile_layer_zero._solid_coords(tile_layer_zero.local_to_map(global_position))
 					get_parent()._update_char_pos(tile_layer_zero.local_to_map(global_position))
 					if (moved_distance == movement_limit):
 						moved_distance = 0

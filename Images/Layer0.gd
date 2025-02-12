@@ -4,17 +4,36 @@ var dictionary = {}
 @onready var turn_queue = $"../TurnQueue"
 @onready var layer_one = $"../Layer1"
 var in_movement_range : bool = false
+var astar_grid: AStarGrid2D
 
 func _ready():
+	astar_grid = AStarGrid2D.new()
+	astar_grid.region = get_used_rect()
+	astar_grid.cell_size = Vector2(16, 16)
+	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astar_grid.update()
 	for x in get_used_rect().size.x:
 		for y in get_used_rect().size.y:
 			var tile = Vector2i(
 				x + get_used_rect().position.x,
 				y + get_used_rect().position.y
-			)		
-			dictionary[str(tile)] = {
-				"Tile Type": "Normal"
-			}
+			)	
+			dictionary[str(tile)] = null
+
+			var tile_data = get_cell_tile_data(tile)
+			
+			if tile_data == null or tile_data.get_custom_data("walkable") == false:
+				astar_grid.set_point_solid(tile, true)
+
+func _set_char_pos_solid(char_positions):
+	for key in char_positions:
+		astar_grid.set_point_solid(char_positions[key])
+		
+func _unsolid_coords(coords):
+	astar_grid.set_point_solid(coords, false)
+
+func _solid_coords(coords):
+	astar_grid.set_point_solid(coords, true)
 
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())

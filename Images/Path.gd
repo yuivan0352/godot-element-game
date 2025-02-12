@@ -10,7 +10,6 @@ func _process(_delta):
 func _draw():
 	if !path_set:
 		for i in character.hover_id_path.size():
-			## set_cell(location, which tilemap, which tile, alternative tile?)
 			if i < character.movement_limit - character.moved_distance:
 				character.tile_layer_one.set_cell(character.hover_id_path[i], 2, Vector2i(4, 2), 0)
 			else:

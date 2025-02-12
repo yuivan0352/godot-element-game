@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://gymja1x7cn2o"]
-
-[ext_resource type="Script" path="res://Character/CharacterUI.gd" id="1_lll5d"]
-
-[node name="PlayerUi" type="Node2D"]
-script = ExtResource("1_lll5d")
