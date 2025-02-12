@@ -1,7 +1,7 @@
 extends TileMapLayer
 
 var dictionary = {}
-@onready var turn_queue = $"../TurnQueue"
+@onready var turn_queue = $"../../Services/TurnQueue"
 @onready var layer_one = $"../Layer1"
 var in_movement_range : bool = false
 var astar_grid: AStarGrid2D
@@ -22,7 +22,7 @@ func _ready():
 
 			var tile_data = get_cell_tile_data(tile)
 			
-			if tile_data == null or tile_data.get_custom_data("walkable") == false:
+			if tile_data == null or !tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile, true)
 
 func _set_char_pos_solid(char_positions):

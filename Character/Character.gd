@@ -2,9 +2,9 @@ extends Node2D
 
 class_name Character
 
-@onready var tile_layer_zero = $"../../Layer0"
-@onready var tile_layer_one = $"../../Layer1"
-@onready var overview_camera = $"../../OverviewCamera"
+@onready var tile_layer_zero = $"../../../Environment/Layer0"
+@onready var tile_layer_one = $"../../../Environment/Layer1"
+@onready var overview_camera = $"../../../Environment/OverviewCamera"
 @export var char_stats: Stats
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]

@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 class_name TurnQueue
 
@@ -6,8 +6,9 @@ var char_positions : Dictionary
 var character = preload("res://Character/Character.tscn")
 var active_char : Character
 var prev_char : Character
-@onready var overview_camera = $"../OverviewCamera"
-@onready var layer_zero = $"../Layer0"
+@onready var overview_camera = $"../../Environment/OverviewCamera"
+@onready var layer_zero = $"../../Environment/Layer0"
+@export var ui: UserInterface
 signal active_character(char_stats)
 
 func _ready():
@@ -29,14 +30,15 @@ func _ready():
 	
 func _spawn_chars(tile_position: Vector2i):
 	var tile_data = layer_zero.get_cell_tile_data(tile_position)
-	if !char_positions.has(tile_position) or tile_data == null or tile_data.get_custom_data("walkable") == false:
-		var position = Vector2(tile_position.x, tile_position.y) * 16 + Vector2(8,8)
-		var char_instance = character.instantiate()
-		char_instance.global_position = position
-		add_child(char_instance)
-		char_positions[char_instance] = layer_zero.local_to_map(char_instance.global_position)
-	else:
-		_spawn_chars(Vector2i(randi() % 16, randi() % 16))
+	if  tile_data != null:
+		if tile_data.get_custom_data("walkable") and !char_positions.has(tile_position):
+			var position = Vector2(tile_position.x, tile_position.y) * 16 + Vector2(8,8)
+			var char_instance = character.instantiate()
+			char_instance.global_position = position
+			add_child(char_instance)
+			char_positions[char_instance] = layer_zero.local_to_map(char_instance.global_position)
+		else:
+			_spawn_chars(Vector2i(randi() % 16, randi() % 16))
 
 func _update_char_pos(coords):
 	char_positions[active_char] = coords

@@ -1,7 +1,6 @@
 extends Node2D
 
 var enemy = preload("res://Enemy/Enemy.tscn")
-@onready var layer_zero = $"Layer0" 
 var tile_size = 16 
 var enemy_spawned = 10
 var enemy_spawned_tiles = {}
