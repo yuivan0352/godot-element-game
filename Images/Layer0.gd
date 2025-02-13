@@ -50,7 +50,7 @@ func _process(_delta):
 			layer_one.erase_cell(tile)
 
 	if dictionary.has(str(tile_position)):
-		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false || turn_queue.char_positions.find_key(tile_position) != null:
+		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false || turn_queue.pc_positions.find_key(tile_position) != null:
 			layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 		else:
 			if (in_movement_range):
