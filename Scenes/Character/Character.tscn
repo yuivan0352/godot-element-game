@@ -34,6 +34,6 @@ rotation_smoothing_enabled = true
 position = Vector2(0, -1)
 scale = Vector2(0.535651, 0.520002)
 
-[connection signal="turn_complete" from="." to="Path" method="_on_character_movement_stopped"]
+[connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
 [connection signal="unit_still" from="." to="Path" method="_on_character_unit_still"]

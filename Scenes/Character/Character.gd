@@ -2,6 +2,7 @@ extends Unit
 class_name Character
 
 func _input(event):
+	#print(unit_stats.name, " ", turn_queue.active_char.unit_stats.name)
 	if self == turn_queue.active_char:
 		if event.is_action_pressed("move"):
 			if !is_moving:
@@ -47,6 +48,7 @@ func _physics_process(_delta):
 				current_id_path.pop_front()
 				moved_distance += 1
 					
+			
 				if current_id_path.is_empty():
 					is_moving = false
 					tile_layer_zero._solid_coords(tile_layer_zero.local_to_map(global_position))

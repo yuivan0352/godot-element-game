@@ -38,7 +38,8 @@ func _solid_coords(coords):
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
 
-	if (turn_queue.active_char != null and turn_queue.active_char is Character): # checks if the current active_char exists and is of Character class
+	# checks if the current active_char exists and is of Character class
+	if (turn_queue.active_char != null and turn_queue.active_char is Character):
 		if (turn_queue.active_char.hover_id_path.size() < turn_queue.active_char.movement_limit - turn_queue.active_char.moved_distance):
 			in_movement_range = true
 
@@ -51,7 +52,7 @@ func _process(_delta):
 			layer_one.erase_cell(tile)
 
 	if dictionary.has(str(tile_position)):
-		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false || turn_queue.pc_positions.find_key(tile_position) != null:
+		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 			layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 		else:
 			if (in_movement_range):

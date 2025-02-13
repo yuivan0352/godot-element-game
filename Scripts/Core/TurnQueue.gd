@@ -4,8 +4,6 @@ class_name TurnQueue
 
 var pc_positions : Dictionary
 var enemy_positions: Dictionary
-var character = preload("res://Scenes/Character/Character.tscn")
-var enemy = preload("res://Scenes/Enemy/Enemy.tscn")
 
 var active_char : Character
 var prev_char : Character
@@ -18,7 +16,6 @@ var turn_num = 0
 @onready var layer_zero = $"../../Environment/Layer0"
 @onready var player_chars = $"../../Combatants/Player"
 @onready var enemy_chars = $"../../Combatants/Enemy"
-@export var ui: UserInterface
 
 signal active_character(stats)
 
@@ -37,14 +34,24 @@ func _ready():
 
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)
-	#turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
-
+	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
+	
+	for unit in turn_order:
+		print(unit.unit_stats.name)
+	print()
 	setup_turn_order()
 	
 func setup_turn_order():
-	current_unit = turn_order[turn_num]
+	for i in range(turn_order.size()):
+		current_unit = turn_order[i]
+		if current_unit is Character:
+			break
+		else:
+			print(current_unit.unit_stats.name, "'s turn")
+			turn_num += 1
 	
 	if current_unit is Character:
+		print(current_unit.unit_stats.name, "'s turn")
 		active_char = current_unit as Character
 		active_character.emit(active_char.unit_stats)
 		overview_camera.set_camera_position(active_char)
@@ -76,13 +83,14 @@ func _play_turn():
 	current_unit = turn_order[turn_num]
 		
 	while current_unit is Enemy:
-		print("Enemy's turn")
+		print(current_unit.unit_stats.name, "'s turn")
 		turn_num += 1
 		if turn_num >= turn_order.size():
 			turn_num = 0
 		current_unit = turn_order[turn_num]
 		
 	if current_unit is Character:
+		print(current_unit.unit_stats.name, "'s turn")
 		active_char = current_unit as Character
 		active_character.emit(active_char.unit_stats)
 		overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"), 1.0)
