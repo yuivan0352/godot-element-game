@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Assets/Texture/TX Tileset Wall.png" id="2_k3b8q"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_l6tq3"]
 [ext_resource type="Texture2D" uid="uid://hauh51jafug7" path="res://Assets/Texture/red point and click cursor.png" id="4_l7ajx"]
+[ext_resource type="Script" path="res://TurnQueue.gd" id="5_4rsxs"]
 [ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://Scenes/Camera/OverviewCamera.tscn" id="5_qj4ji"]
-[ext_resource type="Script" path="res://Scripts/Core/Layer0.gd" id="5_tu08y"]
-[ext_resource type="Script" path="res://Scripts/Core/TurnQueue.gd" id="9_5fa7t"]
-[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://Scenes/UI/User_Interface/user_interface.tscn" id="10_r0dvc"]
+[ext_resource type="Script" path="res://Assets/Layer0.gd" id="5_tu08y"]
+[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://UI/user_interface.tscn" id="10_r0dvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
 texture = ExtResource("1_1knkp")
@@ -850,6 +850,6 @@ tile_set = SubResource("TileSet_ivcak")
 [node name="Services" type="Node" parent="."]
 
 [node name="TurnQueue" type="Node" parent="Services"]
-script = ExtResource("9_5fa7t")
+script = ExtResource("5_4rsxs")
 
 [connection signal="active_character" from="Services/TurnQueue" to="UserInterface" method="_get_active_char"]
