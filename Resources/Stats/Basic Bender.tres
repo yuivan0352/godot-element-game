@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://cjd6sgx3cubdy"]
+
+[ext_resource type="Script" path="res://Scripts/Stats/stat_sheet.gd" id="1_m3qut"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_m3qut")
+name = ""
+health = 14
+armor_class = 13
+movement_speed = 30
+brains = 3
+brawns = 3
+bewitchment = 3
