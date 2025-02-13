@@ -39,7 +39,7 @@ func move_towards_target(_delta):
 			target_position = tile_layer_zero.map_to_local(current_id_path.front())
 			is_moving = true
 		
-			global_position = global_position.move_toward(target_position, 1)
+		global_position = global_position.move_toward(target_position, 1)
 		
 		if global_position == target_position:
 			current_id_path.pop_front()
