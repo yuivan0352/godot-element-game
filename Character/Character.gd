@@ -5,6 +5,7 @@ class_name Character
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
 @onready var overview_camera = $"../../../Environment/OverviewCamera"
+@onready var turn_queue = $"../../../Services/TurnQueue"
 @export var char_stats: Stats
 var astar_grid: AStarGrid2D
 var current_id_path: Array[Vector2i]
@@ -26,7 +27,7 @@ func _ready():
 	initiative_roll = rng.randi_range(1, 20) + char_stats.brawns
 
 func _input(event):
-	if self == get_parent().active_char:
+	if self == turn_queue.active_char:
 		if event.is_action_pressed("move"):
 			if !is_moving:
 				current_id_path = astar_grid.get_id_path(
@@ -47,7 +48,7 @@ func _input(event):
 			return
 
 func _physics_process(_delta):
-	if self == get_parent().active_char:
+	if self == turn_queue.active_char:
 		var tile_position = tile_layer_zero.local_to_map(get_global_mouse_position())
 		
 		if !is_moving:
@@ -76,7 +77,7 @@ func _physics_process(_delta):
 				else:
 					is_moving = false
 					tile_layer_zero._solid_coords(tile_layer_zero.local_to_map(global_position))
-					get_parent()._update_char_pos(tile_layer_zero.local_to_map(global_position))
+					turn_queue._update_char_pos(tile_layer_zero.local_to_map(global_position))
 					if (moved_distance == movement_limit):
 						moved_distance = 0
 						turn_complete.emit()

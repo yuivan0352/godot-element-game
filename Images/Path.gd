@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var character = get_parent()
+@onready var character = $".."
 var path_set: bool
 
 func _process(_delta):
-	if get_parent() == get_parent().get_parent().active_char:
+	if character == character.turn_queue.active_char:
 		queue_redraw()
 
 func _draw():
