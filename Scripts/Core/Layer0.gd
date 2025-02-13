@@ -38,8 +38,9 @@ func _solid_coords(coords):
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
 
-	if (turn_queue.active_char.hover_id_path.size() < turn_queue.active_char.movement_limit - turn_queue.active_char.moved_distance):
-		in_movement_range = true
+	if (turn_queue.active_char != null and turn_queue.active_char is Character): # checks if the current active_char exists and is of Character class
+		if (turn_queue.active_char.hover_id_path.size() < turn_queue.active_char.movement_limit - turn_queue.active_char.moved_distance):
+			in_movement_range = true
 
 	for x in get_used_rect().size.x:
 		for y in get_used_rect().size.y:

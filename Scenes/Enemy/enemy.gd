@@ -1,11 +1,20 @@
-extends Sprite2D
+extends Unit
+class_name Enemy
 
+var has_taken_turn: bool = false
+var path_set: bool
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
 	pass
+
+func _process(delta: float) -> void:
+	if !has_taken_turn and self == turn_queue.active_char:
+		has_taken_turn = true
+		print("Enemy completing turn")
+		turn_complete.emit()
+
+func _on_unit_moving() -> void:
+	path_set = true
+
+func _on_unit_still() -> void:
+	path_set = false
