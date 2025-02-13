@@ -5,7 +5,7 @@ class_name TurnQueue
 var pc_positions : Dictionary
 var enemy_positions: Dictionary
 var character = preload("res://Scenes/Character/Character.tscn")
-var enemy = preload("res://Scenes/Character/Character.tscn")
+var enemy = preload("res://Scenes/Enemy/Enemy.tscn")
 var active_char : Character
 var prev_char : Character
 @onready var overview_camera = $"../../Environment/OverviewCamera"
