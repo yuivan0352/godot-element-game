@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb5p1xnivihi1"]
 
-[ext_resource type="Texture2D" uid="uid://beheelslfnump" path="res://icon.svg" id="1_0cy87"]
+[ext_resource type="Texture2D" uid="uid://beheelslfnump" path="res://Assets/Sprites/icon.svg" id="1_0cy87"]
 [ext_resource type="Script" path="res://Scenes/Enemy/enemy.gd" id="2_vxqhh"]
 
 [node name="Enemy" type="Node2D"]
