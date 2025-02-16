@@ -1,19 +1,19 @@
 [gd_scene load_steps=17 format=4 uid="uid://oahkdu8jl2l5"]
 
-[ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Assets/Texture/TX Tileset Grass.png" id="1_1knkp"]
-[ext_resource type="Script" path="res://World.gd" id="1_7pjhh"]
-[ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Assets/Texture/TX Tileset Wall.png" id="2_k3b8q"]
-[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_l6tq3"]
-[ext_resource type="Texture2D" uid="uid://hauh51jafug7" path="res://Assets/Texture/red point and click cursor.png" id="4_l7ajx"]
-[ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://Scenes/Camera/OverviewCamera.tscn" id="5_qj4ji"]
-[ext_resource type="Script" path="res://Scripts/Core/Layer0.gd" id="5_tu08y"]
-[ext_resource type="Script" path="res://Scripts/Utilities/spawnCharacter.gd" id="9_4wbs1"]
-[ext_resource type="Script" path="res://Scripts/Core/TurnQueue.gd" id="9_5fa7t"]
-[ext_resource type="Script" path="res://Scripts/Utilities/spawnEnemy.gd" id="9_iuh61"]
-[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://Scenes/UI/User_Interface/user_interface.tscn" id="10_r0dvc"]
+[ext_resource type="Script" path="res://Scenes/Game/World.gd" id="1_yjv1g"]
+[ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://Scenes/UI/User_Interface/user_interface.tscn" id="2_alos7"]
+[ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Assets/Texture/TX Tileset Grass.png" id="3_o4e7r"]
+[ext_resource type="Texture2D" uid="uid://bjon20u4lph6f" path="res://Assets/Texture/TX Tileset Wall.png" id="4_ru0v0"]
+[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="5_42mxi"]
+[ext_resource type="Texture2D" uid="uid://hauh51jafug7" path="res://Assets/Texture/red point and click cursor.png" id="6_imvg7"]
+[ext_resource type="Script" path="res://Scripts/Core/Layer0.gd" id="7_ufyxm"]
+[ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://Scenes/Camera/OverviewCamera.tscn" id="8_2nhjv"]
+[ext_resource type="Script" path="res://Scripts/Utilities/spawnCharacter.gd" id="9_33mdl"]
+[ext_resource type="Script" path="res://Scripts/Utilities/spawnEnemy.gd" id="10_ewhdh"]
+[ext_resource type="Script" path="res://Scripts/Core/TurnQueue.gd" id="11_uiy7v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
-texture = ExtResource("1_1knkp")
+texture = ExtResource("3_o4e7r")
 0:0/0 = 0
 0:0/0/custom_data_0 = true
 1:0/0 = 0
@@ -528,7 +528,7 @@ texture = ExtResource("1_1knkp")
 15:15/0/custom_data_0 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qcekg"]
-texture = ExtResource("2_k3b8q")
+texture = ExtResource("4_ru0v0")
 2:2/0 = 0
 3:2/0 = 0
 4:2/0 = 0
@@ -723,7 +723,7 @@ texture = ExtResource("2_k3b8q")
 11:21/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_141pg"]
-texture = ExtResource("3_l6tq3")
+texture = ExtResource("5_42mxi")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -765,7 +765,7 @@ texture = ExtResource("3_l6tq3")
 6:5/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a0ytw"]
-texture = ExtResource("4_l7ajx")
+texture = ExtResource("6_imvg7")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -818,9 +818,9 @@ sources/2 = SubResource("TileSetAtlasSource_141pg")
 sources/3 = SubResource("TileSetAtlasSource_a0ytw")
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_7pjhh")
+script = ExtResource("1_yjv1g")
 
-[node name="UserInterface" parent="." instance=ExtResource("10_r0dvc")]
+[node name="UserInterface" parent="." instance=ExtResource("2_alos7")]
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -828,7 +828,7 @@ script = ExtResource("1_7pjhh")
 use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAALAAYAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAALAAYAAAABAAIAAAALAAYAAAABAAMAAAALAAYAAAABAAQAAAALAAYAAAABAAUAAAALAAYAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAAAAAALAAYAAAACAAEAAAALAAYAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAACAAQAAQALAAUAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAALAAYAAAADAAMAAAAAAAAAAAADAAQAAAALAAYAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAAAAAALAAYAAAAEAAEAAAALAAYAAAAEAAIAAAALAAYAAAAEAAMAAAALAAYAAAAEAAQAAAALAAYAAAAEAAUAAAACAAEAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAMAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAACAAEAAAAFAAYAAAAAAAAAAAAFAAcAAAAGAAwAAAAGAAAAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAYAAAACAAkAAAAGAAcAAQALAAUAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAUAAAAAAAAAAAAHAAYAAAAOAAkAAAAHAAcAAAAAAAsAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA8AAAACAAkAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAABAAsAAAAAAAAAAAABAAwAAAAAAAsAAAABAA0AAAAOAAkAAAABAA4AAAAOAAkAAAABAA8AAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAQALAAUAAAACAAsAAAAAAAsAAAACAAwAAAAGAAwAAAACAA0AAAAOAAkAAAACAA4AAAAOAAkAAAACAA8AAAAOAAkAAAADAAgAAAAAAAAAAAADAAkAAAAOAAkAAAADAAoAAAAAAAsAAAADAAsAAAAGAAwAAAADAAwAAAAAAAsAAAADAA0AAAAAAAsAAAADAA4AAAAAAAsAAAADAA8AAAAOAAkAAAAEAAgAAAAGAAwAAAAEAAkAAAAAAAsAAAAEAAoAAAAOAAkAAAAEAAsAAAAAAAsAAAAEAAwAAAAOAAkAAAAEAA0AAAACAAkAAAAEAA4AAAAOAAkAAAAEAA8AAAAAAAsAAAAFAAgAAAAAAAsAAAAFAAkAAAACAAkAAAAFAAoAAAAAAAsAAAAFAAsAAAAOAAkAAAAFAAwAAAAOAAkAAAAFAA0AAAAOAAkAAAAFAA4AAAAAAAsAAAAFAA8AAQALAAUAAAAGAAgAAAACAAkAAAAGAAkAAAAOAAkAAAAGAAoAAAAAAAsAAAAGAAsAAAAAAAsAAAAGAAwAAAAAAAsAAAAGAA0AAAAAAAsAAAAGAA4AAAAGAAwAAAAGAA8AAAAAAAAAAAAHAAgAAAAAAAsAAAAHAAkAAAAAAAsAAAAHAAoAAAAOAAkAAAAHAAsAAAAGAAwAAAAHAAwAAAAOAAkAAAAHAA0AAAAGAAwAAAAHAA4AAAAAAAAAAAAHAA8AAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAOAAkAAAAIAAYAAAACAAkAAAAIAAcAAAAGAAwAAAAIAAgAAAAAAAsAAAAIAAkAAAAOAAkAAAAIAAoAAAAGAAwAAAAIAAsAAAAAAAAAAAAIAAwAAAAAAAAAAAAIAA0AAAAAAAAAAAAIAA4AAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAEAAAAAAAsAAAAJAAIAAAAGAAwAAAAJAAMAAAAGAAwAAAAJAAQAAQALAAUAAAAJAAUAAAAOAAkAAAAJAAYAAAAAAAsAAAAJAAcAAAAAAAsAAAAJAAgAAAAAAAsAAAAJAAkAAAAGAAwAAAAJAAoAAAAAAAAAAAAJAAsAAAAAAAAAAAAJAAwAAAAAAAAAAAAJAA0AAAAAAAAAAAAJAA4AAAAAAAAAAAAJAA8AAAAAAAAAAAAKAAAAAAAAAAsAAAAKAAEAAAAAAAsAAAAKAAIAAAAAAAsAAAAKAAMAAAAOAAkAAAAKAAQAAAAAAAsAAAAKAAUAAAAAAAsAAAAKAAYAAAAGAAwAAAAKAAcAAAAOAAkAAAAKAAgAAAAGAAwAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAAKAAsAAAAAAAAAAAAKAAwAAAAPAAcAAAAKAA0AAAAPAAcAAAAKAA4AAAAPAAcAAAAKAA8AAAAAAAAAAAALAAAAAAAOAAkAAAALAAEAAAAAAAsAAAALAAIAAAAOAAkAAAALAAMAAAAAAAsAAAALAAQAAAACAAkAAAALAAUAAAACAAkAAAALAAYAAAAGAAwAAAALAAcAAAAOAAkAAAALAAgAAQALAAUAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAALAAsAAAAPAAcAAAALAAwAAAAAAAAAAAALAA0AAAAPAAcAAAALAA4AAAAPAAcAAAALAA8AAAAAAAAAAAAMAAAAAAAAAAsAAAAMAAEAAAAAAAsAAAAMAAIAAAACAAkAAAAMAAMAAAACAAkAAAAMAAQAAAAOAAkAAAAMAAUAAAAOAAkAAAAMAAYAAAAOAAkAAAAMAAcAAAAOAAkAAAAMAAgAAAAOAAkAAAAMAAkAAAAAAAAAAAAMAAoAAAAPAAcAAAAMAAsAAAAAAAAAAAAMAAwAAQALAAUAAAAMAA0AAAAPAAcAAAAMAA4AAAAPAAcAAAAMAA8AAAAAAAAAAAANAAAAAAAAAAsAAAANAAEAAAAAAAsAAAANAAIAAAAAAAsAAAANAAMAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAANAAgAAAAOAAkAAAANAAkAAAAOAAkAAAANAAoAAAAAAAAAAAANAAsAAAAPAAcAAAANAAwAAAAPAAcAAAANAA0AAAAAAAAAAAANAA4AAAAPAAcAAAANAA8AAAAPAAcAAAAOAAAAAAAAAAsAAAAOAAEAAAAAAAsAAAAOAAIAAAAAAAsAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAQALAAUAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAwAAAAPAAcAAAAOAA0AAAAPAAcAAAAOAA4AAAAPAAcAAAAOAA8AAAAAAAAAAAAPAAAAAAAAAAsAAAAPAAEAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAsAAAAAAAAAAAAPAAwAAAAAAAAAAAAPAA0AAAAAAAAAAAAPAA4AAAAAAAAAAAAPAA8AAAAAAAAAAAAIAA8AAQALAAUAAAA=")
 tile_set = SubResource("TileSet_ivcak")
-script = ExtResource("5_tu08y")
+script = ExtResource("7_ufyxm")
 
 [node name="Map2" type="TileMapLayer" parent="Environment"]
 visible = false
@@ -841,19 +841,19 @@ tile_set = SubResource("TileSet_ivcak")
 use_parent_material = true
 tile_set = SubResource("TileSet_ivcak")
 
-[node name="OverviewCamera" parent="Environment" instance=ExtResource("5_qj4ji")]
+[node name="OverviewCamera" parent="Environment" instance=ExtResource("8_2nhjv")]
 
 [node name="Combatants" type="Node2D" parent="."]
 
 [node name="Player" type="Node2D" parent="Combatants"]
-script = ExtResource("9_4wbs1")
+script = ExtResource("9_33mdl")
 
 [node name="Enemy" type="Node2D" parent="Combatants"]
-script = ExtResource("9_iuh61")
+script = ExtResource("10_ewhdh")
 
 [node name="Services" type="Node" parent="."]
 
 [node name="TurnQueue" type="Node" parent="Services"]
-script = ExtResource("9_5fa7t")
+script = ExtResource("11_uiy7v")
 
 [connection signal="active_character" from="Services/TurnQueue" to="UserInterface" method="_get_active_char"]

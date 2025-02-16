@@ -21,7 +21,7 @@ signal active_character(stats)
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
-	var enemy_units = enemy_chars.spawn_characters(10, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
