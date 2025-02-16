@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://oahkdu8jl2l5"]
+[gd_scene load_steps=16 format=4 uid="uid://oahkdu8jl2l5"]
 
 [ext_resource type="Texture2D" uid="uid://cnqqdk4f3fcw" path="res://Assets/Texture/TX Tileset Grass.png" id="1_1knkp"]
 [ext_resource type="Script" path="res://World.gd" id="1_7pjhh"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://66bfojldfelb" path="res://Scenes/Camera/OverviewCamera.tscn" id="5_qj4ji"]
 [ext_resource type="Script" path="res://Scripts/Core/Layer0.gd" id="5_tu08y"]
 [ext_resource type="Script" path="res://Scripts/Core/TurnQueue.gd" id="9_5fa7t"]
+[ext_resource type="Script" path="res://Scripts/Utilities/spawn.gd" id="9_iuh61"]
 [ext_resource type="PackedScene" uid="uid://dy2jmabyaai8m" path="res://Scenes/UI/User_Interface/user_interface.tscn" id="10_r0dvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwg0k"]
@@ -844,6 +845,7 @@ tile_set = SubResource("TileSet_ivcak")
 [node name="Combatants" type="Node2D" parent="."]
 
 [node name="Player" type="Node2D" parent="Combatants"]
+script = ExtResource("9_iuh61")
 
 [node name="Enemy" type="Node2D" parent="Combatants"]
 

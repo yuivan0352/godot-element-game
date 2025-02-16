@@ -1,0 +1,133 @@
+[gd_scene load_steps=10 format=3 uid="uid://3h38cjm2uihl"]
+
+[ext_resource type="Script" path="res://Scenes/Screens/Start/start.gd" id="1_taxkr"]
+[ext_resource type="Texture2D" uid="uid://ctv6jcp125cu1" path="res://Assets/Backgrounds/test background.png" id="2_ow1tu"]
+[ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="3_a76dx"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uqgo5"]
+texture = ExtResource("2_ow1tu")
+modulate_color = Color(0.564962, 0.564962, 0.564962, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h7aqc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1omo"]
+bg_color = Color(0.65834, 0.65834, 0.65834, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix3e8"]
+bg_color = Color(0.513233, 0.513233, 0.513233, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atr4f"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5lygl"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[node name="Start" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_taxkr")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_uqgo5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -289.0
+offset_top = -241.0
+offset_right = 289.0
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 10
+theme_override_fonts/font = ExtResource("3_a76dx")
+theme_override_font_sizes/font_size = 100
+text = "Primordial King
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -198.5
+offset_top = 11.0
+offset_right = 198.5
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="StartButton" type="Button" parent="Buttons Container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h7aqc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t1omo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix3e8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_atr4f")
+text = "Start
+"
+
+[node name="QuitButton" type="Button" parent="Buttons Container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h7aqc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t1omo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ix3e8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5lygl")
+text = "Quit
+"
+
+[connection signal="pressed" from="Buttons Container/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Buttons Container/QuitButton" to="." method="_on_quit_button_pressed"]

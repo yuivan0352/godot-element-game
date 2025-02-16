@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2juun34w41eu"]
+
+[ext_resource type="Script" path="res://Scenes/Screens/Selection/selection.gd" id="1_evniu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8mln"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yer5"]
+bg_color = Color(0.65834, 0.65834, 0.65834, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxjxm"]
+bg_color = Color(0.513233, 0.513233, 0.513233, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o5qn"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+
+[node name="Selection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_evniu")
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 156.0
+offset_bottom = 50.0
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e8mln")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6yer5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mxjxm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
+text = "  ← Go Back
+"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

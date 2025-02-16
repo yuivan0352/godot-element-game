@@ -18,8 +18,8 @@ func _draw():
 		for i in character.current_id_path.size():
 			character.tile_layer_one.set_cell(character.current_id_path[i], 2, Vector2i(4,2), 0)
 
-func _on_character_char_moving():
+func _on_character_unit_moving():
 	path_set = true
 
-func _on_character_movement_stopped() -> void:
+func _on_character_unit_still() -> void:
 	path_set = false
