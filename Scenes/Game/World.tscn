@@ -821,6 +821,7 @@ sources/3 = SubResource("TileSetAtlasSource_a0ytw")
 script = ExtResource("1_yjv1g")
 
 [node name="UserInterface" parent="." instance=ExtResource("2_alos7")]
+unique_name_in_owner = true
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -856,4 +857,6 @@ script = ExtResource("10_ewhdh")
 [node name="TurnQueue" type="Node" parent="Services"]
 script = ExtResource("11_uiy7v")
 
+[connection signal="ui_element_mouse_entered" from="UserInterface" to="Environment/Layer0" method="_on_ui_element_mouse_entered"]
+[connection signal="ui_element_mouse_exited" from="UserInterface" to="Environment/Layer0" method="_on_ui_element_mouse_exited"]
 [connection signal="active_character" from="Services/TurnQueue" to="UserInterface" method="_get_active_char"]

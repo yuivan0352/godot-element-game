@@ -4,6 +4,7 @@ var dictionary = {}
 @onready var turn_queue = $"../../Services/TurnQueue"
 @onready var layer_one = $"../Layer1"
 var in_movement_range : bool = false
+var in_ui_element: bool
 var astar_grid: AStarGrid2D
 
 func _ready():
@@ -34,6 +35,12 @@ func _unsolid_coords(coords):
 
 func _solid_coords(coords):
 	astar_grid.set_point_solid(coords, true)
+	
+func _on_ui_element_mouse_entered():
+	in_ui_element = true
+
+func _on_ui_element_mouse_exited():
+	in_ui_element = false
 
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
@@ -52,11 +59,12 @@ func _process(_delta):
 			layer_one.erase_cell(tile)
 
 	if dictionary.has(str(tile_position)):
-		if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
-			layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
-		else:
-			if (in_movement_range):
-				layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)
+		if !in_ui_element:
+			if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
+				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 			else:
-				layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
-			in_movement_range = false
+				if (in_movement_range):
+					layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)
+				else:
+					layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
+				in_movement_range = false

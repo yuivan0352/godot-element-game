@@ -3,6 +3,7 @@ extends Node2D
 var character_scene = preload("res://Scenes/Character/Character.tscn")
 var character_stats = preload("res://Resources/Stats/basicCharacter.tres")
 @onready var enemy_chars: Node2D = $"../Enemy"
+@onready var user_interface = %UserInterface
 var positions = {}
 var tile_size = 16
 
@@ -29,6 +30,8 @@ func spawn_character(layer: TileMapLayer) -> Character:
 		char_instance.global_position = position
 		add_child(char_instance)
 		positions[char_instance] = layer.local_to_map(char_instance.global_position)
+		user_interface.ui_element_mouse_entered.connect(char_instance._ui_element_mouse_entered)
+		user_interface.ui_element_mouse_exited.connect(char_instance._ui_element_mouse_exited)
 		return char_instance
 	
 	return spawn_character(layer)
