@@ -6,7 +6,7 @@ var inputX : int
 var inputY : int
 var tween : Tween
 
-func track_char_cam(character: Character):
+func track_char_cam(character: Unit):
 	#print("track_char_cam called")
 	if (character.get_child(3).is_on_screen()):
 		#print("Character on screen, transitioning 0.5")
@@ -15,7 +15,7 @@ func track_char_cam(character: Character):
 		#print("Character off screen, transitioning 1.0")
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
-func set_camera_position(target: Character):
+func set_camera_position(target: Unit):
 	global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):

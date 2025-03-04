@@ -59,3 +59,4 @@ func move_towards_target(_delta):
 					overview_camera.set_camera_position(self)
 					overview_camera.make_current()
 					unit_still.emit()
+					
