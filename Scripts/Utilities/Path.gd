@@ -25,3 +25,9 @@ func _on_character_unit_moving():
 
 func _on_character_unit_still():
 	path_set = false
+
+func _on_ui_element_mouse_entered():
+	in_ui_element = true
+
+func _on_ui_element_mouse_exited():
+	in_ui_element = false

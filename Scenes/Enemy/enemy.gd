@@ -1,6 +1,8 @@
 extends Unit
 class_name Enemy
 
+var time_duration = 1 #in secs
+
 func _input(event):
 	pass
 	
@@ -21,6 +23,13 @@ func take_turn():
 	
 func _physics_process(_delta):
 	if self == turn_queue.active_char:
+
+		var timer = Timer.new()
+		add_child(timer)
+		timer.wait_time = time_duration
+		timer.one_shot = true
+		timer.start()
+		await timer.timeout
 		enemy_move_towards_target(_delta)
 
 func get_random_target_position() -> Vector2:
