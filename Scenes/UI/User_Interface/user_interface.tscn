@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=7 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_woo7i"]
+[ext_resource type="Script" path="res://Scenes/UI/User_Interface/turn_scroll.gd" id="4_13sfg"]
+[ext_resource type="Script" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2j3s"]
 atlas = ExtResource("3_woo7i")
@@ -10,6 +12,88 @@ region = Rect2(16, 16, 16, 16)
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
+
+[node name="TurnScroll" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_13sfg")
+user_interface_path = NodePath("..")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurnScroll"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 32.0
+offset_right = 150.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PreviousSprite1" type="TextureRect" parent="TurnScroll/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+stretch_mode = 5
+
+[node name="CurrentSprite" type="TextureRect" parent="TurnScroll/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+stretch_mode = 5
+
+[node name="FutureSprite1" type="TextureRect" parent="TurnScroll/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+stretch_mode = 5
+
+[node name="UnitInfo" type="Panel" parent="TurnScroll"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -231.0
+offset_right = 245.0
+grow_vertical = 0
+script = ExtResource("5_yx8tb")
+
+[node name="UnitName" type="Label" parent="TurnScroll/UnitInfo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.5
+offset_right = 38.5
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="UnitSprite" type="TextureRect" parent="TurnScroll/UnitInfo"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -75.5
+offset_right = -62.5
+offset_bottom = -35.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnitStats" type="VBoxContainer" parent="TurnScroll/UnitInfo"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 40.0
+offset_right = 244.0
+offset_bottom = 229.0
 
 [node name="HealthBar" parent="." instance=ExtResource("2_txa2e")]
 
@@ -103,6 +187,23 @@ mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="gui_input" from="TurnScroll/HBoxContainer/PreviousSprite1" to="TurnScroll" method="_on_previous_sprite_gui_input"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/PreviousSprite1" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/PreviousSprite1" to="TurnScroll" method="_on_previous_sprite_mouse_entered"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/PreviousSprite1" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/PreviousSprite1" to="TurnScroll" method="_on_previous_sprite_mouse_exited"]
+[connection signal="gui_input" from="TurnScroll/HBoxContainer/CurrentSprite" to="TurnScroll" method="_on_current_sprite_gui_input"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/CurrentSprite" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/CurrentSprite" to="TurnScroll" method="_on_current_sprite_mouse_entered"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/CurrentSprite" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/CurrentSprite" to="TurnScroll" method="_on_current_sprite_mouse_exited"]
+[connection signal="gui_input" from="TurnScroll/HBoxContainer/FutureSprite1" to="TurnScroll" method="_on_future_sprite_gui_input"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/FutureSprite1" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_entered" from="TurnScroll/HBoxContainer/FutureSprite1" to="TurnScroll" method="_on_future_sprite_mouse_entered"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/FutureSprite1" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="mouse_exited" from="TurnScroll/HBoxContainer/FutureSprite1" to="TurnScroll" method="_on_future_sprite_mouse_exited"]
 [connection signal="mouse_entered" from="HealthBar" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="HealthBar" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="mouse_entered" from="Hotbar" to="." method="_on_ui_element_mouse_entered"]

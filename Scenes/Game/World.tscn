@@ -860,3 +860,4 @@ script = ExtResource("11_uiy7v")
 [connection signal="ui_element_mouse_entered" from="UserInterface" to="Environment/Layer0" method="_on_ui_element_mouse_entered"]
 [connection signal="ui_element_mouse_exited" from="UserInterface" to="Environment/Layer0" method="_on_ui_element_mouse_exited"]
 [connection signal="active_character" from="Services/TurnQueue" to="UserInterface" method="_get_active_char"]
+[connection signal="turn_info" from="Services/TurnQueue" to="UserInterface" method="_on_turn_info"]

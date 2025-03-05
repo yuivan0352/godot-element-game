@@ -17,7 +17,8 @@ var turn_num = 0
 @onready var player_chars = $"../../Combatants/Player"
 @onready var enemy_chars = $"../../Combatants/Enemy"
 
-signal active_character(stats)
+signal active_character
+signal turn_info(order, current_turn)
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
@@ -35,6 +36,7 @@ func _ready():
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)
 	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
+	turn_info.emit(turn_order, turn_num)
 	
 	for unit in turn_order:
 		print(unit.unit_stats.name)
@@ -49,11 +51,12 @@ func setup_turn_order():
 		else:
 			print(current_unit.unit_stats.name, "'s turn")
 			turn_num += 1
+			turn_info.emit(turn_order, turn_num)
 	
 	if current_unit is Character:
 		print(current_unit.unit_stats.name, "'s turn")
 		active_char = current_unit as Character
-		active_character.emit(active_char.unit_stats)
+		active_character.emit(active_char)
 		overview_camera.set_camera_position(active_char)
 
 	for unit in turn_order:
@@ -76,22 +79,28 @@ func _play_turn():
 		prev_char = current_unit as Character
 
 	turn_num += 1
+	turn_info.emit(turn_order, turn_num)
 	
 	if turn_num >= turn_order.size(): 
 		turn_num = 0
+		turn_info.emit(turn_order, turn_num)
 		
 	current_unit = turn_order[turn_num]
 		
 	while current_unit is Enemy:
 		print(current_unit.unit_stats.name, "'s turn")
 		turn_num += 1
+		turn_info.emit(turn_order, turn_num)
 		if turn_num >= turn_order.size():
 			turn_num = 0
+			turn_info.emit(turn_order, turn_num)
 		current_unit = turn_order[turn_num]
 		
 	if current_unit is Character:
 		print(current_unit.unit_stats.name, "'s turn")
 		active_char = current_unit as Character
-		active_character.emit(active_char.unit_stats)
+		active_character.emit(active_char)
 		overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"), 1.0)
 		overview_camera.make_current()
+		
+	
