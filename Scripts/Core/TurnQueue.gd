@@ -42,7 +42,10 @@ func _ready():
 		print(unit.unit_stats.name)
 	print()
 	setup_turn_order()
-	
+
+func _change_active_char_mode(mode : String):
+	active_char.change_mode(mode)
+
 func setup_turn_order():
 	for i in range(turn_order.size()):
 		current_unit = turn_order[i]
@@ -86,6 +89,7 @@ func _play_turn():
 		turn_info.emit(turn_order, turn_num)
 		
 	current_unit = turn_order[turn_num]
+	current_unit._reset_action_econ()
 		
 	while current_unit is Enemy:
 		print(current_unit.unit_stats.name, "'s turn")
@@ -103,4 +107,3 @@ func _play_turn():
 		overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"), 1.0)
 		overview_camera.make_current()
 		
-	

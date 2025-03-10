@@ -5,10 +5,10 @@
 
 [node name="Enemy" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
-scale = Vector2(0.1, 0.1)
 script = ExtResource("2_vxqhh")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_0cy87")
 
 [connection signal="unit_moving" from="." to="." method="_on_unit_moving"]
