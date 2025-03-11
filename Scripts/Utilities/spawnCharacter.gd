@@ -29,7 +29,7 @@ func spawn_character(layer: TileMapLayer) -> Character:
 		char_instance.unit_stats = character_stats.duplicate()
 		char_instance.global_position = position
 		add_child(char_instance)
-		positions[char_instance] = layer.local_to_map(char_instance.global_position)
+		positions[layer.local_to_map(char_instance.global_position)] = char_instance
 		user_interface.ui_element_mouse_entered.connect(char_instance._ui_element_mouse_entered)
 		user_interface.ui_element_mouse_exited.connect(char_instance._ui_element_mouse_exited)
 		return char_instance

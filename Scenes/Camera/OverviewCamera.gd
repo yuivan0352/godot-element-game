@@ -7,21 +7,17 @@ var inputY : int
 var tween : Tween
 
 func track_char_cam(character: Character):
-	#print("track_char_cam called")
 	if (character.get_child(3).is_on_screen()):
-		#print("Character on screen, transitioning 0.5")
 		transition_camera(self, character.find_child("CharacterCamera"), 0.5)
 	else:
-		#print("Character off screen, transitioning 1.0")
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
 func set_camera_position(target: Character):
 	global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):
-	#print("transition_camera called with duration:", duration)
 	if transitioning: 
-		#print("Already transitioning, returning")
+		print("Already transitioning, returning")
 		return
 	zoom = from.zoom
 	offset = from.offset
@@ -70,3 +66,6 @@ func _process(delta):
 			position.y = 32
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
+	if transitioning and Input.is_action_pressed("stop_move"):
+		tween.stop()
+		transitioning = false;
