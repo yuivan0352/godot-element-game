@@ -102,8 +102,16 @@ func _play_turn():
 		
 	if current_unit is Character:
 		print(current_unit.unit_stats.name, "'s turn")
-		active_char = current_unit as Character
-		active_character.emit(active_char)
-		overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), active_char.find_child("CharacterCamera"), 1.0)
-		overview_camera.make_current()
+		if current_unit.get_child(3).is_on_screen():
+			overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), current_unit.find_child("CharacterCamera"), 0.5)
+			active_char = null
+			await get_tree().create_timer(0.5).timeout
+			active_char = current_unit as Character
+		else:
+			overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), current_unit.find_child("CharacterCamera"), 1.0)
+			active_char = null
+			await get_tree().create_timer(1).timeout
+			active_char = current_unit as Character
 		
+		overview_camera.make_current()
+		active_character.emit(active_char)

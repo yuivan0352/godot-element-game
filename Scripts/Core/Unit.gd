@@ -50,6 +50,7 @@ func move_towards_target(_delta):
 	if current_id_path.is_empty():
 		return
 		
+	#print(character_camera.is_current())
 	if character_camera.is_current():
 		if is_moving == false:
 			target_position = tile_layer_zero.map_to_local(current_id_path.front())

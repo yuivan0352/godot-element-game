@@ -41,10 +41,10 @@ func _input(event):
 						return
 			"moving":
 				if event.is_action_pressed("stop_move"):
-						if is_moving:
-							current_id_path = current_id_path.slice(0, 1)
-						unit_still.emit()
-						mode = "idle"
+					if is_moving:
+						current_id_path = current_id_path.slice(0, 1)
+					unit_still.emit()
+					mode = "idle"
 			"attack":
 				if event.is_action_pressed("interact"):
 					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
@@ -52,10 +52,11 @@ func _input(event):
 						if turn_queue.pc_positions.find_key(mouse_tile) != null:
 							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
+							actions -= 1
 						elif turn_queue.enemy_positions.find_key(mouse_tile) != null:
 							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
-						actions -= 1
+							actions -= 1
 					else:
 						return
 
