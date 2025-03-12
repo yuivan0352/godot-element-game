@@ -1,4 +1,5 @@
 extends Panel
+
 @onready var unit_name = $UnitName
 @onready var unit_stats = $UnitStats
 @onready var unit_sprite = $UnitSprite

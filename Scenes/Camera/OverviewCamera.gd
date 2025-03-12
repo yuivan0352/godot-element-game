@@ -7,7 +7,7 @@ var inputY : int
 var tween : Tween
 
 func track_char_cam(character: Character):
-	if (character.get_child(3).is_on_screen()):
+	if (character.find_child("VisibilityNotifier").is_on_screen()):
 		transition_camera(self, character.find_child("CharacterCamera"), 0.5)
 	else:
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)

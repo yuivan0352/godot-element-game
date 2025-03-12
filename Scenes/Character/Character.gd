@@ -1,9 +1,13 @@
 extends Unit
 class_name Character
 
-var in_ui_element: bool
 var mode : String = "idle"
 @onready var path = $Path
+@onready var clickable_area = $ClickableArea
+
+var in_ui_element: bool
+
+signal unit_clicked(unit)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -63,13 +67,21 @@ func _input(event):
 func _physics_process(_delta):
 	if self == turn_queue.active_char:
 		if !in_ui_element:
-			var tile_position = tile_layer_zero.local_to_map(get_global_mouse_position())
+			var mouse_pos = get_global_mouse_position()
+			var tile_position = tile_layer_zero.local_to_map(mouse_pos)
+			var grid_size = Vector2i(16, 16)
 			
-			if !is_moving:
-				hover_id_path = astar_grid.get_id_path(
-					tile_layer_zero.local_to_map(global_position),
-					tile_position
-				)
-				hover_id_path = hover_id_path.slice(1, hover_id_path.size() - 1)
+			if tile_position.x >= 0 and tile_position.y >= 0 and tile_position.x < grid_size.x and tile_position.y < grid_size.y:
+				var char_tile_pos = tile_layer_zero.local_to_map(global_position)
+				if tile_position != char_tile_pos:
+					if !is_moving:
+						hover_id_path = astar_grid.get_id_path(
+							tile_layer_zero.local_to_map(global_position),
+							tile_position
+						)
+						hover_id_path = hover_id_path.slice(1, hover_id_path.size() - 1)
 			
 		move_towards_target(_delta)
+
+func _on_area_clicked(parent: Variant) -> void:
+	emit_signal("unit_clicked", self)

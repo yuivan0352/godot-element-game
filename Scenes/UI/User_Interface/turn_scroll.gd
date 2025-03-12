@@ -5,7 +5,7 @@ extends Control
 @onready var current_sprite = $HBoxContainer/CurrentSprite
 @onready var previous_sprite = $HBoxContainer/PreviousSprite1
 @onready var future_sprite = $HBoxContainer/FutureSprite1
-@onready var unit_info = $UnitInfo
+@onready var unit_info = $"../UnitInfo"
 
 # fixed sizes for sprites
 @export var current_sprite_size: Vector2 = Vector2(64, 64)
