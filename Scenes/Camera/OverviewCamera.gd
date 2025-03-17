@@ -46,10 +46,13 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if from != self:
 		from.enabled = false
 	if from != self && to != self:
-		to.enabled = false
+		to.enabled = true
 	if from == self && to != self:
 		to.enabled = true
-	to.make_current()
+	if to.is_inside_tree():
+		to.make_current()
+	else:
+		print("WarningL target camera is not inside the tree!")
 	transitioning = false
 
 func _process(delta):
