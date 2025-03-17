@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=10 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bqhuok67rdqcj" path="res://Assets/Texture/attack_icon.png" id="5_1aga7"]
 [ext_resource type="Script" uid="uid://cswnqpumxdpea" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
 [ext_resource type="Script" uid="uid://b36td63hn5vf5" path="res://Scenes/UI/User_Interface/attack_button.gd" id="6_kws0h"]
+[ext_resource type="Script" uid="uid://orqvufbguj4c" path="res://Scenes/UI/User_Interface/magic_button.gd" id="8_uddve"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2j3s"]
 atlas = ExtResource("3_woo7i")
@@ -139,12 +140,13 @@ script = ExtResource("6_kws0h")
 texture = ExtResource("5_1aga7")
 centered = false
 
-[node name="Button2" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="MagicButton" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
+script = ExtResource("8_uddve")
 
 [node name="Button3" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(64, 64)
@@ -211,3 +213,5 @@ expand_icon = true
 [connection signal="mouse_exited" from="Hotbar" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="attack_mode" from="Hotbar/MarginContainer/GridContainer/AttackButton" to="." method="_switch_mode" binds= ["attack"]]
 [connection signal="pressed" from="Hotbar/MarginContainer/GridContainer/AttackButton" to="Hotbar/MarginContainer/GridContainer/AttackButton" method="_mode_switch"]
+[connection signal="magic_mode" from="Hotbar/MarginContainer/GridContainer/MagicButton" to="." method="_switch_mode" binds= ["magic"]]
+[connection signal="pressed" from="Hotbar/MarginContainer/GridContainer/MagicButton" to="Hotbar/MarginContainer/GridContainer/MagicButton" method="_mode_switch"]

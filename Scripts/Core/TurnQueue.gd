@@ -89,7 +89,6 @@ func _play_turn():
 		turn_info.emit(turn_order, turn_num)
 		
 	current_unit = turn_order[turn_num]
-	current_unit._reset_action_econ()
 		
 	while current_unit is Enemy:
 		print(current_unit.unit_stats.name, "'s turn")
@@ -115,3 +114,5 @@ func _play_turn():
 		
 		overview_camera.make_current()
 		active_character.emit(active_char)
+		current_unit._reset_action_econ()
+		print(current_unit.unit_stats.name, " ", current_unit.actions)

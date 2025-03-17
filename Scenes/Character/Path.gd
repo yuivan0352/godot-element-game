@@ -26,6 +26,11 @@ func _draw():
 				if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
 					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
 						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
+		"magic":
+			for tile in character.circle_tiles:
+				if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
+					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
+						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
 
 func _on_character_unit_moving():
 	path_set = true
