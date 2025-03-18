@@ -6,22 +6,18 @@ var inputX : int
 var inputY : int
 var tween : Tween
 
-func track_char_cam(character: Unit):
-	#print("track_char_cam called")
-	if (character.get_child(3).is_on_screen()):
-		#print("Character on screen, transitioning 0.5")
+func track_char_cam(character: Character):
+	if (character.find_child("VisibilityNotifier").is_on_screen()):
 		transition_camera(self, character.find_child("CharacterCamera"), 0.5)
 	else:
-		#print("Character off screen, transitioning 1.0")
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
-func set_camera_position(target: Unit):
+func set_camera_position(target: Character):
 	global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):
-	#print("transition_camera called with duration:", duration)
 	if transitioning: 
-		#print("Already transitioning, returning")
+		print("Already transitioning, returning")
 		return
 	zoom = from.zoom
 	offset = from.offset
@@ -46,13 +42,10 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if from != self:
 		from.enabled = false
 	if from != self && to != self:
-		to.enabled = true
+		to.enabled = false
 	if from == self && to != self:
 		to.enabled = true
-	if to.is_inside_tree():
-		to.make_current()
-	else:
-		print("WarningL target camera is not inside the tree!")
+	to.make_current()
 	transitioning = false
 
 func _process(delta):
@@ -73,3 +66,6 @@ func _process(delta):
 			position.y = 32
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
+	if transitioning and Input.is_action_pressed("stop_move"):
+		tween.stop()
+		transitioning = false;

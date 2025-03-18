@@ -34,7 +34,7 @@ func spawn_character(layer: TileMapLayer) -> Enemy:
 		char_instance.unit_stats = stats
 		char_instance.global_position = position
 		add_child(char_instance)
-		positions[char_instance] = layer.local_to_map(char_instance.global_position)
+		positions[layer.local_to_map(char_instance.global_position)] = char_instance
 		return char_instance
 	
 	return spawn_character(layer)
