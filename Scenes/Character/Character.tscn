@@ -11,7 +11,7 @@ region = Rect2(4.58546, 12.3783, 23.1067, 46.777)
 [sub_resource type="GDScript" id="GDScript_1cd2p"]
 script/source = "extends Area2D
 
-@onready var sprite = $\"../Sprite\"
+@onready var sprite = $\"Sprite\"
 @onready var parent = get_parent()
 signal area_clicked(parent)
 

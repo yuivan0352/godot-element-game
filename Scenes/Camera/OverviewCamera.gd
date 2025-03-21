@@ -41,10 +41,8 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	
 	if from != self:
 		from.enabled = false
-	if from != self && to != self:
-		to.enabled = false
-	if from == self && to != self:
-		to.enabled = true
+	to.enabled = true
+	
 	if to.is_inside_tree():
 		to.make_current()
 	else:
