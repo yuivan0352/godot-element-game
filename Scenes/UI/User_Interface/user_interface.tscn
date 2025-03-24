@@ -148,6 +148,8 @@ icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 script = ExtResource("8_uddve")
 
+[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/GridContainer/MagicButton"]
+
 [node name="Button3" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2

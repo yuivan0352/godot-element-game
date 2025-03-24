@@ -4,7 +4,6 @@ class_name UserInterface
 @onready var health_bar: MarginContainer = $HealthBar
 
 var active_char
-var active_char_stats
 var turn_array
 var current_turn_index
 
@@ -14,8 +13,7 @@ signal switch_mode(mode)
 
 func _get_active_char(ac):
 	active_char = ac
-	active_char_stats = active_char.unit_stats
-	health_bar._update_health(active_char_stats.health, active_char_stats.name)
+	health_bar._update_health(active_char)
 	
 func _switch_mode(mode : String):
 	switch_mode.emit(mode)
