@@ -49,15 +49,43 @@ func _input(event):
 						current_id_path = current_id_path.slice(0, 1)
 					unit_still.emit()
 					mode = "idle"
-			"attack", "magic-melee", "magic-ranged", "magic-line":
+			"attack", "magic_melee":
 				if event.is_action_pressed("interact"):
 					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
 					if actions > 0:
-						if turn_queue.pc_positions.find_key(mouse_tile) != null:
+						if turn_queue.pc_positions.find_key(mouse_tile) != null and adjacent_tiles.has(mouse_tile):
 							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
 							actions -= 1
-						elif turn_queue.enemy_positions.find_key(mouse_tile) != null:
+						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and adjacent_tiles.has(mouse_tile):
+							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+							actions -= 1
+					else:
+						return
+			"magic_ranged":
+				if event.is_action_pressed("interact"):
+					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
+					if actions > 0:
+						if turn_queue.pc_positions.find_key(mouse_tile) != null and circle_tiles.has(mouse_tile):
+							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
+							actions -= 1
+						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and circle_tiles.has(mouse_tile):
+							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+							actions -= 1
+					else:
+						return
+			"magic_line":
+				if event.is_action_pressed("interact"):
+					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
+					if actions > 0:
+						if turn_queue.pc_positions.find_key(mouse_tile) != null and line_tiles.has(mouse_tile):
+							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
+							actions -= 1
+						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and line_tiles.has(mouse_tile):
 							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
 							actions -= 1
@@ -84,4 +112,6 @@ func _physics_process(_delta):
 		move_towards_target(_delta)
 
 func _on_area_clicked(parent: Variant) -> void:
-	emit_signal("unit_clicked", self)
+	print(mode)
+	if mode == "idle":
+		emit_signal("unit_clicked", self)
