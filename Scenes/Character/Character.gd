@@ -45,7 +45,7 @@ func _input(event):
 						current_id_path = current_id_path.slice(0, 1)
 					unit_still.emit()
 					mode = "idle"
-			"attack", "magic":
+			"attack", "magic-melee", "magic-ranged", "magic-line":
 				if event.is_action_pressed("interact"):
 					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
 					if actions > 0:

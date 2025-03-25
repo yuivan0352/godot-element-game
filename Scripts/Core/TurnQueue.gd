@@ -115,4 +115,3 @@ func _play_turn():
 		overview_camera.make_current()
 		active_character.emit(active_char)
 		current_unit._reset_action_econ()
-		print(current_unit.unit_stats.name, " ", current_unit.actions)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=15 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -8,10 +8,18 @@
 [ext_resource type="Script" uid="uid://cswnqpumxdpea" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
 [ext_resource type="Script" uid="uid://b36td63hn5vf5" path="res://Scenes/UI/User_Interface/attack_button.gd" id="6_kws0h"]
 [ext_resource type="Script" uid="uid://orqvufbguj4c" path="res://Scenes/UI/User_Interface/magic_button.gd" id="8_uddve"]
+[ext_resource type="Script" uid="uid://bbhnu3x3ocpyy" path="res://Scenes/UI/User_Interface/back_button.gd" id="9_5kiam"]
+[ext_resource type="Script" uid="uid://pd4ns7ois4n4" path="res://Scenes/UI/User_Interface/melee_spell.gd" id="9_b4xq2"]
+[ext_resource type="Script" uid="uid://dxcihrokc7kgh" path="res://Scenes/UI/User_Interface/ranged_spell.gd" id="10_ebqlf"]
+[ext_resource type="Script" uid="uid://bm2piervqt7wp" path="res://Scenes/UI/User_Interface/line_spell.gd" id="11_7ifof"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2j3s"]
 atlas = ExtResource("3_woo7i")
 region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kiam"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(0, 64, 16, 16)
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
@@ -121,14 +129,14 @@ grow_vertical = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 
-[node name="GridContainer" type="GridContainer" parent="Hotbar/MarginContainer"]
+[node name="MainButtons" type="GridContainer" parent="Hotbar/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 4
 
-[node name="AttackButton" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="AttackButton" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
@@ -136,11 +144,11 @@ toggle_mode = true
 expand_icon = true
 script = ExtResource("6_kws0h")
 
-[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/GridContainer/AttackButton"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/MainButtons/AttackButton"]
 texture = ExtResource("5_1aga7")
 centered = false
 
-[node name="MagicButton" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="MagicButton" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
@@ -148,49 +156,117 @@ icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 script = ExtResource("8_uddve")
 
-[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/GridContainer/MagicButton"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/MainButtons/MagicButton"]
 
-[node name="Button3" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button4" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button5" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button6" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button7" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button8" type="Button" parent="Hotbar/MarginContainer/GridContainer"]
+[node name="Button8" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
+
+[node name="MagicButtons" type="GridContainer" parent="Hotbar/MarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="MeleeSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+script = ExtResource("9_b4xq2")
+
+[node name="RangedSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+script = ExtResource("10_ebqlf")
+
+[node name="LineSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+script = ExtResource("11_7ifof")
+
+[node name="Button4" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+
+[node name="Button5" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+
+[node name="Button6" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+
+[node name="Button7" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_r2j3s")
+expand_icon = true
+
+[node name="BackButton" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 1
+icon = SubResource("AtlasTexture_5kiam")
+expand_icon = true
+script = ExtResource("9_5kiam")
 
 [connection signal="mouse_entered" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_exited"]
@@ -213,7 +289,15 @@ expand_icon = true
 [connection signal="mouse_exited" from="HealthBar" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="mouse_entered" from="Hotbar" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="Hotbar" to="." method="_on_ui_element_mouse_exited"]
-[connection signal="attack_mode" from="Hotbar/MarginContainer/GridContainer/AttackButton" to="." method="_switch_mode" binds= ["attack"]]
-[connection signal="pressed" from="Hotbar/MarginContainer/GridContainer/AttackButton" to="Hotbar/MarginContainer/GridContainer/AttackButton" method="_mode_switch"]
-[connection signal="magic_mode" from="Hotbar/MarginContainer/GridContainer/MagicButton" to="." method="_switch_mode" binds= ["magic"]]
-[connection signal="pressed" from="Hotbar/MarginContainer/GridContainer/MagicButton" to="Hotbar/MarginContainer/GridContainer/MagicButton" method="_mode_switch"]
+[connection signal="attack_mode" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="." method="_switch_mode" binds= ["attack"]]
+[connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="Hotbar/MarginContainer/MainButtons/AttackButton" method="_mode_switch"]
+[connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="Hotbar/MarginContainer/MainButtons/MagicButton" method="_ui_mode_switch"]
+[connection signal="return_to_idle" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="." method="_switch_mode" binds= ["idle"]]
+[connection signal="magic_melee" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="." method="_switch_mode" binds= ["magic_melee"]]
+[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="Hotbar/MarginContainer/MagicButtons/MeleeSpell" method="_mode_switch"]
+[connection signal="magic_ranged" from="Hotbar/MarginContainer/MagicButtons/RangedSpell" to="." method="_switch_mode" binds= ["magic_ranged"]]
+[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/RangedSpell" to="Hotbar/MarginContainer/MagicButtons/RangedSpell" method="_mode_switch"]
+[connection signal="magic_line" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="." method="_switch_mode" binds= ["magic_line"]]
+[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="Hotbar/MarginContainer/MagicButtons/LineSpell" method="_mode_switch"]
+[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="Hotbar/MarginContainer/MagicButtons/BackButton" method="_return_to_main"]
+[connection signal="return_to_idle" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="." method="_switch_mode" binds= ["idle"]]
