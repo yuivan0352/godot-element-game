@@ -18,6 +18,7 @@ script = ExtResource("1_egww6")
 layout_mode = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 value = 100.0
 texture_under = SubResource("AtlasTexture_55yp0")
