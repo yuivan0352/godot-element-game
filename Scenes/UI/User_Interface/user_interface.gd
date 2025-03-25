@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name UserInterface
 
 @onready var health_bar: MarginContainer = $HealthBar
+@onready var unit_info = $UnitInfo
 
 var active_char
 var turn_array
@@ -27,3 +28,9 @@ func _on_ui_element_mouse_exited() -> void:
 func _on_turn_info(order: Variant, current_turn: Variant) -> void:
 	turn_array = order
 	current_turn_index = current_turn
+	
+func _on_unit_clicked(unit):
+	print("UserInterface received unit_clicked signal for:", unit.name)
+	if unit_info:
+		unit_info.update_info(unit)
+		unit_info.visible = true

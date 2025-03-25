@@ -31,6 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("4_13sfg")
 user_interface_path = NodePath("..")
 
@@ -64,47 +65,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 stretch_mode = 5
-
-[node name="UnitInfo" type="Panel" parent="TurnScroll"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -231.0
-offset_right = 245.0
-grow_vertical = 0
-script = ExtResource("5_yx8tb")
-
-[node name="UnitName" type="Label" parent="TurnScroll/UnitInfo"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -38.5
-offset_right = 38.5
-offset_bottom = 23.0
-grow_horizontal = 2
-
-[node name="UnitSprite" type="TextureRect" parent="TurnScroll/UnitInfo"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -102.5
-offset_top = -75.5
-offset_right = -62.5
-offset_bottom = -35.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="UnitStats" type="VBoxContainer" parent="TurnScroll/UnitInfo"]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 40.0
-offset_right = 244.0
-offset_bottom = 229.0
 
 [node name="HealthBar" parent="." instance=ExtResource("2_txa2e")]
 
@@ -267,6 +227,46 @@ mouse_filter = 1
 icon = SubResource("AtlasTexture_5kiam")
 expand_icon = true
 script = ExtResource("9_5kiam")
+
+[node name="UnitInfo" type="Panel" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -231.0
+offset_right = 245.0
+grow_vertical = 0
+script = ExtResource("5_yx8tb")
+
+[node name="UnitName" type="Label" parent="UnitInfo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.5
+offset_right = 38.5
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="UnitSprite" type="TextureRect" parent="UnitInfo"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -75.5
+offset_right = -62.5
+offset_bottom = -35.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnitStats" type="VBoxContainer" parent="UnitInfo"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 40.0
+offset_right = 244.0
+offset_bottom = 229.0
 
 [connection signal="mouse_entered" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_exited"]
