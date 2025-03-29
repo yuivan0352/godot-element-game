@@ -10,6 +10,7 @@ var is_moving: bool
 var movement_limit: int
 var moved_distance: int
 var initiative_roll: int
+var enemy_class: String
 var rng = RandomNumberGenerator.new()
 var adjacent_tiles: Array[Vector2i]
 var circle_tiles: Array[Vector2i]
@@ -22,6 +23,7 @@ var actions: int
 @onready var turn_queue = $"../../../Services/TurnQueue"
 @onready var character_camera = $CharacterCamera
 @export var unit_stats: Stats
+
 
 
 signal turn_complete
@@ -38,6 +40,10 @@ func _ready():
 		_update_adj_tiles()
 		_update_circle_tiles()
 		_update_line_tiles()
+		
+		#For Enemy Unit
+		enemy_class = unit_stats.enemy_class
+
 
 func _update_adj_tiles():
 	adjacent_tiles = []

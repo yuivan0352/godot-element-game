@@ -3,7 +3,7 @@ class_name Enemy
 
 var tile_size = 16  
 var enemies = []  # Make sure this list is populated with all enemies
-
+var ranged_attack_range = 4
 
 func _ready():
 	super._ready()  
@@ -83,9 +83,10 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, closest_player_tile
 	]
 	return enemy_tile_pos in adjacent_tiles
 
-# Take the enemy's turn
 func take_turn():
-	if self == turn_queue.active_char:
+	
+	#Executes for melee class based enemies
+	if self == turn_queue.active_char and turn_queue.active_char.enemy_class == "Melee":
 		# Find the closest player
 		var closest_player = find_closest_player()
 		if closest_player == null:
@@ -179,20 +180,34 @@ func _physics_process(_delta):
 		print("Moving towards target: ", is_moving)
 		move_towards_target(_delta)
 
-func attack_player(player):
+func melee_attack(player):
 	if player != null:
 		var damage = rng.randi_range(1,6)
 		player.unit_stats.health -= damage
-		print("Attacked player: ", player.unit_stats.name, " for ", damage, " damage. Remaining health: ", player.unit_stats.health)
+		print("Melee attack on player: ", player.unit_stats.name, " for ", damage, " damage. Remaining health: ", player.unit_stats.health)
+		
+func ranged_attack(player):
+	if player != null:
+		var damage = rng.randi_range(1,6)
+		player.unit_stats.health -= damage
+		print("Range attack on player: ", player.unit_stats.name, " for ", damage, " damage. Remaining health: ", player.unit_stats.health)
+		
 # End the enemy's turn if it moves adjacent to the closest player
 func check_and_end_turn():
 	var closest_player = find_closest_player()
 	if closest_player:
 		var player_tile_pos = turn_queue.pc_positions[closest_player]
 		var enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
+		
+		var distance_to_player = enemy_tile_pos.distance_to(player_tile_pos) / tile_size
+		
 		if is_adjacent_to_closest_player(enemy_tile_pos, player_tile_pos):
-			print("Enemy is adjacent to player!")
-			attack_player(closest_player)
-			is_moving = false
-			turn_complete.emit()
-			print("Enemy moved adjacent to closest player, ending turn.")
+			print("Enemy is adjacent to player! Melee attack!")
+			melee_attack(closest_player)
+		elif distance_to_player <= ranged_attack_range:
+			print("Enemy is within range for a ranged attack!")
+			ranged_attack(closest_player)
+			
+		is_moving = false
+		turn_complete.emit()
+		print("Enemy moved adjacent to closest player, ending turn.")
