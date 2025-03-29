@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://ttmgrro6t87o"]
+
+[ext_resource type="Script" path="res://Scripts/Stats/stat_sheet.gd" id="1_27ljy"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_27ljy")
+name = ""
+enemy_class = "Melee"
+health = 10
+armor_class = 6
+movement_speed = 30
+brains = 1
+brawns = 1
+bewitchment = 1

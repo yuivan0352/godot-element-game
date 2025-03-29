@@ -1,7 +1,7 @@
 extends Node2D
 
 var enemy_scene = preload("res://Scenes/Enemy/Enemy.tscn")
-var enemy_stats = preload("res://Resources/Stats/basicEnemy.tres")
+var enemy_stats = preload("res://Resources/Stats/basicRangedEnemy.tres")
 @onready var player_chars: Node2D = $"../Player"
 
 var positions = {}

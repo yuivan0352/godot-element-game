@@ -21,6 +21,7 @@ var actions: int
 @onready var character_camera = $CharacterCamera
 @export var unit_stats: Stats
 
+
 signal turn_complete
 signal unit_still
 signal unit_moving
