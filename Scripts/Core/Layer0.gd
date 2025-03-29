@@ -64,15 +64,12 @@ func _process(_delta):
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 			else:
 				if turn_queue.active_char != null:
-					if "mode" in turn_queue.active_char:
-						match turn_queue.active_char.mode:
-							"idle":
-								if (in_movement_range):
-									layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)
-								else:
-									layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
-								in_movement_range = false
-							"attack":
-								layer_one.set_cell(tile_position, 2, Vector2i(4, 3), 0)
-					else:
-						pass
+					match turn_queue.active_char.mode:
+						"idle":
+							if (in_movement_range):
+								layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)
+							else:
+								layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
+							in_movement_range = false
+						"attack", "magic_melee", "magic_ranged", "magic_line":
+							layer_one.set_cell(tile_position, 2, Vector2i(4, 3), 0)

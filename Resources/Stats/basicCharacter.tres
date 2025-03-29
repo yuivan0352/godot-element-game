@@ -8,6 +8,7 @@ script = ExtResource("1_fk7ys")
 name = ""
 enemy_class = ""
 health = 10
+max_health = 10
 armor_class = 6
 movement_speed = 25
 brains = 1
