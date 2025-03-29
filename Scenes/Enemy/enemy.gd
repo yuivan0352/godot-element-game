@@ -179,6 +179,11 @@ func _physics_process(_delta):
 		print("Moving towards target: ", is_moving)
 		move_towards_target(_delta)
 
+func attack_player(player):
+	if player != null:
+		var damage = rng.randi_range(1,6)
+		player.unit_stats.health -= damage
+		print("Attacked player: ", player.unit_stats.name, " for ", damage, " damage. Remaining health: ", player.unit_stats.health)
 # End the enemy's turn if it moves adjacent to the closest player
 func check_and_end_turn():
 	var closest_player = find_closest_player()
@@ -187,6 +192,7 @@ func check_and_end_turn():
 		var enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		if is_adjacent_to_closest_player(enemy_tile_pos, player_tile_pos):
 			print("Enemy is adjacent to player!")
+			attack_player(closest_player)
 			is_moving = false
 			turn_complete.emit()
 			print("Enemy moved adjacent to closest player, ending turn.")
