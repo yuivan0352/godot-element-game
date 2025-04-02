@@ -60,10 +60,10 @@ func _process(delta):
 		else:
 			position.x = lerp(position.x, position.x + inputX * speed, speed * delta)
 			
-		if (position.y >= 192 && inputY > 0):
-			position.y = 192
-		elif (position.y <= 32 && inputY < 0):
-			position.y = 32
+		if (position.y >= 191 && inputY > 0):
+			position.y = 191
+		elif (position.y <= 70 && inputY < 0):
+			position.y = 70
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
 	if transitioning and Input.is_action_pressed("stop_move"):

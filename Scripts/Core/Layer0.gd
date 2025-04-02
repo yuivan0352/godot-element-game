@@ -3,16 +3,20 @@ extends TileMapLayer
 var dictionary = {}
 @onready var turn_queue = $"../../Services/TurnQueue"
 @onready var layer_one = $"../Layer1"
+
 var in_movement_range : bool = false
 var in_ui_element: bool
 var astar_grid: AStarGrid2D
 
 func _ready():
+	set_terrain()
+	
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
+	
 	for x in get_used_rect().size.x:
 		for y in get_used_rect().size.y:
 			var tile = Vector2i(
@@ -25,6 +29,11 @@ func _ready():
 			
 			if tile_data == null or !tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile, true)
+
+func set_terrain():
+	var pattern = tile_set.get_pattern(randi() % 4)
+	if pattern:
+		set_pattern(Vector2i(0,0), pattern)
 
 func _set_char_pos_solid(char_positions):
 	for key in char_positions:
