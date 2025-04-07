@@ -63,7 +63,8 @@ func setup_turn_order():
 		overview_camera.set_camera_position(active_char)
 
 	for unit in turn_order:
-		unit.turn_complete.connect(_play_turn)
+		if unit is Enemy:
+			unit.turn_complete.connect(_play_turn)
 		if unit is Character:
 			unit.unit_moving.connect(_transition_character_cam)
 

@@ -23,6 +23,10 @@ func change_mode(input_mode: String):
 	else:
 		mode = input_mode
 
+func _reset_action_econ():
+	super._reset_action_econ()
+	mode = "idle"
+
 func _input(event):
 	if self == turn_queue.active_char:
 		match mode:
@@ -60,6 +64,11 @@ func _input(event):
 						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and adjacent_tiles.has(mouse_tile):
 							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+							if turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health <= 0:
+								turn_queue.enemy_positions.find_key(mouse_tile).queue_free()
+								turn_queue.enemy_positions.erase(turn_queue.enemy_positions.find_key(mouse_tile))
+								tile_layer_zero._unsolid_coords(mouse_tile)
+								_update_adj_tiles()
 							actions -= 1
 					else:
 						return
@@ -74,6 +83,11 @@ func _input(event):
 						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and circle_tiles.has(mouse_tile):
 							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+							if turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health <= 0:
+								turn_queue.enemy_positions.find_key(mouse_tile).queue_free()
+								turn_queue.enemy_positions.erase(turn_queue.enemy_positions.find_key(mouse_tile))
+								tile_layer_zero._unsolid_coords(mouse_tile)
+								_update_circle_tiles()
 							actions -= 1
 					else:
 						return
@@ -88,6 +102,11 @@ func _input(event):
 						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and line_tiles.has(mouse_tile):
 							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
 							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+							if turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health <= 0:
+								turn_queue.enemy_positions.find_key(mouse_tile).queue_free()
+								turn_queue.enemy_positions.erase(turn_queue.enemy_positions.find_key(mouse_tile))
+								tile_layer_zero._unsolid_coords(mouse_tile)
+								_update_line_tiles()
 							actions -= 1
 					else:
 						return
@@ -111,6 +130,6 @@ func _physics_process(_delta):
 			
 		move_towards_target(_delta)
 
-func _on_area_clicked(parent: Variant) -> void:
+func _on_area_clicked():
 	if turn_queue.active_char.mode == "idle":
 		emit_signal("unit_clicked", self)

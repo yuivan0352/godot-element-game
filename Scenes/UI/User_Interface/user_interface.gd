@@ -11,6 +11,7 @@ var current_turn_index
 signal ui_element_mouse_entered
 signal ui_element_mouse_exited
 signal switch_mode(mode)
+signal end_turn
 
 func _get_active_char(ac):
 	active_char = ac
@@ -34,3 +35,6 @@ func _on_unit_clicked(unit):
 	if unit_info:
 		unit_info.update_info(unit)
 		unit_info.visible = true
+		
+func _end_turn():
+	end_turn.emit()

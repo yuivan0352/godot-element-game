@@ -80,6 +80,7 @@ func _update_line_tiles():
 
 func _reset_action_econ():
 	actions = 1
+	moved_distance = 0
 	
 func move_towards_target(_delta):
 	if current_id_path.is_empty():
@@ -105,11 +106,8 @@ func move_towards_target(_delta):
 				_update_adj_tiles()
 				_update_circle_tiles()
 				_update_line_tiles()
-				if (moved_distance == movement_limit):
-					moved_distance = 0
-					turn_complete.emit()
-				else:
-					overview_camera.enabled = true
-					overview_camera.set_camera_position(self)
-					overview_camera.make_current()
-					unit_still.emit()
+				
+				overview_camera.enabled = true
+				overview_camera.set_camera_position(self)
+				overview_camera.make_current()
+				unit_still.emit()
