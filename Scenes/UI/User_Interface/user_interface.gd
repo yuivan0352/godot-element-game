@@ -3,6 +3,7 @@ class_name UserInterface
 
 @onready var health_bar: MarginContainer = $HealthBar
 @onready var unit_info = $UnitInfo
+@onready var hotbar = $Hotbar
 
 var active_char
 var turn_array
@@ -11,6 +12,8 @@ var current_turn_index
 signal ui_element_mouse_entered
 signal ui_element_mouse_exited
 signal switch_mode(mode)
+signal end_turn
+signal buttons_disabled
 
 func _get_active_char(ac):
 	active_char = ac
@@ -34,3 +37,12 @@ func _on_unit_clicked(unit):
 	if unit_info:
 		unit_info.update_info(unit)
 		unit_info.visible = true
+		
+func _end_turn():
+	end_turn.emit()
+	
+func _buttons_disabled(mode):
+	var mainButtons = hotbar.get_child(0).get_child(0).get_children()
+	print(mainButtons)
+	for button in mainButtons:
+		button.disabled = mode

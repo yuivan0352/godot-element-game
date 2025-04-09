@@ -19,6 +19,7 @@ var turn_num = 0
 
 signal active_character
 signal turn_info(order, current_turn)
+signal buttons_disabled
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
@@ -63,7 +64,8 @@ func setup_turn_order():
 		overview_camera.set_camera_position(active_char)
 
 	for unit in turn_order:
-		unit.turn_complete.connect(_play_turn)
+		if unit is Enemy:
+			unit.turn_complete.connect(_play_turn)
 		if unit is Character:
 			unit.unit_moving.connect(_transition_character_cam)
 
@@ -78,6 +80,7 @@ func _transition_character_cam():
 		overview_camera.track_char_cam(current_unit)
 
 func _play_turn():
+	buttons_disabled.emit(true)
 	if current_unit is Character:
 		prev_char = current_unit as Character
 
@@ -115,3 +118,4 @@ func _play_turn():
 		overview_camera.make_current()
 		active_character.emit(active_char)
 		current_unit._reset_action_econ()
+		buttons_disabled.emit(false)

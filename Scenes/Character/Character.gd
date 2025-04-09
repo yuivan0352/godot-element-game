@@ -23,6 +23,28 @@ func change_mode(input_mode: String):
 	else:
 		mode = input_mode
 
+func _reset_action_econ():
+	super._reset_action_econ()
+	mode = "idle"
+	
+func _attack_action(attack_type_array):
+	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
+	if actions > 0:
+		if turn_queue.pc_positions.find_key(mouse_tile) != null and attack_type_array.has(mouse_tile):
+			turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+			print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
+		elif turn_queue.enemy_positions.find_key(mouse_tile) != null and attack_type_array.has(mouse_tile):
+			turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
+			print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
+			if turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health <= 0:
+				turn_queue.enemy_positions.find_key(mouse_tile).queue_free()
+				turn_queue.enemy_positions.erase(turn_queue.enemy_positions.find_key(mouse_tile))
+				tile_layer_zero._unsolid_coords(mouse_tile)
+				_update_adj_tiles()
+		actions -= 1
+	else:
+		return
+
 func _input(event):
 	if self == turn_queue.active_char:
 		match mode:
@@ -51,46 +73,13 @@ func _input(event):
 					mode = "idle"
 			"attack", "magic_melee":
 				if event.is_action_pressed("interact"):
-					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
-					if actions > 0:
-						if turn_queue.pc_positions.find_key(mouse_tile) != null and adjacent_tiles.has(mouse_tile):
-							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and adjacent_tiles.has(mouse_tile):
-							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-					else:
-						return
+					_attack_action(adjacent_tiles)
 			"magic_ranged":
 				if event.is_action_pressed("interact"):
-					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
-					if actions > 0:
-						if turn_queue.pc_positions.find_key(mouse_tile) != null and circle_tiles.has(mouse_tile):
-							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and circle_tiles.has(mouse_tile):
-							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-					else:
-						return
+					_attack_action(circle_tiles)
 			"magic_line":
 				if event.is_action_pressed("interact"):
-					var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
-					if actions > 0:
-						if turn_queue.pc_positions.find_key(mouse_tile) != null and line_tiles.has(mouse_tile):
-							turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.pc_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-						elif turn_queue.enemy_positions.find_key(mouse_tile) != null and line_tiles.has(mouse_tile):
-							turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-							print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health)
-							actions -= 1
-					else:
-						return
+					_attack_action(line_tiles)
 
 func _physics_process(_delta):
 	if self == turn_queue.active_char:
@@ -111,7 +100,6 @@ func _physics_process(_delta):
 			
 		move_towards_target(_delta)
 
-func _on_area_clicked(parent: Variant) -> void:
-	print(mode)
-	if mode == "idle":
+func _on_area_clicked():
+	if turn_queue.active_char.mode == "idle":
 		emit_signal("unit_clicked", self)
