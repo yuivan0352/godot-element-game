@@ -12,6 +12,7 @@ signal ui_element_mouse_entered
 signal ui_element_mouse_exited
 signal switch_mode(mode)
 signal end_turn
+signal end_turn_button_mode
 
 func _get_active_char(ac):
 	active_char = ac
@@ -38,3 +39,6 @@ func _on_unit_clicked(unit):
 		
 func _end_turn():
 	end_turn.emit()
+	
+func _end_turn_button_mode(mode):
+	end_turn_button_mode.emit(mode)

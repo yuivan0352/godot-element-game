@@ -19,6 +19,7 @@ var turn_num = 0
 
 signal active_character
 signal turn_info(order, current_turn)
+signal end_turn_button_mode
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
@@ -79,6 +80,7 @@ func _transition_character_cam():
 		overview_camera.track_char_cam(current_unit)
 
 func _play_turn():
+	end_turn_button_mode.emit(true)
 	if current_unit is Character:
 		prev_char = current_unit as Character
 
@@ -116,3 +118,4 @@ func _play_turn():
 		overview_camera.make_current()
 		active_character.emit(active_char)
 		current_unit._reset_action_econ()
+		end_turn_button_mode.emit(false)
