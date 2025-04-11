@@ -12,4 +12,4 @@ func _on_mouse_exited():
 	
 func _input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("interact"):
-		emit_signal("area_clicked", parent)
+		emit_signal("area_clicked")

@@ -101,5 +101,6 @@ func _physics_process(_delta):
 		move_towards_target(_delta)
 
 func _on_area_clicked():
+	print("hello")
 	if turn_queue.active_char.mode == "idle":
 		emit_signal("unit_clicked", self)

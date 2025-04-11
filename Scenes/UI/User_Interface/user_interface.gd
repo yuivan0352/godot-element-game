@@ -42,7 +42,7 @@ func _end_turn():
 	end_turn.emit()
 	
 func _buttons_disabled(mode):
-	var mainButtons = hotbar.get_child(0).get_child(0).get_children()
+	var mainButtons = $Hotbar/MarginContainer/MainButtons.get_children()
 	print(mainButtons)
 	for button in mainButtons:
 		button.disabled = mode
