@@ -43,7 +43,7 @@ func _attack_action(attack_type_array):
 				tile_layer_zero._unsolid_coords(mouse_tile)
 				_update_adj_tiles()
 		actions -= 1
-		update_action_econ.emit(0, 1)
+		update_action_econ.emit(0, 1, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
 	else:
 		return
 

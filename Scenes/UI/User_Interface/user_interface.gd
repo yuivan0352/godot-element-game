@@ -22,11 +22,11 @@ func _get_active_char(ac):
 	active_char = ac
 	health_bar._update_health(active_char)
 
-func _update_actions(action, bonus_action, movement_speed : int = 30):
+func _update_actions(action, bonus_action, movement_speed, moved_distance):
 	action_icon.value = action
 	bonus_action_icon.value = bonus_action
 	movement_bar.max_value = movement_speed
-	movement_bar.value = movement_bar.max_value
+	movement_bar.value = moved_distance
 	
 func _update_movement_bar():
 	movement_bar.value = movement_bar.value - 5
