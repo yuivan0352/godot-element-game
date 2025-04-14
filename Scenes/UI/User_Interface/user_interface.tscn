@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=42 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -17,8 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
-[ext_resource type="Texture2D" uid="uid://c4klcufghiy8y" path="res://Assets/Texture/movement_bar_under.png" id="17_714rb"]
-[ext_resource type="Texture2D" uid="uid://b00ifsofx8jdx" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
+[ext_resource type="Texture2D" uid="uid://ckaye3sh0wu87" path="res://Assets/Texture/movement_bar_under.png" id="17_714rb"]
+[ext_resource type="Texture2D" uid="uid://m54q8v0rkt7a" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
@@ -77,6 +77,9 @@ atlas = ExtResource("13_c87su")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mad2t"]
 atlas = ExtResource("15_mad2t")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rp5le"]
+atlas = ExtResource("17_714rb")
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
@@ -275,7 +278,7 @@ max_value = 30.0
 value = 30.0
 rounded = true
 fill_mode = 3
-texture_under = ExtResource("17_714rb")
+texture_under = SubResource("AtlasTexture_rp5le")
 texture_progress = ExtResource("18_mad2t")
 
 [node name="UnitInfo" type="Panel" parent="."]
