@@ -118,4 +118,5 @@ func _play_turn():
 		overview_camera.make_current()
 		active_character.emit(active_char)
 		current_unit._reset_action_econ()
+		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.movement_speed)
 		buttons_disabled.emit(false)

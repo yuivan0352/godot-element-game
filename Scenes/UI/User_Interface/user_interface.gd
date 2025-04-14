@@ -4,6 +4,9 @@ class_name UserInterface
 @onready var health_bar: MarginContainer = $HealthBar
 @onready var unit_info = $UnitInfo
 @onready var hotbar = $Hotbar
+@onready var action_icon = $ActionEcon/HBoxContainer/ActionIcon
+@onready var bonus_action_icon = $ActionEcon/HBoxContainer/BonusActionIcon
+@onready var movement_bar = $ActionEcon/MovementBar
 
 var active_char
 var turn_array
@@ -18,6 +21,15 @@ signal buttons_disabled
 func _get_active_char(ac):
 	active_char = ac
 	health_bar._update_health(active_char)
+
+func _update_actions(action, bonus_action, movement_speed : int = 30):
+	action_icon.value = action
+	bonus_action_icon.value = bonus_action
+	movement_bar.max_value = movement_speed
+	movement_bar.value = movement_bar.max_value
+	
+func _update_movement_bar():
+	movement_bar.value = movement_bar.value - 5
 	
 func _switch_mode(mode : String):
 	switch_mode.emit(mode)
@@ -43,6 +55,5 @@ func _end_turn():
 	
 func _buttons_disabled(mode):
 	var mainButtons = hotbar.get_child(0).get_child(0).get_children()
-	print(mainButtons)
 	for button in mainButtons:
 		button.disabled = mode

@@ -8,6 +8,7 @@ var mode : String = "idle"
 var in_ui_element: bool
 
 signal unit_clicked(unit)
+signal update_action_econ(action, bonus_action, movement_speed)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -42,6 +43,7 @@ func _attack_action(attack_type_array):
 				tile_layer_zero._unsolid_coords(mouse_tile)
 				_update_adj_tiles()
 		actions -= 1
+		update_action_econ.emit(0, 1)
 	else:
 		return
 
