@@ -16,7 +16,6 @@ func _ready():
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
-	
 	for x in get_used_rect().size.x:
 		for y in get_used_rect().size.y:
 			var tile = Vector2i(
