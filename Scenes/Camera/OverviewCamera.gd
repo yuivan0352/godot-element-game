@@ -6,19 +6,27 @@ var inputX : int
 var inputY : int
 var tween : Tween
 
-func track_char_cam(character: Character):
+func track_char_cam(character: Unit):
 	if (character.find_child("VisibilityNotifier").is_on_screen()):
 		transition_camera(self, character.find_child("CharacterCamera"), 0.5)
 	else:
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
-func set_camera_position(target: Character):
+func set_camera_position(target: Unit):
 	global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if transitioning: 
 		print("Already transitioning, returning")
 		return
+		
+	if not is_instance_valid(from):
+		print("From camera is invalid.")
+		return
+	if not is_instance_valid(to):
+		print("To camera is invalid.")
+		return
+		
 	zoom = from.zoom
 	offset = from.offset
 	light_mask = from.light_mask
@@ -39,13 +47,17 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	tween.tween_property(self, "offset", to.offset, duration).from(offset)
 	await tween.finished
 	
-	if from != self:
+	if is_instance_valid(from) and from != self:
 		from.enabled = false
-	if from != self && to != self:
-		to.enabled = false
-	if from == self && to != self:
+	if is_instance_valid(to):
 		to.enabled = true
-	to.make_current()
+		if to.is_inside_tree():
+			to.make_current()
+		else:
+			print("Target camera is not inside tree")
+	else:
+		print("Target camera is invalid")
+		
 	transitioning = false
 
 func _process(delta):

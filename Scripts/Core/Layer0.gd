@@ -63,7 +63,7 @@ func _process(_delta):
 			if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 			else:
-				if turn_queue.active_char != null:
+				if turn_queue.active_char != null and turn_queue.active_char == Character:
 					match turn_queue.active_char.mode:
 						"idle":
 							if (in_movement_range):

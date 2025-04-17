@@ -11,5 +11,20 @@ script = ExtResource("2_vxqhh")
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_0cy87")
 
+[node name="CharacterCamera" type="Camera2D" parent="."]
+scale = Vector2(4, 2)
+enabled = false
+zoom = Vector2(5, 5)
+limit_left = 0
+limit_top = -32
+limit_right = 256
+limit_bottom = 256
+limit_smoothed = true
+rotation_smoothing_enabled = true
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.535651, 0.520002)
+
 [connection signal="unit_moving" from="." to="." method="_on_unit_moving"]
 [connection signal="unit_still" from="." to="." method="_on_unit_still"]
