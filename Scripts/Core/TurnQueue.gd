@@ -95,13 +95,11 @@ func _play_turn():
 	if is_instance_valid(current_unit) and current_unit is Character:
 		prev_char = current_unit 
 
-	# Advance to next unit
 	turn_num += 1
 	if turn_num >= turn_order.size():
 		turn_num = 0
 	turn_info.emit(turn_order, turn_num)
 
-	# Skip invalid units
 	var attempts = 0
 	while attempts < turn_order.size():
 		current_unit = turn_order[turn_num]
@@ -118,7 +116,6 @@ func _play_turn():
 	if !is_instance_valid(current_unit):
 		return
 	
-	# === CAMERA TRANSITION BLOCK ===
 	var prev_cam = null
 	var curr_cam = null
 	
@@ -126,17 +123,14 @@ func _play_turn():
 		prev_cam = prev_char.find_child("CharacterCamera", true, false)
 	curr_cam = current_unit.find_child("CharacterCamera", true, false)
 
-	# Always do a transition if both cameras exist
 	if prev_cam and curr_cam:
 		var transition_duration := 1.0
-		# Optional: make faster if already on screen
 		if current_unit.get_child_count() > 3 and current_unit.get_child(3).is_on_screen():
 			transition_duration = 0.5
 
 		overview_camera.transition_camera(prev_cam, curr_cam, transition_duration)
 		await get_tree().create_timer(transition_duration).timeout
 	else:
-		# fallback snap if no cameras
 		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(0.5).timeout
 
