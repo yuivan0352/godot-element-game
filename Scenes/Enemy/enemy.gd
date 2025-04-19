@@ -2,10 +2,13 @@ extends Unit
 class_name Enemy
 var tile_size = 16  
 var enemies = [] 
+
 func _ready():
 	super._ready()  
+	
 func _input(event):
 	pass
+	
 func find_closest_player() -> Node:
 	var closest_player = null
 	var closest_distance = INF 
@@ -25,19 +28,18 @@ func is_tile_walkable(tile_position: Vector2i) -> bool:
 		# Check if tile is occupied by an enemy
 		for enemy in turn_queue.enemy_positions.keys():
 			if turn_queue.enemy_positions[enemy] == tile_position:
-				print("Tile occupied by enemy: ", tile_position)
 				return false
 		
 		# Check if tile is occupied by a player
 		for player in turn_queue.pc_positions.keys():
 			if turn_queue.pc_positions[player] == tile_position:
-				print("Tile occupied by player: ", tile_position)
 				return false
 		
 		return true	
 		
 	print("Tile not walkable: ", tile_position)
 	return false
+	
 func find_adjacent_walkable_tile(player_tile_pos: Vector2i) -> Vector2i:
 	var adjacent_tiles = [
 		player_tile_pos + Vector2i(-1, 0), 
@@ -50,13 +52,12 @@ func find_adjacent_walkable_tile(player_tile_pos: Vector2i) -> Vector2i:
 		player_tile_pos + Vector2i(1, 1)   
 	]
 	
-	# Check each adjacent tile and return the first walkable one
 	for tile in adjacent_tiles:
 		if is_tile_walkable(tile):
 			return tile
 			
-	# If no walkable tiles found, return an invalid position
 	return Vector2i(-1, -1)
+	
 func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, closest_player_tile_pos: Vector2i) -> bool:
 	var adjacent_tiles = [
 		closest_player_tile_pos + Vector2i(-1, 0),
@@ -69,6 +70,7 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, closest_player_tile
 		closest_player_tile_pos + Vector2i(1, 1)   
 	]
 	return enemy_tile_pos in adjacent_tiles
+	
 func take_turn():
 	if self == turn_queue.active_char:
 		var closest_player = find_closest_player()
@@ -81,7 +83,6 @@ func take_turn():
 		var target_tile_pos = find_adjacent_walkable_tile(player_tile_pos)
 		var path_found = false
 		
-		# Check if the target tile is valid
 		if target_tile_pos != Vector2i(-1, -1):
 			current_id_path = astar_grid.get_id_path(
 				enemy_tile_pos,
@@ -91,7 +92,6 @@ func take_turn():
 			if !current_id_path.is_empty():
 				path_found = true
 		else:
-			# Try the cardinal directions if no adjacent walkable tile was found
 			for adj_tile in [
 				player_tile_pos + Vector2i(-1,0),
 				player_tile_pos + Vector2i(1,0),
@@ -110,6 +110,7 @@ func take_turn():
 		else:
 			print("No valid paths available, ending turn")
 			turn_complete.emit()
+			
 func move_towards_target(_delta):
 	if current_id_path.is_empty():
 		print("Current ID path is empty. No movement.")
@@ -123,14 +124,13 @@ func move_towards_target(_delta):
 		
 		if not current_id_path.is_empty():
 			target_position = tile_layer_zero.map_to_local(current_id_path.front())
-			print("Moving to next target position: ", target_position)
 		else:
 			is_moving = false
 			tile_layer_zero._solid_coords(tile_layer_zero.local_to_map(global_position))
 			turn_queue._update_char_pos(tile_layer_zero.local_to_map(global_position))
 			if moved_distance == movement_limit:
 				moved_distance = 0
-				print("Movement limit reached. Emitting turn complete.")
+				print("Movement limit reached.")
 				turn_complete.emit()
 				is_moving = false
 			else:
@@ -138,49 +138,22 @@ func move_towards_target(_delta):
 				overview_camera.make_current()
 				unit_still.emit()
 			check_and_end_turn()
+			
 func _physics_process(_delta):
 	if self == turn_queue.active_char and is_moving:
 		move_towards_target(_delta)
-func perform_melee_attack(target_tile: Vector2i):
-	var player = turn_queue.pc_positions.find_key(target_tile)
-	if player != null:
-		var damage = rng.randi_range(1, 6)
-		player.unit_stats.health -= damage
-		print("Enemy attacked ", player.unit_stats.name, " for ", damage, " damage!")
-		print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
-		if player.unit_stats.health <= 0:
-			print(player.unit_stats.name, " has been defeated!")
-			turn_queue.pc_positions.erase(turn_queue.pc_positions.find_key(target_tile))
-			player.queue_free()
-			tile_layer_zero._unsolid_coords(target_tile)
-			
-func perform_ranged_attack():
-	for tile in circle_tiles:
-		if turn_queue.pc_positions.has(tile):
-			var player = turn_queue.pc_positions[tile]
-			var damage = rng.randi_range(1, 6)
-			
-			player.unit_stats.health -= damage
-			print("Enemy attacked ", player.unit_stats.name, " for ", damage, " damage!")
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
-			if player.unit_stats.health <= 0:
-				print(player.unit_stats.name, " has been defeated!")
-				turn_queue.pc_positions.erase(turn_queue.pc_positions.find_key(tile))
-				player.queue_free()
-				tile_layer_zero._unsolid_coords(tile)
-			break
  
 func check_and_end_turn():
 	var closest_player = find_closest_player()
 	if closest_player:
 		var player_tile_pos = turn_queue.pc_positions[closest_player]
 		var enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
+
 		if is_adjacent_to_closest_player(enemy_tile_pos, player_tile_pos):
-			print("Enemy is adjacent to player!")
+			EnemyAttacks.perform_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
+		else:
+			EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
 			
-			perform_ranged_attack()
-			perform_melee_attack(player_tile_pos)
-			
-			is_moving = false
-			turn_complete.emit()
-			print("Enemy moved adjacent to closest player, ending turn.")
+	is_moving = false
+	turn_complete.emit()
+	print("End turn")

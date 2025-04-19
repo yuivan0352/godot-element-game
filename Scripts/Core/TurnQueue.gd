@@ -40,7 +40,8 @@ func _ready():
 	turn_info.emit(turn_order, turn_num)
 	
 	for unit in turn_order:
-		print(unit.unit_stats.name)
+		if is_instance_valid(unit) and unit.has_meta("unit_stats"):
+			print(unit.unit_stats.name)
 	print()
 	setup_turn_order()
 
@@ -134,7 +135,6 @@ func _play_turn():
 		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(0.5).timeout
 
-	# === ACTIVE CHARACTER SETUP ===
 	active_char = current_unit
 	overview_camera.make_current()
 	active_character.emit(active_char)
@@ -147,5 +147,5 @@ func _play_turn():
 	
 	elif current_unit is Enemy:
 		print("Processing enemy turn")
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
