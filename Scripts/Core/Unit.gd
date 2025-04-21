@@ -15,6 +15,7 @@ var adjacent_tiles: Array[Vector2i]
 var circle_tiles: Array[Vector2i]
 var line_tiles: Array[Vector2i]
 var actions: int
+var bonus_actions : int
 
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
@@ -26,6 +27,7 @@ var actions: int
 signal turn_complete
 signal unit_still
 signal unit_moving
+signal update_movement
 
 func _ready():
 	if tile_layer_zero:
@@ -34,6 +36,7 @@ func _ready():
 		movement_limit = unit_stats.movement_speed / 5
 		initiative_roll = rng.randi_range(1, 20) + unit_stats.brawns
 		actions = 1
+		bonus_actions = 1
 		_update_adj_tiles()
 		_update_circle_tiles()
 		_update_line_tiles()
@@ -80,6 +83,7 @@ func _update_line_tiles():
 
 func _reset_action_econ():
 	actions = 1
+	moved_distance = 0
 	
 func move_towards_target(_delta):
 	if current_id_path.is_empty():
@@ -95,6 +99,7 @@ func move_towards_target(_delta):
 		if global_position == target_position:
 			current_id_path.pop_front()
 			moved_distance += 1
+			update_movement.emit()
 					
 			if current_id_path.is_empty() == false:
 				target_position = tile_layer_zero.map_to_local(current_id_path.front())
@@ -105,11 +110,8 @@ func move_towards_target(_delta):
 				_update_adj_tiles()
 				_update_circle_tiles()
 				_update_line_tiles()
-				if (moved_distance == movement_limit):
-					moved_distance = 0
-					turn_complete.emit()
-				else:
-					overview_camera.enabled = true
-					overview_camera.set_camera_position(self)
-					overview_camera.make_current()
-					unit_still.emit()
+				
+				overview_camera.enabled = true
+				overview_camera.set_camera_position(self)
+				overview_camera.make_current()
+				unit_still.emit()

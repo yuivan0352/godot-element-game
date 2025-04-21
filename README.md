@@ -29,8 +29,8 @@ World
 │   │   └── Character3
 │   └── Enemies
 └── Systems
-    ├── TurnQueue
-    └── CombatSystem
+	├── TurnQueue
+	└── CombatSystem
 ```
 
 ### Structure Explanation
@@ -40,10 +40,10 @@ World
   #### Environment
 
   * Houses all level-related nodes and environmental elements.
-    * Environment handles all our different levels with separate tile layers
+	* Environment handles all our different levels with separate tile layers
 
   * **Map**: Container for our expanding map
-    * Our map is a TileLayer node and will use patterns to extend the initial map to create a bigger map for our different levels
+	* Our map is a TileLayer node and will use patterns to extend the initial map to create a bigger map for our different levels
   * **OverviewCamera**: Main camera node for scene visualization and follows characters as the turns progress (No camera for Enemies right now)
 
   #### Entities

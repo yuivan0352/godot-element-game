@@ -3,6 +3,10 @@ class_name UserInterface
 
 @onready var health_bar: MarginContainer = $HealthBar
 @onready var unit_info = $UnitInfo
+@onready var hotbar = $Hotbar
+@onready var action_icon = $ActionEcon/HBoxContainer/ActionIcon
+@onready var bonus_action_icon = $ActionEcon/HBoxContainer/BonusActionIcon
+@onready var movement_bar = $ActionEcon/MovementBar
 
 var active_char
 var turn_array
@@ -11,10 +15,21 @@ var current_turn_index
 signal ui_element_mouse_entered
 signal ui_element_mouse_exited
 signal switch_mode(mode)
+signal end_turn
+signal buttons_disabled
 
 func _get_active_char(ac):
 	active_char = ac
 	health_bar._update_health(active_char)
+
+func _update_actions(action, bonus_action, movement_speed, moved_distance):
+	action_icon.value = action
+	bonus_action_icon.value = bonus_action
+	movement_bar.max_value = movement_speed
+	movement_bar.value = moved_distance
+	
+func _update_movement_bar():
+	movement_bar.value = movement_bar.value - 5
 	
 func _switch_mode(mode : String):
 	switch_mode.emit(mode)
@@ -34,3 +49,11 @@ func _on_unit_clicked(unit):
 	if unit_info:
 		unit_info.update_info(unit)
 		unit_info.visible = true
+		
+func _end_turn():
+	end_turn.emit()
+	
+func _buttons_disabled(mode):
+	var mainButtons = hotbar.get_child(0).get_child(0).get_children()
+	for button in mainButtons:
+		button.disabled = mode

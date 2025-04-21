@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://l5f56njyk6gi"]
 
 [ext_resource type="Texture2D" uid="uid://da8lv6mfhynr5" path="res://Assets/Texture/HealthBarUnder.png" id="1_bfvxg"]
-[ext_resource type="Script" uid="uid://c7hx5ed6tl0av" path="res://Scenes/UI/Healthbar/health_bar.gd" id="1_egww6"]
+[ext_resource type="Script" path="res://Scenes/UI/Healthbar/health_bar.gd" id="1_egww6"]
 [ext_resource type="Texture2D" uid="uid://b52mhooi3nfhj" path="res://Assets/Texture/HealthBarOver.png" id="2_8saaa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_55yp0"]
