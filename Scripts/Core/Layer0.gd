@@ -30,7 +30,7 @@ func _ready():
 				astar_grid.set_point_solid(tile, true)
 
 func set_terrain():
-	var pattern = tile_set.get_pattern(randi() % 4)
+	var pattern = tile_set.get_pattern((randi() % 4) + (4 * (randi() % 3)))
 	if pattern:
 		set_pattern(Vector2i(0,0), pattern)
 
