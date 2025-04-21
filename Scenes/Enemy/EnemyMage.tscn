@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://6550cc04j1i3"]
 
-[ext_resource type="Script" path="res://Scenes/Enemy/enemy.gd" id="1_4udhp"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_4udhp"]
 [ext_resource type="Texture2D" uid="uid://cjuyd082eueo" path="res://Assets/Sprites/mage.png" id="2_hxguk"]
 
 [node name="Enemy" type="Node2D"]

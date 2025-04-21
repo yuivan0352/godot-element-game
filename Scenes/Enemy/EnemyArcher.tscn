@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bt8ydb7hd0wdk"]
 
-[ext_resource type="Script" path="res://Scenes/Enemy/enemy.gd" id="1_m2srh"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_m2srh"]
 [ext_resource type="Texture2D" uid="uid://cd11qnll0i17s" path="res://Assets/Sprites/archer.png" id="2_7fcnw"]
 
 [node name="Enemy" type="Node2D"]

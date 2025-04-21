@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://3h38cjm2uihl"]
 
-[ext_resource type="Script" path="res://Scenes/Screens/Start/start.gd" id="1_taxkr"]
+[ext_resource type="Script" uid="uid://dpoe2ig56y25h" path="res://Scenes/Screens/Start/start.gd" id="1_taxkr"]
 [ext_resource type="Texture2D" uid="uid://ctv6jcp125cu1" path="res://Assets/Backgrounds/test background.png" id="2_ow1tu"]
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="3_a76dx"]
 
