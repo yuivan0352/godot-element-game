@@ -6,6 +6,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_ykkkl")
 name = ""
+enemy_class = "Melee"
 health = 14
 max_health = 14
 armor_class = 13

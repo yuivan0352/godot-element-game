@@ -105,3 +105,7 @@ func _play_turn():
 		print("Processing enemy turn")
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
+
+
+func _on_user_interface_switch_mode(mode: Variant) -> void:
+	pass # Replace with function body.

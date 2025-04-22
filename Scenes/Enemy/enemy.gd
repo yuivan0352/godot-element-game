@@ -52,41 +52,90 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, player: Character) 
 	
 func take_turn():
 	if self == turn_queue.current_unit:
-		var closest_player = find_closest_player()
-		print("closest player: ", closest_player.unit_stats.name)
-		if closest_player == null:
-			print("No closest player found.")
-			return
+		# If enemy class is Ranged (keeps distance and uses ranged attacks)
+		if turn_queue.current_unit.unit_stats.enemy_class == "Ranged":
+			var closest_player = find_closest_player()
+			print("closest player: ", closest_player.unit_stats.name)
+			if closest_player == null:
+				print("No closest player found.")
+				return
 
-		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
+			enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
+			var player_tile_pos = turn_queue.pc_positions[closest_player]
+			var distance_to_player = enemy_tile_pos.distance_to(player_tile_pos)
+
+			var best_tile = Vector2i(-1, -1)
+			var best_score = -INF
+
+			for x in range(-movement_limit, movement_limit + 1):
+				for y in range(-movement_limit, movement_limit + 1):
+					var test_tile = enemy_tile_pos + Vector2i(x, y)
+					if not is_tile_walkable(test_tile):
+						continue
+
+					var dist_to_player = test_tile.distance_to(player_tile_pos)
+					var dist_from_current = test_tile.distance_to(enemy_tile_pos)
+
+					# Try to stay between 3-5 tiles from player (ideal range)
+					if dist_to_player >= 3 and dist_to_player <= 5:
+						# Score based on being in range and not moving too far from current
+						var score = 100 - dist_from_current
+						if score > best_score:
+							best_score = score
+							best_tile = test_tile
+
+					# If player is too close (≤ 1), prioritize getting farther away
+					elif distance_to_player <= 1 and dist_to_player > distance_to_player:
+						var score = dist_to_player * 10 - dist_from_current
+						if score > best_score:
+							best_score = score
+							best_tile = test_tile
+
+			if best_tile != Vector2i(-1, -1):
+				current_id_path = astar_grid.get_id_path(enemy_tile_pos, best_tile).slice(1, movement_limit - moved_distance + 1)
+				if !current_id_path.is_empty():
+					tile_layer_zero._unsolid_coords(enemy_tile_pos)
+					unit_moving.emit()
+					return
+
+			print("No optimal tile found, ending turn.")
+			check_and_end_turn()
+			# If enemy class is Melee (close ranged attacks)
+		elif turn_queue.current_unit.unit_stats.enemy_class == "Melee":	
+			var closest_player = find_closest_player()
+			print("closest player: ", closest_player.unit_stats.name)
+			if closest_player == null:
+				print("No closest player found.")
+				return
+			enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		
-		var target_tile_pos = find_adjacent_walkable_tile(closest_player)
-		var path_found = false
-		
-		if target_tile_pos != Vector2i(-1, -1):
-			current_id_path = astar_grid.get_id_path(
-				enemy_tile_pos,
-				target_tile_pos
-			).slice(1, movement_limit - moved_distance + 1)
+			var target_tile_pos = find_adjacent_walkable_tile(closest_player)
+			var path_found = false
 			
-			if !current_id_path.is_empty():
-				path_found = true
-		else:
-			for tile in closest_player.adjacent_tiles:
-				if is_tile_walkable(tile):
-					current_id_path = astar_grid.get_id_path(enemy_tile_pos, tile).slice(1, movement_limit - moved_distance + 1)
-					if !current_id_path.is_empty():
-						path_found = true
-						break
-		if path_found:
-			tile_layer_zero._unsolid_coords(enemy_tile_pos)
-			unit_moving.emit()
-		else:
-			if target_tile_pos != enemy_tile_pos:
-				print("No valid paths available, ending turn")
-				turn_complete.emit()
+			if target_tile_pos != Vector2i(-1, -1):
+				current_id_path = astar_grid.get_id_path(
+					enemy_tile_pos,
+					target_tile_pos
+				).slice(1, movement_limit - moved_distance + 1)
+				
+				if !current_id_path.is_empty():
+					path_found = true
 			else:
-				check_and_end_turn()
+				for tile in closest_player.adjacent_tiles:
+					if is_tile_walkable(tile):
+						current_id_path = astar_grid.get_id_path(enemy_tile_pos, tile).slice(1, movement_limit - moved_distance + 1)
+						if !current_id_path.is_empty():
+							path_found = true
+							break
+			if path_found:
+				tile_layer_zero._unsolid_coords(enemy_tile_pos)
+				unit_moving.emit()
+			else:
+				if target_tile_pos != enemy_tile_pos:
+					print("No valid paths available, ending turn")
+					turn_complete.emit()
+				else:
+					check_and_end_turn()								
 			
 func move_towards_target(_delta):
 	if (super.move_towards_target(_delta)):
@@ -101,12 +150,13 @@ func check_and_end_turn():
 	if closest_player:
 		var player_tile_pos = turn_queue.pc_positions[closest_player]
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
-
+		
+		#always performs melee attack over ranged, if player is in adjacent tile
 		if is_adjacent_to_closest_player(enemy_tile_pos, closest_player):
 			EnemyAttacks.perform_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
 		else:
 			EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
 			
-	#await get_tree().create_timer(2.0).timeout
+	#await get_tree().create_timer(1.0).timeout
 	turn_complete.emit()
 	print("End turn")

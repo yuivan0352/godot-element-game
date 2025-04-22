@@ -6,6 +6,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_nn64y")
 name = "Brylla"
+enemy_class = ""
 health = 10
 max_health = 10
 armor_class = 6
