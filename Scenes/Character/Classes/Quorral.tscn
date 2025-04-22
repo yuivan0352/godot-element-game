@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_excmy"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_aff21"]
-[ext_resource type="Resource" uid="uid://b2o84o0lwglob" path="res://Resources/Stats/Class/Quorral.tres" id="2_bgnvm"]
+[ext_resource type="Resource" uid="uid://b2o84o0lwglob" path="res://Resources/Stats/Characters/Quorral.tres" id="2_bgnvm"]
 [ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="3_excmy"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_56fhb"]
 

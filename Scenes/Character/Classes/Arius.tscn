@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://b24dty02wrihw"]
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_3tcdr"]
-[ext_resource type="Resource" uid="uid://5pkcymurr54d" path="res://Resources/Stats/Class/Arius.tres" id="2_1peq1"]
+[ext_resource type="Resource" uid="uid://5pkcymurr54d" path="res://Resources/Stats/Characters/Arius.tres" id="2_1peq1"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_fmajt"]
 [ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="3_g51rt"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_dlp70"]

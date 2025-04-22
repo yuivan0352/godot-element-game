@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_xaie8"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_ig3x3"]
-[ext_resource type="Resource" uid="uid://brl22qcdfjnri" path="res://Resources/Stats/Class/Brylla.tres" id="2_qvsfw"]
+[ext_resource type="Resource" uid="uid://brl22qcdfjnri" path="res://Resources/Stats/Characters/Brylla.tres" id="2_qvsfw"]
 [ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="3_xaie8"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_rq14n"]
 
