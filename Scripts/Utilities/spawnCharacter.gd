@@ -12,16 +12,14 @@ var positions = {}
 var tile_size = 16
 
 func _ready() -> void:
-	SignalBus.characters_selected.connect(_on_characters_selected)
-
-func _on_characters_selected(chars_array) -> void:
-	selected_characters = chars_array
-
+	selected_characters = SignalBus.selected_characters
+	
 func spawn_characters(count: int, layer: TileMapLayer) -> Array[Character]:
 	var spawned_characters: Array[Character] = []
 	
 	# if the amount of selected characters is less than what it 
 	# needs to be, fill with randomly selected characters until filled.
+	print(selected_characters)
 	if selected_characters.size() < count:
 		var not_spawned = characters.duplicate()
 		
@@ -41,7 +39,6 @@ func spawn_characters(count: int, layer: TileMapLayer) -> Array[Character]:
 func spawn_character(layer: TileMapLayer, character_scene) -> Character:
 	var tile_position = Vector2i(randi() % tile_size, randi() % tile_size)
 	var tile_data = layer.get_cell_tile_data(tile_position)
-	
 	
 	if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !enemy_chars.positions.has(tile_position):
 		var position = Vector2(tile_position) * tile_size + Vector2(tile_size / 2, tile_size / 2)
