@@ -84,19 +84,7 @@ atlas = ExtResource("17_714rb")
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
 
-[node name="TurnScroll" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("4_13sfg")
-user_interface_path = NodePath("..")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TurnScroll"]
-layout_mode = 1
+[node name="TurnScroll" type="Panel" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -105,6 +93,23 @@ offset_top = 32.0
 offset_right = 150.0
 offset_bottom = 72.0
 grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("4_13sfg")
+user_interface_path = NodePath("..")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurnScroll"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -20.0
+offset_right = 150.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 

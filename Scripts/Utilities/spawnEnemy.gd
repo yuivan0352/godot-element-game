@@ -8,9 +8,9 @@ var enemy_scenes: Dictionary = {
 }
 
 var enemy_stats: Dictionary = {
-	"warrior": preload("res://Resources/Stats/EnemyWarrior.tres"),
-	"archer": preload("res://Resources/Stats/EnemyArcher.tres"),
-	"mage": preload("res://Resources/Stats/EnemyMage.tres")
+	"warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
+	"archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
+	"mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres")
 }
 
 @onready var player_chars: Node2D = $"../Player"

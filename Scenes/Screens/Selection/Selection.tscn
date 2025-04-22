@@ -56,4 +56,16 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
 text = "  ← Go Back
 "
 
+[node name="Team" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Arius" type="Panel" parent="Team"]
+layout_mode = 2
+
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
