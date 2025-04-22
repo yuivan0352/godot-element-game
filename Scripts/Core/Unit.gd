@@ -85,9 +85,9 @@ func _reset_action_econ():
 	actions = 1
 	moved_distance = 0
 	
-func move_towards_target(_delta):
+func move_towards_target(_delta) -> bool:
 	if current_id_path.is_empty():
-		return
+		return false
 		
 	if character_camera.is_current():
 		if is_moving == false:
@@ -110,8 +110,5 @@ func move_towards_target(_delta):
 				_update_adj_tiles()
 				_update_circle_tiles()
 				_update_line_tiles()
-				
-				overview_camera.enabled = true
-				overview_camera.set_camera_position(self)
-				overview_camera.make_current()
-				unit_still.emit()
+				return true
+	return false
