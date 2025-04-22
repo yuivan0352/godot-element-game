@@ -82,10 +82,10 @@ func _input(event):
 					_attack_action(line_tiles)
 
 func move_towards_target(_delta):
-	super.move_towards_target(_delta)
-	overview_camera.set_camera_position(self)
-	overview_camera.make_current()
-	unit_still.emit()
+	if super.move_towards_target(_delta):
+		overview_camera.set_camera_position(self)
+		overview_camera.make_current()
+		unit_still.emit()
 
 func _physics_process(_delta):
 	if self == turn_queue.current_unit:

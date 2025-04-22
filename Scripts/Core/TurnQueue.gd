@@ -29,7 +29,7 @@ func _ready():
 	
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
-		
+	
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
 
@@ -56,7 +56,6 @@ func setup_turn_order():
 	overview_camera.set_camera_position(current_unit)
 	
 	if current_unit is Enemy:
-		print("enemy taking turn")
 		current_unit.take_turn()
 
 func _update_char_pos(coords):
@@ -84,21 +83,19 @@ func _play_turn():
 	var prev_cam = prev_unit.find_child("CharacterCamera")
 	var curr_cam = current_unit.find_child("CharacterCamera")
 	var cam_trans_duration = 1.0
-	#print(prev_unit.unit_stats.name, ": ", prev_cam)
-	#print(current_unit.unit_stats.name, ": ", curr_cam)
 	
 	if current_unit.find_child("VisibilityNotifier").is_on_screen():
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration / 2)
 		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(0.5).timeout
 	else:
-		print("Unit not on screen")
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration)
 		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(1).timeout
 
 	overview_camera.make_current()
 	current_character.emit(current_unit)
+	print(turn_order)
 
 	if current_unit is Character:
 		current_unit._reset_action_econ()
@@ -108,5 +105,3 @@ func _play_turn():
 		print("Processing enemy turn")
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
-	
-	print()

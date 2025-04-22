@@ -82,8 +82,11 @@ func take_turn():
 			tile_layer_zero._unsolid_coords(enemy_tile_pos)
 			unit_moving.emit()
 		else:
-			print("No valid paths available, ending turn")
-			turn_complete.emit()
+			if target_tile_pos != enemy_tile_pos:
+				print("No valid paths available, ending turn")
+				turn_complete.emit()
+			else:
+				check_and_end_turn()
 			
 func move_towards_target(_delta):
 	if (super.move_towards_target(_delta)):
