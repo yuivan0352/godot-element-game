@@ -5,10 +5,9 @@ class_name TurnQueue
 var pc_positions : Dictionary
 var enemy_positions: Dictionary
 
-var active_char : Character
-var prev_char : Character
-
 var current_unit : Unit
+var prev_unit : Unit
+
 var turn_order: Array[Unit] = []
 var turn_num = 0
 
@@ -17,7 +16,7 @@ var turn_num = 0
 @onready var player_chars = $"../../Combatants/Player"
 @onready var enemy_chars = $"../../Combatants/Enemy"
 
-signal active_character
+signal current_character
 signal turn_info(order, current_turn)
 signal buttons_disabled
 
@@ -39,83 +38,75 @@ func _ready():
 	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
 	turn_info.emit(turn_order, turn_num)
 	
-	for unit in turn_order:
-		print(unit.unit_stats.name)
-	print()
 	setup_turn_order()
 
-func _change_active_char_mode(mode : String):
-	active_char.change_mode(mode)
+func _change_current_unit_mode(mode : String):
+	current_unit.change_mode(mode)
 
 func setup_turn_order():
-	for i in range(turn_order.size()):
-		current_unit = turn_order[i]
-		if current_unit is Character:
-			break
-		else:
-			print(current_unit.unit_stats.name, "'s turn")
-			turn_num += 1
-			turn_info.emit(turn_order, turn_num)
-	
-	if current_unit is Character:
-		print(current_unit.unit_stats.name, "'s turn")
-		active_char = current_unit as Character
-		active_character.emit(active_char)
-		overview_camera.set_camera_position(active_char)
-
 	for unit in turn_order:
 		if unit is Enemy:
 			unit.turn_complete.connect(_play_turn)
-		if unit is Character:
-			unit.unit_moving.connect(_transition_character_cam)
+		unit.unit_moving.connect(_transition_character_cam)
+	
+	current_unit = turn_order[0]
+	
+	print(current_unit.unit_stats.name, "'s turn")
+	current_character.emit(current_unit)
+	overview_camera.set_camera_position(current_unit)
+	
+	if current_unit is Enemy:
+		print("enemy taking turn")
+		current_unit.take_turn()
 
 func _update_char_pos(coords):
-	if current_unit is Character:
-		pc_positions[current_unit] = coords
-	else:
-		enemy_positions[current_unit] = coords
+	if is_instance_valid(current_unit):
+		if current_unit is Character:
+			pc_positions[current_unit] = coords
+		else:
+			enemy_positions[current_unit] = coords
 
 func _transition_character_cam():
-	if current_unit is Character:
-		overview_camera.track_char_cam(current_unit)
+	overview_camera.track_char_cam(current_unit)
 
 func _play_turn():
 	buttons_disabled.emit(true)
-	if current_unit is Character:
-		prev_char = current_unit as Character
+	prev_unit = current_unit
 
 	turn_num += 1
-	turn_info.emit(turn_order, turn_num)
-	
-	if turn_num >= turn_order.size(): 
+	if turn_num >= turn_order.size():
 		turn_num = 0
-		turn_info.emit(turn_order, turn_num)
-		
+	turn_info.emit(turn_order, turn_num)
+
 	current_unit = turn_order[turn_num]
-		
-	while current_unit is Enemy:
-		print(current_unit.unit_stats.name, "'s turn")
-		turn_num += 1
-		turn_info.emit(turn_order, turn_num)
-		if turn_num >= turn_order.size():
-			turn_num = 0
-			turn_info.emit(turn_order, turn_num)
-		current_unit = turn_order[turn_num]
-		
+	print(current_unit.unit_stats.name)
+	
+	var prev_cam = prev_unit.find_child("CharacterCamera")
+	var curr_cam = current_unit.find_child("CharacterCamera")
+	var cam_trans_duration = 1.0
+	#print(prev_unit.unit_stats.name, ": ", prev_cam)
+	#print(current_unit.unit_stats.name, ": ", curr_cam)
+	
+	if current_unit.find_child("VisibilityNotifier").is_on_screen():
+		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration / 2)
+		overview_camera.set_camera_position(current_unit)
+		await get_tree().create_timer(0.5).timeout
+	else:
+		print("Unit not on screen")
+		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration)
+		overview_camera.set_camera_position(current_unit)
+		await get_tree().create_timer(1).timeout
+
+	overview_camera.make_current()
+	current_character.emit(current_unit)
+
 	if current_unit is Character:
-		print(current_unit.unit_stats.name, "'s turn")
-		if current_unit.get_child(3).is_on_screen():
-			overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), current_unit.find_child("CharacterCamera"), 0.5)
-			active_char = null
-			await get_tree().create_timer(0.5).timeout
-			active_char = current_unit as Character
-		else:
-			overview_camera.transition_camera(prev_char.find_child("CharacterCamera"), current_unit.find_child("CharacterCamera"), 1.0)
-			active_char = null
-			await get_tree().create_timer(1).timeout
-			active_char = current_unit as Character
-		
-		overview_camera.make_current()
-		active_character.emit(active_char)
 		current_unit._reset_action_econ()
+		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		buttons_disabled.emit(false)
+	elif current_unit is Enemy:
+		print("Processing enemy turn")
+		await get_tree().create_timer(1.5).timeout
+		current_unit.take_turn()
+	
+	print()

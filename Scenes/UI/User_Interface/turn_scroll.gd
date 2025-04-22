@@ -90,7 +90,7 @@ func update_sprite_texture(sprite_node, unit_index):
 	if unit_index >= 0 and unit_index < user_interface.turn_array.size():
 		var unit = user_interface.turn_array[unit_index]
 		
-		if unit and unit.has_node("Sprite"): # just to doubly check, every unit WILL have a sprite.
+		if is_instance_valid(unit) and unit.has_node("Sprite"): # just to doubly check, every unit WILL have a sprite.
 			var unit_sprite = unit.get_node("Sprite")
 			
 			if unit_sprite and unit_sprite.texture:
