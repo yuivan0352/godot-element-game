@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var sprite = $"../Sprite"
+@onready var sprite = $".."
 @onready var parent = get_parent()
 signal area_clicked(parent)
 
@@ -12,5 +12,4 @@ func _on_mouse_exited():
 	
 func _input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("interact"):
-		emit_signal("area_clicked", parent)
-	
+		emit_signal("area_clicked")

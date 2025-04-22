@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=42 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -7,36 +7,84 @@
 [ext_resource type="Texture2D" uid="uid://bqhuok67rdqcj" path="res://Assets/Texture/attack_icon.png" id="5_1aga7"]
 [ext_resource type="Script" uid="uid://cswnqpumxdpea" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
 [ext_resource type="Script" uid="uid://b36td63hn5vf5" path="res://Scenes/UI/User_Interface/attack_button.gd" id="6_kws0h"]
+[ext_resource type="Script" uid="uid://bllkxcv7vc2d0" path="res://Scenes/UI/User_Interface/end_turn_button.gd" id="8_luhdb"]
 [ext_resource type="Script" uid="uid://orqvufbguj4c" path="res://Scenes/UI/User_Interface/magic_button.gd" id="8_uddve"]
 [ext_resource type="Script" uid="uid://bbhnu3x3ocpyy" path="res://Scenes/UI/User_Interface/back_button.gd" id="9_5kiam"]
 [ext_resource type="Script" uid="uid://pd4ns7ois4n4" path="res://Scenes/UI/User_Interface/melee_spell.gd" id="9_b4xq2"]
 [ext_resource type="Script" uid="uid://dxcihrokc7kgh" path="res://Scenes/UI/User_Interface/ranged_spell.gd" id="10_ebqlf"]
 [ext_resource type="Script" uid="uid://bm2piervqt7wp" path="res://Scenes/UI/User_Interface/line_spell.gd" id="11_7ifof"]
+[ext_resource type="Texture2D" uid="uid://ck6cd0r7gfhx6" path="res://Assets/Texture/action_empty.png" id="13_c87su"]
+[ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
+[ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
+[ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
+[ext_resource type="Texture2D" uid="uid://ckaye3sh0wu87" path="res://Assets/Texture/movement_bar_under.png" id="17_714rb"]
+[ext_resource type="Texture2D" uid="uid://m54q8v0rkt7a" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ogfw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ogfw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ahhh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luhdb"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(80, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2j3s"]
 atlas = ExtResource("3_woo7i")
 region = Rect2(16, 16, 16, 16)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0ahhh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1c4k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ogfw"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(16, 64, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c87su"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_714rb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ahhh"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mad2t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp5le"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1c4k"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_geroj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lny1u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c87su"]
+atlas = ExtResource("3_woo7i")
+region = Rect2(16, 32, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5kiam"]
 atlas = ExtResource("3_woo7i")
 region = Rect2(0, 64, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_714rb"]
+atlas = ExtResource("13_c87su")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mad2t"]
+atlas = ExtResource("15_mad2t")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rp5le"]
+atlas = ExtResource("17_714rb")
+
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
 
-[node name="TurnScroll" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("4_13sfg")
-user_interface_path = NodePath("..")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TurnScroll"]
-layout_mode = 1
+[node name="TurnScroll" type="Panel" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -45,6 +93,23 @@ offset_top = 32.0
 offset_right = 150.0
 offset_bottom = 72.0
 grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("4_13sfg")
+user_interface_path = NodePath("..")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurnScroll"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -20.0
+offset_right = 150.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
@@ -75,7 +140,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -296.0
-offset_top = -152.0
+offset_top = -80.0
 grow_horizontal = 0
 grow_vertical = 0
 
@@ -84,6 +149,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
@@ -100,51 +166,21 @@ columns = 4
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-toggle_mode = true
+theme_override_styles/focus = SubResource("StyleBoxEmpty_luhdb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1ogfw")
+icon = ExtResource("5_1aga7")
 expand_icon = true
 script = ExtResource("6_kws0h")
-
-[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/MainButtons/AttackButton"]
-texture = ExtResource("5_1aga7")
-centered = false
 
 [node name="MagicButton" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1ogfw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0ahhh")
+icon = SubResource("AtlasTexture_luhdb")
 expand_icon = true
 script = ExtResource("8_uddve")
-
-[node name="Sprite2D" type="Sprite2D" parent="Hotbar/MarginContainer/MainButtons/MagicButton"]
-
-[node name="Button3" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button4" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button5" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button6" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
 
 [node name="Button7" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
@@ -153,12 +189,15 @@ mouse_filter = 1
 icon = SubResource("AtlasTexture_r2j3s")
 expand_icon = true
 
-[node name="Button8" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
+[node name="EndTurnButton" type="Button" parent="Hotbar/MarginContainer/MainButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0ahhh")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_d1c4k")
+icon = SubResource("AtlasTexture_1ogfw")
 expand_icon = true
+script = ExtResource("8_luhdb")
 
 [node name="MagicButtons" type="GridContainer" parent="Hotbar/MarginContainer"]
 visible = false
@@ -172,7 +211,9 @@ columns = 4
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_c87su")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_714rb")
+icon = SubResource("AtlasTexture_0ahhh")
 expand_icon = true
 script = ExtResource("9_b4xq2")
 
@@ -180,7 +221,9 @@ script = ExtResource("9_b4xq2")
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mad2t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rp5le")
+icon = SubResource("AtlasTexture_d1c4k")
 expand_icon = true
 script = ExtResource("10_ebqlf")
 
@@ -188,37 +231,11 @@ script = ExtResource("10_ebqlf")
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_geroj")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lny1u")
+icon = SubResource("AtlasTexture_c87su")
 expand_icon = true
 script = ExtResource("11_7ifof")
-
-[node name="Button4" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button5" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button6" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
-
-[node name="Button7" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_r2j3s")
-expand_icon = true
 
 [node name="BackButton" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
 custom_minimum_size = Vector2(64, 64)
@@ -227,6 +244,47 @@ mouse_filter = 1
 icon = SubResource("AtlasTexture_5kiam")
 expand_icon = true
 script = ExtResource("9_5kiam")
+
+[node name="ActionEcon" type="Panel" parent="."]
+offset_left = 1208.0
+offset_top = 448.0
+offset_right = 1280.0
+offset_bottom = 640.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ActionEcon"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 16.0
+offset_right = 136.0
+offset_bottom = 80.0
+scale = Vector2(0.5, 0.5)
+
+[node name="ActionIcon" type="TextureProgressBar" parent="ActionEcon/HBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 1.0
+texture_under = SubResource("AtlasTexture_714rb")
+texture_progress = ExtResource("14_714rb")
+
+[node name="BonusActionIcon" type="TextureProgressBar" parent="ActionEcon/HBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+value = 1.0
+texture_under = SubResource("AtlasTexture_mad2t")
+texture_progress = ExtResource("16_rp5le")
+
+[node name="MovementBar" type="TextureProgressBar" parent="ActionEcon"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 58.0
+offset_right = 52.0
+offset_bottom = 186.0
+max_value = 30.0
+value = 30.0
+rounded = true
+fill_mode = 3
+texture_under = SubResource("AtlasTexture_rp5le")
+texture_progress = ExtResource("18_mad2t")
 
 [node name="UnitInfo" type="Panel" parent="."]
 anchors_preset = 2
@@ -293,6 +351,8 @@ offset_bottom = 229.0
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="Hotbar/MarginContainer/MainButtons/AttackButton" method="_mode_switch"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="Hotbar/MarginContainer/MainButtons/MagicButton" method="_ui_mode_switch"]
 [connection signal="return_to_idle" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="." method="_switch_mode" binds= ["idle"]]
+[connection signal="end_turn" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="." method="_end_turn"]
+[connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="Hotbar/MarginContainer/MainButtons/EndTurnButton" method="_end_turn"]
 [connection signal="magic_melee" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="." method="_switch_mode" binds= ["magic_melee"]]
 [connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="Hotbar/MarginContainer/MagicButtons/MeleeSpell" method="_mode_switch"]
 [connection signal="magic_ranged" from="Hotbar/MarginContainer/MagicButtons/RangedSpell" to="." method="_switch_mode" binds= ["magic_ranged"]]
@@ -301,3 +361,5 @@ offset_bottom = 229.0
 [connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="Hotbar/MarginContainer/MagicButtons/LineSpell" method="_mode_switch"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="Hotbar/MarginContainer/MagicButtons/BackButton" method="_return_to_main"]
 [connection signal="return_to_idle" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="." method="_switch_mode" binds= ["idle"]]
+[connection signal="mouse_entered" from="ActionEcon" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="ActionEcon" to="." method="_on_ui_element_mouse_exited"]

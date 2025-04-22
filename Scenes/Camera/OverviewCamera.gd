@@ -19,6 +19,7 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if transitioning: 
 		print("Already transitioning, returning")
 		return
+		
 	zoom = from.zoom
 	offset = from.offset
 	light_mask = from.light_mask
@@ -41,12 +42,12 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	
 	if from != self:
 		from.enabled = false
-	to.enabled = true
-	
-	if to.is_inside_tree():
-		to.make_current()
-	else:
-		print("Target camera is not inside tree")
+	elif from != self && to != self:
+		to.enabled = false
+	elif from == self && to != self:
+		to.enabled = true
+
+	to.make_current()
 	transitioning = false
 
 func _process(delta):
