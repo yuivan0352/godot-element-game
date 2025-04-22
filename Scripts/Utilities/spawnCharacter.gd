@@ -1,7 +1,10 @@
 extends Node2D
 
-var character_scene = preload("res://Scenes/Character/Character.tscn")
-var character_stats = preload("res://Resources/Stats/basicCharacter.tres")
+var Arius = preload("res://Scenes/Character/Classes/Arius.tscn")
+var Brylla = preload("res://Scenes/Character/Classes/Brylla.tscn")
+var Pyrrha = preload("res://Scenes/Character/Classes/Pyrrha.tscn")
+var Quorral = preload("res://Scenes/Character/Classes/Quorral.tscn")
+var characters = [Arius, Brylla, Pyrrha, Quorral]
 @onready var enemy_chars: Node2D = $"../Enemy"
 @onready var user_interface = %UserInterface
 var positions = {}
@@ -12,7 +15,6 @@ func spawn_characters(count: int, layer: TileMapLayer) -> Array[Character]:
 	
 	for i in range(count):
 		var character = spawn_character(layer)
-		character.unit_stats.name = str("Character", i)
 		if character:
 			spawned_characters.append(character)
 			
@@ -24,9 +26,8 @@ func spawn_character(layer: TileMapLayer) -> Character:
 	
 	if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !enemy_chars.positions.has(tile_position):
 		var position = Vector2(tile_position) * tile_size + Vector2(tile_size / 2, tile_size / 2)
-		var char_instance = character_scene.instantiate()
+		var char_instance = characters[randi() % 4].instantiate()
 		
-		char_instance.unit_stats = character_stats.duplicate()
 		char_instance.global_position = position
 		add_child(char_instance)
 		positions[layer.local_to_map(char_instance.global_position)] = char_instance

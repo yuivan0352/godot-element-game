@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://b2o84o0lwglob"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_pj8f8"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_pj8f8")
+name = "Quorral"
+health = 10
+max_health = 10
+armor_class = 6
+movement_speed = 25
+brains = 1
+brawns = 1
+bewitchment = 1
