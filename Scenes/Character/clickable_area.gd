@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var sprite = $"../Sprite"
+@onready var sprite = $".."
 @onready var parent = get_parent()
 signal area_clicked(parent)
 

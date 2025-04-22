@@ -53,9 +53,9 @@ func _on_ui_element_mouse_exited():
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
 
-	# checks if the current active_char exists and is of Character class
-	if (turn_queue.active_char != null and turn_queue.active_char is Character):
-		if (turn_queue.active_char.hover_id_path.size() < turn_queue.active_char.movement_limit - turn_queue.active_char.moved_distance):
+	# checks if the current current_unit exists and is of Character class
+	if (turn_queue.current_unit != null and turn_queue.current_unit is Character):
+		if (turn_queue.current_unit.hover_id_path.size() < turn_queue.current_unit.movement_limit - turn_queue.current_unit.moved_distance):
 			in_movement_range = true
 
 	for x in get_used_rect().size.x:
@@ -71,8 +71,8 @@ func _process(_delta):
 			if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 			else:
-				if turn_queue.active_char != null and turn_queue.active_char == Character:
-					match turn_queue.active_char.mode:
+				if turn_queue.current_unit != null and turn_queue.current_unit is Character:
+					match turn_queue.current_unit.mode:
 						"idle":
 							if (in_movement_range):
 								layer_one.set_cell(tile_position, 2, Vector2i(3, 3), 0)

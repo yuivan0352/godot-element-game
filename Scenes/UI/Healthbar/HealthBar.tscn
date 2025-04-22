@@ -1,11 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://l5f56njyk6gi"]
+[gd_scene load_steps=7 format=3 uid="uid://l5f56njyk6gi"]
 
 [ext_resource type="Texture2D" uid="uid://da8lv6mfhynr5" path="res://Assets/Texture/HealthBarUnder.png" id="1_bfvxg"]
 [ext_resource type="Script" uid="uid://c7hx5ed6tl0av" path="res://Scenes/UI/Healthbar/health_bar.gd" id="1_egww6"]
 [ext_resource type="Texture2D" uid="uid://b52mhooi3nfhj" path="res://Assets/Texture/HealthBarOver.png" id="2_8saaa"]
+[ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="4_54krg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_55yp0"]
 atlas = ExtResource("1_bfvxg")
+
+[sub_resource type="LabelSettings" id="LabelSettings_o7gbo"]
+font = ExtResource("4_54krg")
+font_size = 30
 
 [node name="HealthBar" type="MarginContainer"]
 offset_right = 40.0
@@ -33,9 +38,10 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -0.5
-offset_top = -22.5
+offset_top = -20.5
 offset_right = 0.5
-offset_bottom = 22.5
+offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
+label_settings = SubResource("LabelSettings_o7gbo")

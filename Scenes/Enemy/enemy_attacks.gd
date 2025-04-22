@@ -16,6 +16,7 @@ func perform_melee_attack(attacker, target_tile: Vector2i, turn_queue, tile_laye
 		if player.unit_stats.health <= 0:
 			print(player.unit_stats.name, " has been defeated!")
 			turn_queue.pc_positions.erase(turn_queue.pc_positions.find_key(target_tile))
+			turn_queue.turn_order.erase(turn_queue.pc_pisitions.find_key(target_tile))
 			player.queue_free()
 			tile_layer_zero._unsolid_coords(target_tile)
 		return true
@@ -23,7 +24,6 @@ func perform_melee_attack(attacker, target_tile: Vector2i, turn_queue, tile_laye
 			
 #
 func perform_ranged_attack(attacker, target_tile: Vector2i, turn_queue, tile_layer_zero):
-
 	for x in range(target_tile.x - 5, target_tile.x + 6):
 		for y in range(target_tile.y - 5, target_tile.y + 6):
 			var distance = target_tile.distance_to(Vector2i(x, y))
@@ -42,6 +42,3 @@ func perform_ranged_attack(attacker, target_tile: Vector2i, turn_queue, tile_lay
 						tile_layer_zero._unsolid_coords(Vector2i(x, y))
 					return true
 	return false
-
-
-			

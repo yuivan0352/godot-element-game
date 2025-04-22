@@ -8,7 +8,7 @@ class_name UserInterface
 @onready var bonus_action_icon = $ActionEcon/HBoxContainer/BonusActionIcon
 @onready var movement_bar = $ActionEcon/MovementBar
 
-var active_char
+var current_unit
 var turn_array
 var current_turn_index
 
@@ -18,9 +18,9 @@ signal switch_mode(mode)
 signal end_turn
 signal buttons_disabled
 
-func _get_active_char(ac):
-	active_char = ac
-	health_bar._update_health(active_char)
+func _get_current_unit(cu):
+	current_unit = cu
+	health_bar._update_health(current_unit)
 
 func _update_actions(action, bonus_action, movement_speed, moved_distance):
 	action_icon.value = action

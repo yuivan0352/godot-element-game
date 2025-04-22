@@ -46,9 +46,6 @@ func spawn_character(layer: TileMapLayer) -> Enemy:
 		var char_instance = enemy_scenes[enemy_type].instantiate()
 		var stats = enemy_stats[enemy_type].duplicate()
 		
-		stats.health += rng.randi_range(-2, 2)
-		stats.movement_speed += rng.randi_range(-5, 5)
-		
 		char_instance.unit_stats = stats
 		char_instance.global_position = position
 		add_child(char_instance)

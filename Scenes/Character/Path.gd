@@ -5,7 +5,7 @@ var path_set: bool = false
 var in_ui_element: bool = false
 
 func _process(_delta):
-	if character == character.turn_queue.active_char:
+	if character == character.turn_queue.current_unit:
 		queue_redraw()
 
 func _draw():

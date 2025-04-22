@@ -20,13 +20,6 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 		print("Already transitioning, returning")
 		return
 		
-	if not is_instance_valid(from):
-		print("From camera is invalid.")
-		return
-	if not is_instance_valid(to):
-		print("To camera is invalid.")
-		return
-		
 	zoom = from.zoom
 	offset = from.offset
 	light_mask = from.light_mask
@@ -47,17 +40,14 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	tween.tween_property(self, "offset", to.offset, duration).from(offset)
 	await tween.finished
 	
-	if is_instance_valid(from) and from != self:
+	if from != self:
 		from.enabled = false
-	if is_instance_valid(to):
+	elif from != self && to != self:
+		to.enabled = false
+	elif from == self && to != self:
 		to.enabled = true
-		if to.is_inside_tree():
-			to.make_current()
-		else:
-			print("Target camera is not inside tree")
-	else:
-		print("Target camera is invalid")
-		
+
+	to.make_current()
 	transitioning = false
 
 func _process(delta):
