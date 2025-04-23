@@ -78,7 +78,8 @@ func _play_turn():
 	turn_info.emit(turn_order, turn_num)
 	
 	_transition_character_cam()
-
+	await overview_camera.tween.finished
+	overview_camera.make_current()
 	current_unit = turn_order[turn_num]
 	
 	var prev_cam = prev_unit.find_child("CharacterCamera")
@@ -87,11 +88,9 @@ func _play_turn():
 	
 	if current_unit.find_child("VisibilityNotifier").is_on_screen():
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration / 2)
-		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(0.5).timeout
 	else:
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration)
-		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(1).timeout
 	
 	if current_unit is Character:
