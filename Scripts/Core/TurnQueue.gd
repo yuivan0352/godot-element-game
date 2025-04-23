@@ -60,11 +60,10 @@ func setup_turn_order():
 		buttons_disabled.emit(true)
 
 func _update_char_pos(coords):
-	if is_instance_valid(current_unit):
-		if current_unit is Character:
-			pc_positions[current_unit] = coords
-		else:
-			enemy_positions[current_unit] = coords
+	if current_unit is Character:
+		pc_positions[current_unit] = coords
+	else:
+		enemy_positions[current_unit] = coords
 
 func _transition_character_cam():
 	overview_camera.track_char_cam(current_unit)
@@ -77,10 +76,10 @@ func _play_turn():
 	if turn_num >= turn_order.size():
 		turn_num = 0
 	turn_info.emit(turn_order, turn_num)
-
-	current_unit = turn_order[turn_num]
 	
 	_transition_character_cam()
+
+	current_unit = turn_order[turn_num]
 	
 	var prev_cam = prev_unit.find_child("CharacterCamera")
 	var curr_cam = current_unit.find_child("CharacterCamera")
@@ -94,8 +93,9 @@ func _play_turn():
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration)
 		overview_camera.set_camera_position(current_unit)
 		await get_tree().create_timer(1).timeout
-
-	overview_camera.make_current()
+	
+	if current_unit is Character:
+		overview_camera.make_current()
 	current_character.emit(current_unit)
 
 	if current_unit is Character:

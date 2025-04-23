@@ -56,6 +56,9 @@ func take_turn():
 		print("closest player: ", closest_player.unit_stats.name)
 		if closest_player == null:
 			print("No closest player found.")
+			overview_camera.set_camera_position(self)
+			overview_camera.make_current()
+			turn_complete.emit()
 			return
 
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
@@ -69,13 +72,13 @@ func take_turn():
 				enemy_tile_pos,
 				target_tile_pos
 			).slice(1, movement_limit - moved_distance + 1)
-			print(current_id_path)
 			
 			for i in range(current_id_path.size()):
 				if closest_player.adjacent_tiles.has(current_id_path[i]):
 					current_id_path = current_id_path.slice(0, i + 1)
 					break
 			
+			print(current_id_path)
 			if !current_id_path.is_empty():
 				path_found = true
 
@@ -85,6 +88,8 @@ func take_turn():
 		else:
 			if target_tile_pos != enemy_tile_pos:
 				print("No valid paths available, ending turn")
+				overview_camera.set_camera_position(self)
+				overview_camera.make_current()
 				turn_complete.emit()
 			else:
 				check_and_end_turn()
@@ -108,6 +113,8 @@ func check_and_end_turn():
 		else:
 			EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
 			
-	#await get_tree().create_timer(2.0).timeout
+	
+	overview_camera.set_camera_position(self)
+	overview_camera.make_current()
 	turn_complete.emit()
 	print("End turn")
