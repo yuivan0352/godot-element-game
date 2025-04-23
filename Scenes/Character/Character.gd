@@ -8,7 +8,6 @@ var mode : String = "idle"
 var in_ui_element: bool
 
 signal unit_clicked(unit)
-signal update_action_econ(action, bonus_action, movement_speed)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -41,7 +40,10 @@ func _attack_action(attack_type_array):
 				tile_layer_zero._unsolid_coords(mouse_tile)
 				_update_adj_tiles()
 		actions -= 1
-		update_action_econ.emit(0, 1, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
+		if mode == "attack":
+			update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
+		elif mode == "magic_melee" or mode == "magic_ranged" or mode == "magic_line":
+			update_action_econ.emit(0, 1, unit_stats.mana - 1, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
 		mode = "idle"
 	else:
 		mode = "idle"
@@ -76,12 +78,16 @@ func _input(event):
 			"attack", "magic_melee":
 				if event.is_action_pressed("interact"):
 					_attack_action(adjacent_tiles)
+				if mode == "magic_melee":
+					unit_stats.mana -= 1
 			"magic_ranged":
 				if event.is_action_pressed("interact"):
 					_attack_action(circle_tiles)
+					unit_stats.mana -= 1
 			"magic_line":
 				if event.is_action_pressed("interact"):
 					_attack_action(line_tiles)
+					unit_stats.mana -= 1
 
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):
