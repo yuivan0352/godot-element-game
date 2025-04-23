@@ -1,15 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://1vatrfhyinel"]
+[gd_scene load_steps=3 format=3 uid="uid://dagargnjmn3j6"]
 
-[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_m2srh"]
-[ext_resource type="Texture2D" uid="uid://cd11qnll0i17s" path="res://Assets/Sprites/archer.png" id="2_7fcnw"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_3kdpw"]
+[ext_resource type="Texture2D" uid="uid://bkgeps7y88akm" path="res://Assets/Sprites/slime.png" id="2_3kdpw"]
 
 [node name="Enemy" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
-script = ExtResource("1_m2srh")
+script = ExtResource("1_3kdpw")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.104, 0.1)
-texture = ExtResource("2_7fcnw")
+position = Vector2(-4.23855e-07, -1.125)
+scale = Vector2(0.0277778, 0.0238372)
+texture = ExtResource("2_3kdpw")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)

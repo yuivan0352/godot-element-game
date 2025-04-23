@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://bftv2hqqmd0sb"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_0fij3"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_0fij3")
+name = "Elemental"
+enemy_class = "Melee"
+health = 10
+max_health = 10
+armor_class = 1
+movement_speed = 30
+brains = 1
+brawns = 3
+bewitchment = 1

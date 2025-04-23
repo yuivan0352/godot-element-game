@@ -52,8 +52,10 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, player: Character) 
 	
 func take_turn():
 	if self == turn_queue.current_unit:
-		# If enemy class is Ranged (keeps distance and uses ranged attacks)
-		if turn_queue.current_unit.unit_stats.enemy_class == "Ranged" or turn_queue.current_unit.unit_stats.enemy_class == "Spellcaster":
+		
+		# If enemy class is Ranged/Spellcaster (keeps distance and uses ranged or magic attacks)
+		# Also if any enemy is at 1/3 of it's health or lower (including melee), it will start to run and use ranged attacks
+		if turn_queue.current_unit.unit_stats.enemy_class == "Ranged" or turn_queue.current_unit.unit_stats.enemy_class == "Spellcaster" or turn_queue.current_unit.unit_stats.health <= turn_queue.current_unit.unit_stats.max_health/3:
 			var closest_player = find_closest_player()
 			print("closest player: ", closest_player.unit_stats.name)
 			if closest_player == null:
@@ -100,7 +102,7 @@ func take_turn():
 
 			print("No optimal tile found, ending turn.")
 			check_and_end_turn()
-			# If enemy class is Melee (close ranged attacks)
+			# If enemy class is Melee (close ranged attacks) at above 1/3 of it's max health
 		elif turn_queue.current_unit.unit_stats.enemy_class == "Melee":	
 			var closest_player = find_closest_player()
 			print("closest player: ", closest_player.unit_stats.name)

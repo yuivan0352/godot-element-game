@@ -4,13 +4,17 @@ extends Node2D
 var enemy_scenes: Dictionary = {
 	"warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
 	"archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
-	"mage": preload("res://Scenes/Enemy/EnemyMage.tscn")
+	"mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
+	"elemental": preload("res://Scenes/Enemy/EnemyElemental.tscn"),
+	"slime": preload("res://Scenes/Enemy/EnemySlime.tscn")
 }
 
 var enemy_stats: Dictionary = {
 	"warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
 	"archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
-	"mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres")
+	"mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
+	"elemental": preload("res://Resources/Stats/Enemies/EnemyElemental.tres"),
+	"slime": preload("res://Resources/Stats/Enemies/EnemySlime.tres")
 }
 
 @onready var player_chars: Node2D = $"../Player"
@@ -39,10 +43,8 @@ func spawn_character(layer: TileMapLayer) -> Enemy:
 	if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !player_chars.positions.has(tile_position):
 		var position = Vector2(tile_position) * tile_size + Vector2(tile_size / 2, tile_size / 2)
 		
-		# Get a random enemy type
 		var enemy_type = get_random_enemy_type()
 
-		# Instantiate and assign stats
 		var char_instance = enemy_scenes[enemy_type].instantiate()
 		var stats = enemy_stats[enemy_type].duplicate()
 		
@@ -53,7 +55,7 @@ func spawn_character(layer: TileMapLayer) -> Enemy:
 		positions[layer.local_to_map(char_instance.global_position)] = char_instance
 		return char_instance
 	
-	return null  # Avoid infinite recursion
+	return null 
 
 func get_random_enemy_type() -> String:
 	var enemy_keys = enemy_scenes.keys()
