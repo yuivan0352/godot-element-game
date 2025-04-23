@@ -38,7 +38,7 @@ func is_tile_walkable(tile_position: Vector2i) -> bool:
 	return false
 	
 func find_adjacent_walkable_tile(player: Character) -> Vector2i:
-	if enemy_tile_pos in player.adjacent_tiles:
+	if player.adjacent_tiles.has(enemy_tile_pos):
 		return enemy_tile_pos
 		
 	for tile in player.adjacent_tiles:
@@ -61,6 +61,7 @@ func take_turn():
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		
 		var target_tile_pos = find_adjacent_walkable_tile(closest_player)
+		print(target_tile_pos)
 		var path_found = false
 		
 		if target_tile_pos != Vector2i(-1, -1):
@@ -68,16 +69,16 @@ func take_turn():
 				enemy_tile_pos,
 				target_tile_pos
 			).slice(1, movement_limit - moved_distance + 1)
+			print(current_id_path)
+			
+			for i in range(current_id_path.size()):
+				if closest_player.adjacent_tiles.has(current_id_path[i]):
+					current_id_path = current_id_path.slice(0, i + 1)
+					break
 			
 			if !current_id_path.is_empty():
 				path_found = true
-		else:
-			for tile in closest_player.adjacent_tiles:
-				if is_tile_walkable(tile):
-					current_id_path = astar_grid.get_id_path(enemy_tile_pos, tile).slice(1, movement_limit - moved_distance + 1)
-					if !current_id_path.is_empty():
-						path_found = true
-						break
+
 		if path_found:
 			tile_layer_zero._unsolid_coords(enemy_tile_pos)
 			unit_moving.emit()
