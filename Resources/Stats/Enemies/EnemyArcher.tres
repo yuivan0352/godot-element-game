@@ -5,12 +5,12 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_15jl5")
-name = ""
+name = "Archer"
 enemy_class = "Ranged"
 health = 12
 max_health = 12
 armor_class = 6
 movement_speed = 30
-brains = 5
+brains = 4
 brawns = 2
 bewitchment = 2

@@ -53,7 +53,7 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, player: Character) 
 func take_turn():
 	if self == turn_queue.current_unit:
 		# If enemy class is Ranged (keeps distance and uses ranged attacks)
-		if turn_queue.current_unit.unit_stats.enemy_class == "Ranged":
+		if turn_queue.current_unit.unit_stats.enemy_class == "Ranged" or turn_queue.current_unit.unit_stats.enemy_class == "Spellcaster":
 			var closest_player = find_closest_player()
 			print("closest player: ", closest_player.unit_stats.name)
 			if closest_player == null:
@@ -151,12 +151,21 @@ func check_and_end_turn():
 		var player_tile_pos = turn_queue.pc_positions[closest_player]
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		
-		#always performs melee attack over ranged, if player is in adjacent tile
+		var attack_performed = false
 		if is_adjacent_to_closest_player(enemy_tile_pos, closest_player):
-			EnemyAttacks.perform_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
-		else:
-			EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
-			
-	#await get_tree().create_timer(1.0).timeout
+			EnemyAttacks.regular_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
+			attack_performed = true
+		elif turn_queue.current_unit.unit_stats.enemy_class != "Spellcaster":
+			attack_performed = true
+			EnemyAttacks.regular_ranged_attack(self, circle_tiles, turn_queue, tile_layer_zero)
+		elif turn_queue.current_unit.unit_stats.enemy_class == "Spellcaster":
+			attack_performed = true			
+			EnemyAttacks.regular_magic_attack(self, circle_tiles, turn_queue, tile_layer_zero)
+	#delay for attack
+	await get_tree().create_timer(0.5).timeout
+	
+	moved_distance = 0
+	current_id_path = []
+	
 	turn_complete.emit()
 	print("End turn")
