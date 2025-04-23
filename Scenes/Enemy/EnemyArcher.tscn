@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_m2srh"]
 [ext_resource type="Texture2D" uid="uid://cd11qnll0i17s" path="res://Assets/Sprites/archer.png" id="2_7fcnw"]
-[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_swhxp"]
+[ext_resource type="Script" path="res://Scenes/Enemy/enemy_path.gd" id="3_swhxp"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy2" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_m2srh")
 
