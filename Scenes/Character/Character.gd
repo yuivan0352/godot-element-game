@@ -42,7 +42,9 @@ func _attack_action(attack_type_array):
 				_update_adj_tiles()
 		actions -= 1
 		update_action_econ.emit(0, 1, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
+		mode = "idle"
 	else:
+		mode = "idle"
 		return
 
 func _input(event):
@@ -84,6 +86,7 @@ func _input(event):
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):
 		overview_camera.set_camera_position(self)
+		find_child("CharacterCamera").enabled = false
 		overview_camera.make_current()
 		unit_still.emit()
 

@@ -13,7 +13,7 @@ func track_char_cam(character: Unit):
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 
 func set_camera_position(target: Unit):
-	global_position = target.global_position
+	self.global_position = target.global_position
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if transitioning: 
@@ -28,7 +28,6 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	
 	if from != self:
 		from.enabled = true
-	make_current()
 	transitioning = true
 	
 	tween = create_tween()
@@ -42,12 +41,13 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	
 	if from != self:
 		from.enabled = false
-	elif from != self && to != self:
+	if from != self && to != self:
 		to.enabled = false
-	elif from == self && to != self:
+	if from == self && to != self:
 		to.enabled = true
-
+	
 	to.make_current()
+		
 	transitioning = false
 
 func _process(delta):
@@ -68,6 +68,7 @@ func _process(delta):
 			position.y = 32
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
+	
 	if transitioning and Input.is_action_pressed("stop_move"):
 		tween.stop()
 		transitioning = false;

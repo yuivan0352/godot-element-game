@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://1vatrfhyinel"]
+[gd_scene load_steps=4 format=3 uid="uid://bt8ydb7hd0wdk"]
 
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_m2srh"]
 [ext_resource type="Texture2D" uid="uid://cd11qnll0i17s" path="res://Assets/Sprites/archer.png" id="2_7fcnw"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_swhxp"]
 
 [node name="Enemy" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
@@ -10,6 +11,9 @@ script = ExtResource("1_m2srh")
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.104, 0.1)
 texture = ExtResource("2_7fcnw")
+
+[node name="Path" type="Node2D" parent="."]
+script = ExtResource("3_swhxp")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -26,5 +30,6 @@ rotation_smoothing_enabled = true
 position = Vector2(0, -1)
 scale = Vector2(0.535651, 0.520002)
 
-[connection signal="unit_moving" from="." to="." method="_on_unit_moving"]
-[connection signal="unit_still" from="." to="." method="_on_unit_still"]
+[connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
+[connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
+[connection signal="unit_still" from="." to="Path" method="_on_character_unit_still"]
