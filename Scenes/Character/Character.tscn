@@ -1,16 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://brhl8kkmkf8im"]
+[gd_scene load_steps=8 format=3 uid="uid://brhl8kkmkf8im"]
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_vxr42"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_c5abm"]
-[ext_resource type="Texture2D" uid="uid://eblhwolmn460" path="res://Assets/Texture/TX Player.png" id="3_8l7rs"]
+[ext_resource type="Texture2D" uid="uid://bu5i1hcwq7y4d" path="res://Assets/Sprites/warrior2.png" id="3_3qx2k"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_3qx2k"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1gm32"]
-atlas = ExtResource("3_8l7rs")
-region = Rect2(4.58546, 12.3783, 23.1067, 46.777)
+[ext_resource type="Texture2D" uid="uid://hs6jtjcds5dg" path="res://Assets/Texture/Animated_Soldier.png" id="5_pp8xd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1cd2p"]
 size = Vector2(20, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hixmd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_pp8xd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_vxr42")
@@ -19,9 +27,9 @@ script = ExtResource("1_vxr42")
 script = ExtResource("2_c5abm")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -8)
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_1gm32")
+position = Vector2(0, -6)
+scale = Vector2(0.359375, 0.359375)
+texture = ExtResource("3_3qx2k")
 
 [node name="clickableArea" type="Area2D" parent="Sprite"]
 script = ExtResource("4_3qx2k")
@@ -44,6 +52,9 @@ rotation_smoothing_enabled = true
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, -1)
 scale = Vector2(0.535651, 0.520002)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_hixmd")
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
