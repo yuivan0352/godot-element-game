@@ -9,6 +9,7 @@ name = "Elemental"
 enemy_class = "Melee"
 health = 10
 max_health = 10
+mana = 5
 armor_class = 1
 movement_speed = 30
 brains = 1
