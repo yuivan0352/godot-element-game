@@ -1,6 +1,5 @@
 extends Unit
 
-
 var unit_moves = {
 	"Warrior": ["slash", "cleave", "bow_shot"],
 	"Mage": ["fire_bolt","magic_missles", "slash"],
@@ -68,9 +67,9 @@ func slash(attacker, turn_queue, tile_layer_zero) -> bool:
 			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
-				turn_queue.pc_positions.erase(turn_queue.pc_positions.find_key(tile))
+				turn_queue.pc_positions.erase(player)
+				turn_queue.turn_order.erase(player)
 				player.queue_free()
-				tile_layer_zero._unsolid_coords(tile)
 
 			line.queue_free()
 			return true
@@ -98,8 +97,8 @@ func cleave(attacker, turn_queue, tile_layer_zero) -> bool:
 				if player.unit_stats.health <= 0:
 					print(player.unit_stats.name, " has been defeated!")
 					turn_queue.pc_positions.erase(player)
+					turn_queue.turn_order.erase(player)
 					player.queue_free()
-					tile_layer_zero._unsolid_coords(tile)
 
 				hit_anyone = true
 				line.queue_free()
@@ -121,8 +120,8 @@ func bow_shot(attacker, turn_queue, tile_layer_zero) -> bool:
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
 				turn_queue.pc_positions.erase(player)
+				turn_queue.turn_order.erase(player)
 				player.queue_free()
-				tile_layer_zero._unsolid_coords(tile)
 
 			line.queue_free()
 			return true
@@ -144,8 +143,8 @@ func magic_missles(attacker, turn_queue, tile_layer_zero) -> bool:
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
 				turn_queue.pc_positions.erase(player)
+				turn_queue.turn_order.erase(player)
 				player.queue_free()
-				tile_layer_zero._unsolid_coords(tile)
 
 			hit_anyone = true
 			line.queue_free()
@@ -167,8 +166,8 @@ func fire_bolt(attacker, turn_queue, tile_layer_zero) -> bool:
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
 				turn_queue.pc_positions.erase(player)
+				turn_queue.turn_order.erase(player)
 				player.queue_free()
-				tile_layer_zero._unsolid_coords(tile)
 
 			line.queue_free()
 			return true
