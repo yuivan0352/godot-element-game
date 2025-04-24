@@ -29,7 +29,6 @@ func spawn_characters(count: int, layer: TileMapLayer) -> Array[Enemy]:
 	while spawned_characters.size() < count and attempts < count * 10:
 		var character = spawn_character(layer)
 		if character:
-			character.unit_stats.name = str("Enemy", spawned_characters.size())
 			spawned_characters.append(character)
 		attempts += 1
 	return spawned_characters

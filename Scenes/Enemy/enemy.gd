@@ -3,6 +3,8 @@ class_name Enemy
 var tile_size = 16  
 var enemies = [] 
 var enemy_tile_pos: Vector2i
+@export var enemy_attacks : Node  
+
 	
 func find_closest_player() -> Node:
 	var closest_player = null
@@ -168,22 +170,11 @@ func check_and_end_turn():
 		var player_tile_pos = turn_queue.pc_positions[closest_player]
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		
-		var attack_performed = false
+		#Checks whether it can attack in its range
 		if is_adjacent_to_closest_player(enemy_tile_pos, closest_player):
-			EnemyAttacks.regular_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
-			attack_performed = true
-		elif turn_queue.current_unit.unit_stats.enemy_class != "Spellcaster":
-			EnemyAttacks.regular_ranged_attack(self, circle_tiles, turn_queue, tile_layer_zero)
-			attack_performed = true
-		elif turn_queue.current_unit.unit_stats.enemy_class == "Spellcaster":
-			EnemyAttacks.regular_magic_attack(self, circle_tiles, turn_queue, tile_layer_zero)
-			attack_performed = true			
-	
-	# Delay for attack
-	await get_tree().create_timer(0.5).timeout
+			enemy_moves.use_melee_move(self)
+		else:
+			enemy_moves.use_ranged_move(self)
 	
 	moved_distance = 0
 	current_id_path = []
-	
-	turn_complete.emit()
-	print("End turn")
