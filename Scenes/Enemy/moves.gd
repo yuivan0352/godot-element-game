@@ -3,7 +3,7 @@ extends Unit
 
 var unit_moves = {
 	"Warrior": ["slash", "cleave", "bow_shot"],
-	"Mage": ["magic_missles", "slash"],
+	"Mage": ["fire_bolt","magic_missles", "slash"],
 	"Archer": ["bow_shot", "slash"],
 	"Slime": ["slash"]
 }
@@ -40,10 +40,13 @@ func use_ranged_move(attacker):
 	for move in available_moves:
 		var move_used = false
 		match move:
-			"bow_shot":
-				move_used = await(bow_shot(attacker, attacker.turn_queue, tile_layer_zero))
 			"magic_missles":
 				move_used = await(magic_missles(attacker, attacker.turn_queue, tile_layer_zero))
+			"fire_bolt":
+				move_used = await(fire_bolt(attacker, attacker.turn_queue, tile_layer_zero))
+			"bow_shot":
+				move_used = await(bow_shot(attacker, attacker.turn_queue, tile_layer_zero))
+			
 			
 		if move_used:
 			print(move, " has been used")
@@ -148,6 +151,28 @@ func magic_missles(attacker, turn_queue, tile_layer_zero) -> bool:
 			line.queue_free()
 
 	return hit_anyone
+	
+func fire_bolt(attacker, turn_queue, tile_layer_zero) -> bool:
+	for tile in attacker.circle_tiles:
+		var player = turn_queue.pc_positions.find_key(tile)
+		if player != null:
+			var line = draw_attack_line(attacker, player)
+			await get_tree().create_timer(1.0).timeout
+			var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+			player.unit_stats.health -= damage
+			print(attacker.unit_stats.name, " is attacking!")
+			print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
+			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+
+			if player.unit_stats.health <= 0:
+				print(player.unit_stats.name, " has been defeated!")
+				turn_queue.pc_positions.erase(player)
+				player.queue_free()
+				tile_layer_zero._unsolid_coords(tile)
+
+			line.queue_free()
+			return true
+	return false
 
 func healing_spell(attacker, turn_queue, tile_layer_zero) -> bool:
 	for tile in attacker.circle_tiles:
