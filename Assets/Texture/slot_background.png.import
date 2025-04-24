@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxcl2ako4rdky"
-path="res://.godot/imported/movement_bar_under.png-ba91efccac69ccff53842235bace0e0a.ctex"
+uid="uid://bbaj4lr1m4sjm"
+path="res://.godot/imported/slot_background.png-c80f0dd5b9f278ac147be7f8601832fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Texture/movement_bar_under.png"
-dest_files=["res://.godot/imported/movement_bar_under.png-ba91efccac69ccff53842235bace0e0a.ctex"]
+source_file="res://Assets/Texture/slot_background.png"
+dest_files=["res://.godot/imported/slot_background.png-c80f0dd5b9f278ac147be7f8601832fe.ctex"]
 
 [params]
 

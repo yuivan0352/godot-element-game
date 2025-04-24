@@ -58,7 +58,7 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, player: Character) 
 func take_turn():
 	if self == turn_queue.current_unit:
 		var closest_player = find_closest_player()
-		print("closest player: ", closest_player.unit_stats.name)
+		#print("closest player: ", closest_player.unit_stats.name)
 		if closest_player == null:
 			print("No closest player found.")
 			overview_camera.set_camera_position(self)

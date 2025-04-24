@@ -6,6 +6,7 @@ class_name Stats
 @export var enemy_class : String
 @export var health : int
 @export var max_health : int
+@export var mana :  int
 @export var armor_class : int
 @export var movement_speed : int
 @export var brains : int

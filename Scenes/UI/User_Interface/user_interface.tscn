@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=45 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -17,8 +17,10 @@
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
-[ext_resource type="Texture2D" uid="uid://ckaye3sh0wu87" path="res://Assets/Texture/movement_bar_under.png" id="17_714rb"]
-[ext_resource type="Texture2D" uid="uid://m54q8v0rkt7a" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
+[ext_resource type="Texture2D" uid="uid://bxcl2ako4rdky" path="res://Assets/Texture/movement_bar_under.png" id="17_714rb"]
+[ext_resource type="Texture2D" uid="uid://dm2ut08aaoqje" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
+[ext_resource type="Texture2D" uid="uid://kf4s7dgu10me" path="res://Assets/Texture/magic_bar_under.png" id="19_geroj"]
+[ext_resource type="Texture2D" uid="uid://bpad5wkamhblg" path="res://Assets/Texture/magic_bar_over.png" id="20_lny1u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
@@ -78,8 +80,11 @@ atlas = ExtResource("13_c87su")
 [sub_resource type="AtlasTexture" id="AtlasTexture_mad2t"]
 atlas = ExtResource("15_mad2t")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rp5le"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3eeq"]
 atlas = ExtResource("17_714rb")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvgfx"]
+atlas = ExtResource("19_geroj")
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
@@ -275,16 +280,28 @@ texture_progress = ExtResource("16_rp5le")
 
 [node name="MovementBar" type="TextureProgressBar" parent="ActionEcon"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 58.0
-offset_right = 52.0
-offset_bottom = 186.0
+offset_left = 41.475
+offset_top = 56.0
+offset_right = 65.475
+offset_bottom = 184.0
 max_value = 30.0
 value = 30.0
 rounded = true
 fill_mode = 3
-texture_under = SubResource("AtlasTexture_rp5le")
+texture_under = SubResource("AtlasTexture_x3eeq")
 texture_progress = ExtResource("18_mad2t")
+
+[node name="ManaBar" type="TextureProgressBar" parent="ActionEcon"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 32.0
+offset_bottom = 184.0
+max_value = 5.0
+value = 1.0
+fill_mode = 2
+texture_under = SubResource("AtlasTexture_xvgfx")
+texture_progress = ExtResource("20_lny1u")
 
 [node name="UnitInfo" type="Panel" parent="."]
 anchors_preset = 2
@@ -294,6 +311,18 @@ offset_top = -231.0
 offset_right = 245.0
 grow_vertical = 0
 script = ExtResource("5_yx8tb")
+
+[node name="CloseButton" type="Button" parent="UnitInfo"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -26.0
+offset_top = -16.0
+offset_right = 24.0
+offset_bottom = 15.0
+grow_horizontal = 0
+text = "Close"
 
 [node name="UnitName" type="Label" parent="UnitInfo"]
 layout_mode = 1
@@ -361,5 +390,9 @@ offset_bottom = 229.0
 [connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="Hotbar/MarginContainer/MagicButtons/LineSpell" method="_mode_switch"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="Hotbar/MarginContainer/MagicButtons/BackButton" method="_return_to_main"]
 [connection signal="return_to_idle" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="." method="_switch_mode" binds= ["idle"]]
-[connection signal="mouse_entered" from="ActionEcon" to="." method="_on_ui_element_mouse_entered"]
-[connection signal="mouse_exited" from="ActionEcon" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="gui_input" from="UnitInfo" to="UnitInfo" method="_on_gui_input"]
+[connection signal="mouse_entered" from="UnitInfo" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="UnitInfo" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="mouse_entered" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="pressed" from="UnitInfo/CloseButton" to="UnitInfo" method="close"]

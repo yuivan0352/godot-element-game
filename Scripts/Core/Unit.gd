@@ -30,7 +30,7 @@ var bonus_actions : int
 signal turn_complete
 signal unit_still
 signal unit_moving
-signal update_movement
+signal update_action_econ(action, bonus_action, mana, movement_speed, moved_distance)
 
 func _ready():
 	if tile_layer_zero:
@@ -90,6 +90,7 @@ func _update_line_tiles():
 
 func _reset_action_econ():
 	actions = 1
+	bonus_actions = 1
 	moved_distance = 0
 	
 func move_towards_target(_delta) -> bool:
@@ -106,7 +107,7 @@ func move_towards_target(_delta) -> bool:
 		if global_position == target_position:
 			current_id_path.pop_front()
 			moved_distance += 1
-			update_movement.emit()
+			update_action_econ.emit(actions, bonus_actions, unit_stats.mana, unit_stats.movement_speed, (unit_stats.movement_speed - (moved_distance  * 5)))
 					
 			if current_id_path.is_empty() == false:
 				target_position = tile_layer_zero.map_to_local(current_id_path.front())

@@ -16,6 +16,7 @@ var enemy_stats: Dictionary = {
 }
 
 @onready var player_chars: Node2D = $"../Player"
+@onready var user_interface = %UserInterface
 var positions = {}
 var tile_size = 16
 var rng = RandomNumberGenerator.new()
@@ -50,6 +51,8 @@ func spawn_character(layer: TileMapLayer) -> Enemy:
 		add_child(char_instance)
 		
 		positions[layer.local_to_map(char_instance.global_position)] = char_instance
+		char_instance.update_action_econ.connect(user_interface._update_actions)
+		
 		return char_instance
 	
 	return null 

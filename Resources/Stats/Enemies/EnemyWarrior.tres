@@ -9,6 +9,7 @@ name = "Warrior"
 enemy_class = "Melee"
 health = 14
 max_health = 14
+mana = 0
 armor_class = 13
 movement_speed = 20
 brains = 1
