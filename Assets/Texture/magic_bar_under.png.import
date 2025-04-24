@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxcl2ako4rdky"
-path="res://.godot/imported/movement_bar_under.png-ba91efccac69ccff53842235bace0e0a.ctex"
+uid="uid://kf4s7dgu10me"
+path="res://.godot/imported/magic_bar_under.png-d9406a14defb84c45dc701c81748c6d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Texture/movement_bar_under.png"
-dest_files=["res://.godot/imported/movement_bar_under.png-ba91efccac69ccff53842235bace0e0a.ctex"]
+source_file="res://Assets/Texture/magic_bar_under.png"
+dest_files=["res://.godot/imported/magic_bar_under.png-d9406a14defb84c45dc701c81748c6d3.ctex"]
 
 [params]
 
