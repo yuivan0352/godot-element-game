@@ -18,6 +18,7 @@ config/icon="res://Assets/Sprites/icon.svg"
 [autoload]
 
 EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
+SignalBus="*res://Scripts/Utilities/SignalBus.gd"
 
 [display]
 

@@ -1,6 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2juun34w41eu"]
+[gd_scene load_steps=15 format=3 uid="uid://c2juun34w41eu"]
 
 [ext_resource type="Script" uid="uid://bx5kprbvc16d0" path="res://Scenes/Screens/Selection/selection.gd" id="1_evniu"]
+[ext_resource type="PackedScene" uid="uid://bhqcy1oe7cn5l" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="2_wbgcf"]
+[ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="3_xej07"]
+[ext_resource type="Resource" uid="uid://5pkcymurr54d" path="res://Resources/Stats/Characters/Arius.tres" id="4_gii8f"]
+[ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_xej07"]
+[ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="5_evsem"]
+[ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_1g3a2"]
+[ext_resource type="Resource" uid="uid://brl22qcdfjnri" path="res://Resources/Stats/Characters/Brylla.tres" id="6_gyeut"]
+[ext_resource type="Resource" uid="uid://c5sw7mnbil0y4" path="res://Resources/Stats/Characters/Pyrrha.tres" id="8_2pyo4"]
+[ext_resource type="Resource" uid="uid://b2o84o0lwglob" path="res://Resources/Stats/Characters/Quorral.tres" id="10_mkju0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8mln"]
 
@@ -45,9 +54,9 @@ offset_right = 156.0
 offset_bottom = 50.0
 size_flags_vertical = 3
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/focus = SubResource("StyleBoxEmpty_e8mln")
 theme_override_styles/hover = SubResource("StyleBoxFlat_6yer5")
@@ -56,4 +65,75 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
 text = "  ← Go Back
 "
 
+[node name="Team" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.062
+anchor_top = 0.139
+anchor_right = 0.937
+anchor_bottom = 0.833
+offset_left = 0.639999
+offset_top = 19.92
+offset_right = 0.640015
+offset_bottom = -39.76
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 40
+
+[node name="Arius" parent="Team" instance=ExtResource("2_wbgcf")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Arius.tscn"
+characterTexture = ExtResource("3_xej07")
+characterStat = ExtResource("4_gii8f")
+
+[node name="Brylla" parent="Team" instance=ExtResource("2_wbgcf")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Brylla.tscn"
+characterTexture = ExtResource("4_xej07")
+characterStat = ExtResource("6_gyeut")
+
+[node name="Pyrrha" parent="Team" instance=ExtResource("2_wbgcf")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Pyrrha.tscn"
+characterTexture = ExtResource("5_evsem")
+characterStat = ExtResource("8_2pyo4")
+
+[node name="Quorral" parent="Team" instance=ExtResource("2_wbgcf")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Quorral.tscn"
+characterTexture = ExtResource("6_1g3a2")
+characterStat = ExtResource("10_mkju0")
+
+[node name="GoButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = -80.0
+offset_right = 68.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e8mln")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6yer5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mxjxm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
+text = "Go!"
+
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="gui_input" from="Team/Arius" to="." method="_on_arius_gui_input"]
+[connection signal="gui_input" from="Team/Arius" to="Team/Arius" method="_on_gui_input"]
+[connection signal="gui_input" from="Team/Brylla" to="." method="_on_brylla_gui_input"]
+[connection signal="gui_input" from="Team/Pyrrha" to="." method="_on_pyrrha_gui_input"]
+[connection signal="gui_input" from="Team/Quorral" to="." method="_on_quorral_gui_input"]
+[connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

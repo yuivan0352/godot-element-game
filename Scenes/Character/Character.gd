@@ -8,7 +8,6 @@ var mode : String = "idle"
 var in_ui_element: bool
 
 signal unit_clicked(unit)
-signal update_action_econ(action, bonus_action, movement_speed)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -30,41 +29,43 @@ func _reset_action_econ():
 	
 func _attack_action(attack_type_array):
 	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
+	var target_unit = turn_queue.enemy_positions.find_key(mouse_tile)
 	if actions > 0:
-		if turn_queue.enemy_positions.find_key(mouse_tile) != null and attack_type_array.has(mouse_tile):
-			turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health -= rng.randi_range(1, 6)
-			print(turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.name, ": ", turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health, "/", turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.max_health)
-			if turn_queue.enemy_positions.find_key(mouse_tile).unit_stats.health <= 0:
-				turn_queue.enemy_positions.find_key(mouse_tile).queue_free()
-				turn_queue.enemy_positions.erase(turn_queue.enemy_positions.find_key(mouse_tile))
-				turn_queue.turn_order.erase(turn_queue.enemy_positions.find_key(mouse_tile))
+		if target_unit != null and attack_type_array.has(mouse_tile):
+			target_unit.unit_stats.health -= rng.randi_range(1, 6)
+			print(target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
+			if target_unit.unit_stats.health <= 0:
+				turn_queue.enemy_positions.erase(target_unit)
+				turn_queue.turn_order.erase(target_unit)
+				target_unit.queue_free()
 				tile_layer_zero._unsolid_coords(mouse_tile)
 				_update_adj_tiles()
 		actions -= 1
-		update_action_econ.emit(0, 1, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
+		update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
+		mode = "idle"
 	else:
+		mode = "idle"
 		return
 
 func _input(event):
-	if self == turn_queue.current_unit:
+	if self == turn_queue.current_unit and !in_ui_element:
 		match mode:
 			"idle":
-				if !in_ui_element:
-					if event.is_action_pressed("interact"):
-						if !is_moving:
-							current_id_path = astar_grid.get_id_path(
-								tile_layer_zero.local_to_map(global_position),
-								tile_layer_zero.local_to_map(get_global_mouse_position())
-							).slice(1, movement_limit - moved_distance + 1)
-						elif is_moving:
-							return
-							
-						if !current_id_path.is_empty():
-							tile_layer_zero._unsolid_coords(tile_layer_zero.local_to_map(global_position))
-							unit_moving.emit()
-							mode = "moving"
-					else:
+				if event.is_action_pressed("interact"):
+					if !is_moving:
+						current_id_path = astar_grid.get_id_path(
+							tile_layer_zero.local_to_map(global_position),
+							tile_layer_zero.local_to_map(get_global_mouse_position())
+						).slice(1, movement_limit - moved_distance + 1)
+					elif is_moving:
 						return
+						
+					if !current_id_path.is_empty():
+						tile_layer_zero._unsolid_coords(tile_layer_zero.local_to_map(global_position))
+						unit_moving.emit()
+						mode = "moving"
+				else:
+					return
 			"moving":
 				if event.is_action_pressed("stop_move"):
 					if is_moving:
@@ -73,19 +74,24 @@ func _input(event):
 					mode = "idle"
 			"attack", "magic_melee":
 				if event.is_action_pressed("interact"):
+					if mode == "magic_melee":
+						unit_stats.mana -= 1
 					_attack_action(adjacent_tiles)
 			"magic_ranged":
 				if event.is_action_pressed("interact"):
+					unit_stats.mana -= 1
 					_attack_action(circle_tiles)
 			"magic_line":
 				if event.is_action_pressed("interact"):
+					unit_stats.mana -= 1
 					_attack_action(line_tiles)
 
 func move_towards_target(_delta):
-	super.move_towards_target(_delta)
-	overview_camera.set_camera_position(self)
-	overview_camera.make_current()
-	unit_still.emit()
+	if super.move_towards_target(_delta):
+		overview_camera.set_camera_position(self)
+		find_child("CharacterCamera").enabled = false
+		overview_camera.make_current()
+		unit_still.emit()
 
 func _physics_process(_delta):
 	if self == turn_queue.current_unit:

@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/C&C Red Alert [INET].ttf-9ad0a02a97333f8920ba
 [params]
 
 Rendering=null
-antialiasing=1
+antialiasing=0
 generate_mipmaps=false
 disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false

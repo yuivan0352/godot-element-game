@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfk0thmi31ba0"]
+
+[ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_enbfc"]
+[ext_resource type="Resource" uid="uid://c5sw7mnbil0y4" path="res://Resources/Stats/Characters/Pyrrha.tres" id="2_f6j36"]
+[ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_gdr3b"]
+[ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="3_b1lkn"]
+[ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_x1s27"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1cd2p"]
+size = Vector2(20, 22)
+
+[node name="Prryha" type="Node2D"]
+script = ExtResource("1_enbfc")
+unit_stats = ExtResource("2_f6j36")
+
+[node name="Path" type="Node2D" parent="."]
+script = ExtResource("2_gdr3b")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, -1)
+scale = Vector2(0.0760309, 0.0760309)
+texture = ExtResource("3_b1lkn")
+
+[node name="clickableArea" type="Area2D" parent="Sprite"]
+position = Vector2(-6.27162e-06, -92.0678)
+scale = Vector2(6.57627, 6.57627)
+script = ExtResource("4_x1s27")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/clickableArea"]
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_1cd2p")
+
+[node name="CharacterCamera" type="Camera2D" parent="."]
+scale = Vector2(4, 2)
+enabled = false
+zoom = Vector2(5, 5)
+limit_left = 0
+limit_top = -32
+limit_right = 256
+limit_bottom = 256
+limit_smoothed = true
+rotation_smoothing_enabled = true
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.535651, 0.520002)
+
+[connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
+[connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
+[connection signal="unit_still" from="." to="Path" method="_on_character_unit_still"]
+[connection signal="area_clicked" from="Sprite/clickableArea" to="." method="_on_area_clicked"]

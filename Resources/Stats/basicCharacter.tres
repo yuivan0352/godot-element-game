@@ -8,6 +8,7 @@ script = ExtResource("1_15778")
 name = ""
 health = 10
 max_health = 10
+mana = 1
 armor_class = 6
 movement_speed = 30
 brains = 3

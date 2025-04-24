@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://c5sw7mnbil0y4"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_rx0qt"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_rx0qt")
+name = "Pyrrha"
+health = 10
+max_health = 10
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 1
+brawns = 1
+bewitchment = 1
