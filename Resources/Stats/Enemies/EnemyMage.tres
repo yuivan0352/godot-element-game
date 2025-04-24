@@ -6,7 +6,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_152nl")
 name = "Mage"
-enemy_class = "Spellcaster"
+enemy_class = "Ranged"
 health = 8
 max_health = 8
 armor_class = 4
