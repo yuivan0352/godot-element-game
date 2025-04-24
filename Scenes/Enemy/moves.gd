@@ -1,21 +1,17 @@
 extends Unit
 
 
-# Define unit moves by class
 var unit_moves = {
-	"Warrior": ["bow_shot", "slash"],
+	"Warrior": ["slash", "cleave", "bow_shot"],
 	"Mage": ["magic_missles", "slash"],
 	"Archer": ["bow_shot", "slash"],
-	"Slime": ["bow_shot", "slash"]
+	"Slime": ["slash"]
 }
 
-# List to store available moves for the unit
 var available_moves = []
-
 
 func _ready() -> void:
 	rng.randomize()
-
 
 func use_melee_move(attacker):
 		
@@ -24,13 +20,16 @@ func use_melee_move(attacker):
 	for move in available_moves:
 		var move_used = false
 		match move:
+			"cleave":
+				move_used = await(cleave(attacker, attacker.turn_queue, tile_layer_zero))
 			"slash":
 				move_used = await(slash(attacker, attacker.turn_queue, tile_layer_zero))
+			
 		
 		if move_used:
 			print(move, " has been used")
 			break
-		
+	
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()		
 			
@@ -50,7 +49,6 @@ func use_ranged_move(attacker):
 			print(move, " has been used")
 			break
 		
-	
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
 
@@ -74,6 +72,36 @@ func slash(attacker, turn_queue, tile_layer_zero) -> bool:
 			line.queue_free()
 			return true
 	return false
+
+func cleave(attacker, turn_queue, tile_layer_zero) -> bool:
+	var hit_anyone = false
+	var players = 0
+	for tile in attacker.adjacent_tiles:
+		if turn_queue.pc_positions.find_key(tile):
+			players += 1
+	
+	if players > 1:
+		for tile in attacker.adjacent_tiles:
+			var player = turn_queue.pc_positions.find_key(tile)
+			if player != null:
+				var line = draw_attack_line(attacker, player)
+				await get_tree().create_timer(1.5).timeout
+				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns)
+				player.unit_stats.health -= damage
+				print(attacker.unit_stats.name, " is attacking!")
+				print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
+				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+
+				if player.unit_stats.health <= 0:
+					print(player.unit_stats.name, " has been defeated!")
+					turn_queue.pc_positions.erase(player)
+					player.queue_free()
+					tile_layer_zero._unsolid_coords(tile)
+
+				hit_anyone = true
+				line.queue_free()
+
+	return hit_anyone
 
 func bow_shot(attacker, turn_queue, tile_layer_zero) -> bool:
 	for tile in attacker.circle_tiles:
@@ -121,8 +149,8 @@ func magic_missles(attacker, turn_queue, tile_layer_zero) -> bool:
 
 	return hit_anyone
 
-func healing_spell(attacker, circle_tiles: Array, turn_queue, tile_layer_zero) -> bool:
-	for tile in circle_tiles:
+func healing_spell(attacker, turn_queue, tile_layer_zero) -> bool:
+	for tile in attacker.circle_tiles:
 		var ally = turn_queue.enemy_positions.find_key(tile)
 		if ally != null:
 			var line = draw_attack_line(attacker, ally)
@@ -137,7 +165,6 @@ func healing_spell(attacker, circle_tiles: Array, turn_queue, tile_layer_zero) -
 			return true
 	return false
 
-# Draw attack line function
 func draw_attack_line(attacker: Node2D, target: Node2D) -> Line2D:
 	var line = Line2D.new()
 	line.width = 1
@@ -148,7 +175,6 @@ func draw_attack_line(attacker: Node2D, target: Node2D) -> Line2D:
 	add_child(line)
 	return line
 
-# Timer to clear the attack line
 func _on_line_timer_timeout(line: Line2D, timer: Timer) -> void:
 	if line:
 		line.queue_free()
