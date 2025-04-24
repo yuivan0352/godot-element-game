@@ -105,9 +105,9 @@ func _play_turn():
 		overview_camera.make_current()
 	current_character.emit(current_unit)
 
+	current_unit._reset_action_econ()
+	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 	if current_unit is Character:
-		current_unit._reset_action_econ()
-		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		buttons_disabled.emit(false)
 	elif current_unit is Enemy:
 		print("Processing enemy turn")

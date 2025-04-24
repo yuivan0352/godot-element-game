@@ -27,8 +27,6 @@ var bonus_actions : int
 signal turn_complete
 signal unit_still
 signal unit_moving
-signal update_movement
-signal update_mana
 signal update_action_econ(action, bonus_action, mana, movement_speed, moved_distance)
 
 func _ready():
