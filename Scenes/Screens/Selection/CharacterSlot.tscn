@@ -1,0 +1,352 @@
+[gd_scene load_steps=12 format=3 uid="uid://bhqcy1oe7cn5l"]
+
+[ext_resource type="Theme" uid="uid://bpoak1k73xvy4" path="res://Resources/Themes/StatAllocation.tres" id="1_h8rpc"]
+[ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="1_nxyla"]
+[ext_resource type="Script" uid="uid://b4dneigklt1p3" path="res://Scenes/Screens/Selection/character_slot.gd" id="2_cccb4"]
+[ext_resource type="Theme" uid="uid://dbykdefbhwgsj" path="res://Resources/Themes/StatBackground.tres" id="4_1v6t6"]
+[ext_resource type="Theme" uid="uid://cwwbma604omfg" path="res://Resources/Themes/StatButton.tres" id="5_12rrr"]
+[ext_resource type="Script" uid="uid://c2fktmojesjap" path="res://Scenes/Screens/Selection/set_stats.gd" id="5_g5fs5"]
+[ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="6_g5fs5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1vnqu"]
+font = ExtResource("6_g5fs5")
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_12rrr"]
+font = ExtResource("6_g5fs5")
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_t1pdx"]
+font = ExtResource("6_g5fs5")
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_g5fs5"]
+font = ExtResource("6_g5fs5")
+font_size = 12
+
+[node name="CharacterSlot" type="Panel"]
+offset_right = 255.0
+offset_bottom = 440.0
+size_flags_horizontal = 3
+theme = ExtResource("1_nxyla")
+script = ExtResource("2_cccb4")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 3
+
+[node name="StatsMenu" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 317.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_h8rpc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 159.0
+offset_top = 15.0
+offset_right = -20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Brains" type="Panel" parent="StatsMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_1v6t6")
+script = ExtResource("5_g5fs5")
+statName = "brains"
+metadata/_edit_use_anchors_ = true
+
+[node name="Subtract" type="Button" parent="StatsMenu/VBoxContainer/Brains"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00614458
+anchor_top = 0.46
+anchor_right = -0.00614458
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="Minus" type="Label" parent="StatsMenu/VBoxContainer/Brains/Subtract"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.682
+anchor_top = 0.455
+anchor_right = 0.682
+anchor_bottom = 0.455
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "-"
+label_settings = SubResource("LabelSettings_1vnqu")
+
+[node name="Add" type="Button" parent="StatsMenu/VBoxContainer/Brains"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0059
+anchor_top = 0.46
+anchor_right = 1.0059
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+
+[node name="Plus" type="Label" parent="StatsMenu/VBoxContainer/Brains/Add"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591091
+anchor_top = 0.545909
+anchor_right = 0.591091
+anchor_bottom = 0.545909
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "+"
+label_settings = SubResource("LabelSettings_1vnqu")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatDifferenceLabel" type="Label" parent="StatsMenu/VBoxContainer/Brains"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.855329
+anchor_top = 0.0833329
+anchor_right = 0.855329
+anchor_bottom = 0.0833329
+offset_left = -6.005
+offset_top = -6.0
+offset_right = 5.995
+offset_bottom = 6.0
+text = "+5"
+label_settings = SubResource("LabelSettings_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatNameLabel" type="Label" parent="StatsMenu/VBoxContainer/Brains"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = -24.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Brains"
+label_settings = SubResource("LabelSettings_t1pdx")
+
+[node name="Brawns" type="Panel" parent="StatsMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_1v6t6")
+script = ExtResource("5_g5fs5")
+statName = "brawns"
+metadata/_edit_use_anchors_ = true
+
+[node name="Subtract" type="Button" parent="StatsMenu/VBoxContainer/Brawns"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00614458
+anchor_top = 0.46
+anchor_right = -0.00614458
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="Minus" type="Label" parent="StatsMenu/VBoxContainer/Brawns/Subtract"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.682
+anchor_top = 0.455
+anchor_right = 0.682
+anchor_bottom = 0.455
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "-"
+label_settings = SubResource("LabelSettings_1vnqu")
+
+[node name="Add" type="Button" parent="StatsMenu/VBoxContainer/Brawns"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0059
+anchor_top = 0.46
+anchor_right = 1.0059
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+
+[node name="Plus" type="Label" parent="StatsMenu/VBoxContainer/Brawns/Add"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591091
+anchor_top = 0.545909
+anchor_right = 0.591091
+anchor_bottom = 0.545909
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "+"
+label_settings = SubResource("LabelSettings_1vnqu")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatDifferenceLabel" type="Label" parent="StatsMenu/VBoxContainer/Brawns"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.855329
+anchor_top = 0.0833329
+anchor_right = 0.855329
+anchor_bottom = 0.0833329
+offset_left = -6.005
+offset_top = -6.0
+offset_right = 5.995
+offset_bottom = 6.0
+text = "+5"
+label_settings = SubResource("LabelSettings_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatNameLabel" type="Label" parent="StatsMenu/VBoxContainer/Brawns"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = -24.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Brawns"
+label_settings = SubResource("LabelSettings_t1pdx")
+
+[node name="Bewitchment" type="Panel" parent="StatsMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_1v6t6")
+script = ExtResource("5_g5fs5")
+statName = "bewitchment"
+metadata/_edit_use_anchors_ = true
+
+[node name="Subtract" type="Button" parent="StatsMenu/VBoxContainer/Bewitchment"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00614458
+anchor_top = 0.46
+anchor_right = -0.00614458
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="Minus" type="Label" parent="StatsMenu/VBoxContainer/Bewitchment/Subtract"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.682
+anchor_top = 0.455
+anchor_right = 0.682
+anchor_bottom = 0.455
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "-"
+label_settings = SubResource("LabelSettings_1vnqu")
+
+[node name="Add" type="Button" parent="StatsMenu/VBoxContainer/Bewitchment"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0059
+anchor_top = 0.46
+anchor_right = 1.0059
+anchor_bottom = 0.46
+offset_left = -5.49
+offset_top = -5.5
+offset_right = 5.51
+offset_bottom = 5.5
+theme = ExtResource("5_12rrr")
+
+[node name="Plus" type="Label" parent="StatsMenu/VBoxContainer/Bewitchment/Add"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.591091
+anchor_top = 0.545909
+anchor_right = 0.591091
+anchor_bottom = 0.545909
+offset_left = -3.502
+offset_top = -6.005
+offset_right = 3.498
+offset_bottom = 5.995
+text = "+"
+label_settings = SubResource("LabelSettings_1vnqu")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatDifferenceLabel" type="Label" parent="StatsMenu/VBoxContainer/Bewitchment"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.855329
+anchor_top = 0.0800003
+anchor_right = 0.855329
+anchor_bottom = 0.0800003
+offset_left = -6.005
+offset_top = -6.0
+offset_right = 5.995
+offset_bottom = 6.0
+text = "+5"
+label_settings = SubResource("LabelSettings_12rrr")
+metadata/_edit_use_anchors_ = true
+
+[node name="StatNameLabel" type="Label" parent="StatsMenu/VBoxContainer/Bewitchment"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bewitchment"
+label_settings = SubResource("LabelSettings_g5fs5")
+
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Brains/Subtract" to="StatsMenu/VBoxContainer/Brains" method="_on_subtract_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Brains/Add" to="StatsMenu/VBoxContainer/Brains" method="_on_add_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Brawns/Subtract" to="StatsMenu/VBoxContainer/Brawns" method="_on_subtract_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Brawns/Add" to="StatsMenu/VBoxContainer/Brawns" method="_on_add_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Bewitchment/Subtract" to="StatsMenu/VBoxContainer/Bewitchment" method="_on_subtract_pressed"]
+[connection signal="pressed" from="StatsMenu/VBoxContainer/Bewitchment/Add" to="StatsMenu/VBoxContainer/Bewitchment" method="_on_add_pressed"]
