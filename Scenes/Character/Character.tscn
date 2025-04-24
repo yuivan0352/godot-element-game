@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_vxr42"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_c5abm"]
-[ext_resource type="Texture2D" uid="uid://bu5i1hcwq7y4d" path="res://Assets/Sprites/warrior2.png" id="3_3qx2k"]
+[ext_resource type="Texture2D" uid="uid://bu5i1hcwq7y4d" path="res://Assets/Sprites/warrior.png" id="3_3qx2k"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_3qx2k"]
 [ext_resource type="Texture2D" uid="uid://hs6jtjcds5dg" path="res://Assets/Texture/Animated_Soldier.png" id="5_pp8xd"]
 
