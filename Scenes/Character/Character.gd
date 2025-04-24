@@ -32,14 +32,19 @@ func _attack_action(attack_type_array):
 	var target_unit = turn_queue.enemy_positions.find_key(mouse_tile)
 	if actions > 0:
 		if target_unit != null and attack_type_array.has(mouse_tile):
-			target_unit.unit_stats.health -= rng.randi_range(1, 6)
-			print(target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
-			if target_unit.unit_stats.health <= 0:
-				turn_queue.enemy_positions.erase(target_unit)
-				turn_queue.turn_order.erase(target_unit)
-				target_unit.queue_free()
-				tile_layer_zero._unsolid_coords(mouse_tile)
-				_update_adj_tiles()
+			var attack_roll = rng.randi_range(1, 20)
+			if attack_roll >= target_unit.unit_stats.armor_class:
+				var damage = rng.randi_range(1, 6)
+				target_unit.unit_stats.health -= damage
+				print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
+				if target_unit.unit_stats.health <= 0:
+					turn_queue.enemy_positions.erase(target_unit)
+					turn_queue.turn_order.erase(target_unit)
+					target_unit.queue_free()
+					tile_layer_zero._unsolid_coords(mouse_tile)
+					_update_adj_tiles()
+			else:
+				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
 		actions -= 1
 		update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
 		mode = "idle"

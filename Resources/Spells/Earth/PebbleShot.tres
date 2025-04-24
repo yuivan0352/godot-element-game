@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=2 format=3 uid="uid://bqguk8rhjfrf3"]
+
+[ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="1_ho3mt"]
+
+[resource]
+script = ExtResource("1_ho3mt")
+spell_type = 1
+spell_name = "Pebble Shot"
+range = 3
+dice_count = 1
+dice_type = 0
+elemental_type = 3
