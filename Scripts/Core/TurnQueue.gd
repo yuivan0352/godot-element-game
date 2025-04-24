@@ -10,6 +10,7 @@ var prev_unit : Unit
 
 var turn_order: Array[Unit] = []
 var turn_num = 0
+var round_num = 0
 
 @onready var overview_camera = $"../../Environment/OverviewCamera"
 @onready var layer_zero = $"../../Environment/Layer0"
@@ -75,6 +76,13 @@ func _play_turn():
 	turn_num += 1
 	if turn_num >= turn_order.size():
 		turn_num = 0
+		round_num += 1
+		for unit in turn_order:
+			if round_num >= 2:
+				unit.unit_stats.mana += 3
+				if unit.unit_stats.mana > 5:
+					unit.unit_stats.mana = 5
+			unit.unit_stats.mana += round_num + 1
 	turn_info.emit(turn_order, turn_num)
 	
 	_transition_character_cam()
@@ -97,9 +105,9 @@ func _play_turn():
 		overview_camera.make_current()
 	current_character.emit(current_unit)
 
+	current_unit._reset_action_econ()
+	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 	if current_unit is Character:
-		current_unit._reset_action_econ()
-		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		buttons_disabled.emit(false)
 	elif current_unit is Enemy:
 		print("Processing enemy turn")

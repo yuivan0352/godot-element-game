@@ -53,7 +53,7 @@ func is_adjacent_to_closest_player(enemy_tile_pos: Vector2i, player: Character) 
 func take_turn():
 	if self == turn_queue.current_unit:
 		var closest_player = find_closest_player()
-		print("closest player: ", closest_player.unit_stats.name)
+		#print("closest player: ", closest_player.unit_stats.name)
 		if closest_player == null:
 			print("No closest player found.")
 			overview_camera.set_camera_position(self)
@@ -64,7 +64,6 @@ func take_turn():
 		enemy_tile_pos = tile_layer_zero.local_to_map(global_position)
 		
 		var target_tile_pos = find_adjacent_walkable_tile(closest_player)
-		print(target_tile_pos)
 		var path_found = false
 		
 		if target_tile_pos != Vector2i(-1, -1):
@@ -78,7 +77,6 @@ func take_turn():
 					current_id_path = current_id_path.slice(0, i + 1)
 					break
 			
-			print(current_id_path)
 			if !current_id_path.is_empty():
 				path_found = true
 
@@ -110,9 +108,11 @@ func check_and_end_turn():
 
 		if is_adjacent_to_closest_player(enemy_tile_pos, closest_player):
 			EnemyAttacks.perform_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
+			update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, moved_distance)
 		else:
 			EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero)
-			
+			unit_stats.mana -= 1
+			update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, moved_distance)
 	
 	overview_camera.set_camera_position(self)
 	overview_camera.make_current()

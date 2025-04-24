@@ -7,6 +7,7 @@ class_name UserInterface
 @onready var action_icon = $ActionEcon/HBoxContainer/ActionIcon
 @onready var bonus_action_icon = $ActionEcon/HBoxContainer/BonusActionIcon
 @onready var movement_bar = $ActionEcon/MovementBar
+@onready var mana_bar = $ActionEcon/ManaBar
 
 var current_unit
 var turn_array
@@ -22,12 +23,16 @@ func _get_current_unit(cu):
 	current_unit = cu
 	health_bar._update_health(current_unit)
 
-func _update_actions(action, bonus_action, movement_speed, moved_distance):
+func _update_actions(action, bonus_action, mana, movement_speed, moved_distance):
 	action_icon.value = action
 	bonus_action_icon.value = bonus_action
+	mana_bar.value = mana
 	movement_bar.max_value = movement_speed
 	movement_bar.value = moved_distance
 	
+func _update_mana_bar(used_mana: int):
+	mana_bar.value = mana_bar.value - used_mana
+
 func _update_movement_bar():
 	movement_bar.value = movement_bar.value - 5
 	

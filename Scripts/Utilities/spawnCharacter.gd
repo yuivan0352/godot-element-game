@@ -36,7 +36,6 @@ func spawn_character(layer: TileMapLayer) -> Character:
 		
 		char_instance.unit_clicked.connect(user_interface._on_unit_clicked)
 		char_instance.update_action_econ.connect(user_interface._update_actions)
-		char_instance.update_movement.connect(user_interface._update_movement_bar)
 		
 		return char_instance
 	
