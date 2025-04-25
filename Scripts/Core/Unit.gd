@@ -17,12 +17,14 @@ var line_tiles: Array[Vector2i]
 var actions: int
 var bonus_actions : int
 
+
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
 @onready var overview_camera = $"../../../Environment/OverviewCamera"
 @onready var turn_queue = $"../../../Services/TurnQueue"
 @onready var character_camera = $CharacterCamera
 @export var unit_stats: Stats
+@export var spells: Array[Spell]
 
 signal turn_complete
 signal unit_still
