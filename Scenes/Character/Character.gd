@@ -6,8 +6,10 @@ var mode : String = "idle"
 @onready var clickable_area = $Sprite/clickableArea
 
 var in_ui_element: bool
+var current_spell: Spell
 
 signal unit_clicked(unit)
+signal spell_info(spell_array)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -17,11 +19,18 @@ func _ui_element_mouse_exited():
 	in_ui_element = false
 	path._on_ui_element_mouse_exited()
 	
-func change_mode(input_mode: String):
+func change_mode(input_mode: String, spell_info: Spell):
 	if mode == input_mode:
 		mode = "idle"
+		current_spell = null
 	else:
 		mode = input_mode
+		current_spell = spell_info
+		match current_spell.spell_type:
+			Spell.TYPE.RANGED:
+				_update_circle_tiles(current_spell.range)
+			Spell.TYPE.LINE:
+				_update_line_tiles(current_spell.range)
 
 func _reset_action_econ():
 	super._reset_action_econ()
@@ -30,11 +39,15 @@ func _reset_action_econ():
 func _attack_action(attack_type_array):
 	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
 	var target_unit = turn_queue.enemy_positions.find_key(mouse_tile)
+	var damage = 0
 	if actions > 0:
 		if target_unit != null and attack_type_array.has(mouse_tile):
 			var attack_roll = rng.randi_range(1, 20)
 			if attack_roll >= target_unit.unit_stats.armor_class:
-				var damage = rng.randi_range(1, 6)
+				if mode == "magic":
+					damage = current_spell.damage
+				else:
+					damage = rng.randi_range(1, 6)
 				target_unit.unit_stats.health -= damage
 				print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
 				if target_unit.unit_stats.health <= 0:
@@ -77,19 +90,26 @@ func _input(event):
 						current_id_path = current_id_path.slice(0, 1)
 					unit_still.emit()
 					mode = "idle"
-			"attack", "magic_melee":
+			"attack":
 				if event.is_action_pressed("interact"):
-					if mode == "magic_melee":
-						unit_stats.mana -= 1
 					_attack_action(adjacent_tiles)
-			"magic_ranged":
+			"magic":
 				if event.is_action_pressed("interact"):
-					unit_stats.mana -= 1
-					_attack_action(circle_tiles)
-			"magic_line":
-				if event.is_action_pressed("interact"):
-					unit_stats.mana -= 1
-					_attack_action(line_tiles)
+					match current_spell.spell_type:
+						Spell.TYPE.RANGED:
+							unit_stats.mana -= 1
+							_attack_action(circle_tiles)
+						Spell.TYPE.LINE:
+							unit_stats.mana -= 1
+							_attack_action(circle_tiles)
+			#"magic_ranged":
+				#if event.is_action_pressed("interact"):
+					#unit_stats.mana -= 1
+					#_attack_action(circle_tiles)
+			#"magic_line":
+				#if event.is_action_pressed("interact"):
+					#unit_stats.mana -= 1
+					#_attack_action(line_tiles)
 
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):

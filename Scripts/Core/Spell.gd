@@ -19,6 +19,7 @@ enum ELEMENTAL_TYPE {FIRE, WATER, AIR, EARTH}
 @export var dice_count: int
 @export var dice_type: DICE_TYPE
 @export var elemental_type: ELEMENTAL_TYPE
+@export var button_texture: Texture2D
 var rng = RandomNumberGenerator.new()
 var damage: int = calculate_damage()
 
