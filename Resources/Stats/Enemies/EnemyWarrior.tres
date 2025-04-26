@@ -6,7 +6,6 @@
 resource_local_to_scene = true
 script = ExtResource("1_ykkkl")
 name = "Warrior"
-enemy_class = "Melee"
 health = 14
 max_health = 14
 mana = 0
@@ -15,3 +14,5 @@ movement_speed = 20
 brains = 1
 brawns = 4
 bewitchment = 3
+enemy_class = "Melee"
+actions = 1

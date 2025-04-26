@@ -6,7 +6,6 @@
 resource_local_to_scene = true
 script = ExtResource("1_152nl")
 name = "Mage"
-enemy_class = "Ranged"
 health = 8
 max_health = 8
 mana = 10
@@ -15,3 +14,5 @@ movement_speed = 25
 brains = 3
 brawns = 1
 bewitchment = 5
+enemy_class = "Ranged"
+actions = 1

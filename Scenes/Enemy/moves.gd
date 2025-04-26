@@ -14,7 +14,6 @@ func _ready() -> void:
 	rng.randomize()
 
 func use_melee_move(attacker):
-		
 	var unit_name = attacker.unit_stats.name 
 	available_moves = unit_moves.get(unit_name, []) 
 	for move in available_moves:
@@ -28,12 +27,11 @@ func use_melee_move(attacker):
 		if move_used:
 			print(move, " has been used")
 			break
-	
+
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()		
 			
 func use_ranged_move(attacker):
-		
 	var unit_name = attacker.unit_stats.name 
 	available_moves = unit_moves.get(unit_name, [])
 	for move in available_moves:
@@ -138,28 +136,38 @@ func bow_shot(attacker, turn_queue, tile_layer_zero) -> bool:
 #Attacks all within the radius
 func magic_missles(attacker, turn_queue, tile_layer_zero, mana_cost) -> bool:
 	var hit_anyone = false
+	var multiple_targets = []
 	#checks if attacker has mana to use this for mana_cost
 	if attacker.unit_stats.mana >= mana_cost:
+		
 		for tile in attacker.circle_tiles:
-			var player = turn_queue.pc_positions.find_key(tile)
-			if player != null:
-				var line = draw_attack_line(attacker, player)
-				await get_tree().create_timer(1.5).timeout
-				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
-				player.unit_stats.health -= damage
-				print(attacker.unit_stats.name, " is attacking!")
-				print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
-				attacker.unit_stats.mana -= mana_cost
+			var ally = turn_queue.enemy_positions.find_key(tile)
+			if ally != null and ally.unit_stats.health <= ally.unit_stats.max_health/2:
+				multiple_targets.append(ally)
 				
-				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
-					turn_queue.pc_positions.erase(player)
-					turn_queue.turn_order.erase(player)
-					player.queue_free()
+		if multiple_targets.size() >= 2:
+			for tile in attacker.circle_tiles:
+				var player = turn_queue.pc_positions.find_key(tile)
+				if player != null:
+					var line = draw_attack_line(attacker, player)
+					await get_tree().create_timer(1.5).timeout
+					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
+					player.unit_stats.health -= damage
+					print(attacker.unit_stats.name, " is attacking!")
+					print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
+					print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+					attacker.unit_stats.mana -= mana_cost
+					
+					if player.unit_stats.health <= 0:
+						print(player.unit_stats.name, " has been defeated!")
+						turn_queue.pc_positions.erase(player)
+						turn_queue.turn_order.erase(player)
+						player.queue_free()
 
-				hit_anyone = true
-				line.queue_free()
+					hit_anyone = true
+					line.queue_free()
+		else:
+			return hit_anyone
 	else:
 		print("No mana for magic_missles")
 		print(attacker.unit_stats.mana, " mana left")
@@ -170,28 +178,39 @@ func magic_missles(attacker, turn_queue, tile_layer_zero, mana_cost) -> bool:
 #Attacks all within the radius
 func multi_shot(attacker, turn_queue, tile_layer_zero, mana_cost) -> bool:
 	var hit_anyone = false
+	var multiple_targets = []
+
 	#checks if attacker has mana to use this for mana_cost
 	if attacker.unit_stats.mana >= mana_cost:
+		
 		for tile in attacker.circle_tiles:
-			var player = turn_queue.pc_positions.find_key(tile)
-			if player != null:
-				var line = draw_attack_line(attacker, player)
-				await get_tree().create_timer(1.5).timeout
-				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
-				player.unit_stats.health -= damage
-				print(attacker.unit_stats.name, " is attacking!")
-				print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
-				attacker.unit_stats.mana -= mana_cost
+			var ally = turn_queue.enemy_positions.find_key(tile)
+			if ally != null and ally.unit_stats.health <= ally.unit_stats.max_health/2:
+				multiple_targets.append(ally)
 				
-				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
-					turn_queue.pc_positions.erase(player)
-					turn_queue.turn_order.erase(player)
-					player.queue_free()
+		if multiple_targets.size() >= 2:
+			for tile in attacker.circle_tiles:
+				var player = turn_queue.pc_positions.find_key(tile)
+				if player != null:
+					var line = draw_attack_line(attacker, player)
+					await get_tree().create_timer(1.5).timeout
+					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+					player.unit_stats.health -= damage
+					print(attacker.unit_stats.name, " is attacking!")
+					print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
+					print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+					attacker.unit_stats.mana -= mana_cost
+					
+					if player.unit_stats.health <= 0:
+						print(player.unit_stats.name, " has been defeated!")
+						turn_queue.pc_positions.erase(player)
+						turn_queue.turn_order.erase(player)
+						player.queue_free()
 
-				hit_anyone = true
-				line.queue_free()
+					hit_anyone = true
+					line.queue_free()
+		else:
+			return hit_anyone
 	else:
 		print("No mana for multishot")
 		print(attacker.unit_stats.mana, " mana left")
@@ -230,7 +249,14 @@ func healing_spell(attacker, turn_queue, tile_layer_zero, mana_cost) -> bool:
 				var line = draw_attack_line(attacker, ally)
 				await get_tree().create_timer(1.0).timeout
 				var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
-				ally.unit_stats.health += healing_health
+				#Make sure it heals up to max hp and no more
+				if ally.unit_stats.health + healing_health > ally.unit_stats.max_health:
+					var health_healed_to_max = (ally.unit_stats.health + healing_health) - ally.unit_stats.max_health
+					healing_health = healing_health - health_healed_to_max
+					ally.unit_stats.health = ally.unit_stats.max_health
+				else:
+					ally.unit_stats.health += healing_health
+					
 				print(attacker.unit_stats.name, " is healing!")
 				print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
 				print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
@@ -259,7 +285,14 @@ func mass_healing(attacker, turn_queue, tile_layer_zero, mana_cost) -> bool:
 					var line = draw_attack_line(attacker, ally)
 					await get_tree().create_timer(1.0).timeout
 					var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
-					ally.unit_stats.health += healing_health
+					#Make sure it heals up to max hp and no more
+					if ally.unit_stats.health + healing_health > ally.unit_stats.max_health:
+						var health_healed_to_max = (ally.unit_stats.health + healing_health) - ally.unit_stats.max_health
+						healing_health = healing_health - health_healed_to_max
+						ally.unit_stats.health = ally.unit_stats.max_health
+					else:
+						ally.unit_stats.health += healing_health
+						
 					print(attacker.unit_stats.name, " is healing!")
 					print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
 					print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
