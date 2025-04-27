@@ -7,9 +7,23 @@ var mode : String = "idle"
 
 var in_ui_element: bool
 var current_spell: Spell
+var possible_spells: Array[Spell]
 
 signal unit_clicked(unit)
 signal spell_info(spell_array)
+
+func _ready() -> void:
+	super._ready()
+	var spell_resource_path = "res://Resources/Spells/" + str(Spell.ELEMENTAL_TYPE.find_key(unit_elements[0]))
+	var spell_dir = DirAccess.open(spell_resource_path)
+	if spell_resource_path:
+		spell_dir.list_dir_begin()
+		var spell_resource = spell_dir.get_next()
+		while spell_resource != "":
+			possible_spells.append(load(spell_resource_path + "/" + spell_resource))
+			spell_resource = spell_dir.get_next()
+	for spell in possible_spells:
+		equipped_spells.append(spell)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true

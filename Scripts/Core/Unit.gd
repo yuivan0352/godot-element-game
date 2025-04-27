@@ -24,7 +24,8 @@ var bonus_actions : int
 @onready var turn_queue = $"../../../Services/TurnQueue"
 @onready var character_camera = $CharacterCamera
 @export var unit_stats: Stats
-@export var spells: Array[Spell]
+@export var equipped_spells: Array[Spell]
+@export var unit_elements: Array[Spell.ELEMENTAL_TYPE]
 
 signal turn_complete
 signal unit_still

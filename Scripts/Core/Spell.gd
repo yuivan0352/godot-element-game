@@ -12,7 +12,7 @@ var dice_type_nums: Dictionary = {
 	DICE_TYPE.D12: 12, 
 	DICE_TYPE.D20: 20
 }
-enum ELEMENTAL_TYPE {FIRE, WATER, AIR, EARTH}
+enum ELEMENTAL_TYPE {Fire, Water, Air, Earth}
 @export var spell_type : TYPE
 @export var spell_name: String
 @export var range: int

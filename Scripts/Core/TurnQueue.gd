@@ -105,7 +105,7 @@ func _play_turn():
 	
 	if current_unit is Character:
 		overview_camera.make_current()
-		current_unit.spell_info.emit(current_unit.spells)
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 	current_character.emit(current_unit)
 
 	current_unit._reset_action_econ()
