@@ -5,11 +5,12 @@
 [resource]
 script = ExtResource("1_4a11b")
 name = ""
-enemy_class = ""
 health = 0
 max_health = 0
+mana = 0
 armor_class = 0
 movement_speed = 0
 brains = 0
 brawns = 0
 bewitchment = 0
+enemy_class = ""
