@@ -26,11 +26,12 @@ func change_mode(input_mode: String, spell_info: Spell):
 	else:
 		mode = input_mode
 		current_spell = spell_info
-		match current_spell.spell_type:
-			Spell.TYPE.RANGED:
-				_update_circle_tiles(current_spell.range)
-			Spell.TYPE.LINE:
-				_update_line_tiles(current_spell.range)
+		if current_spell != null:
+			match current_spell.spell_type:
+				Spell.TYPE.RANGED:
+					_update_circle_tiles(current_spell.range)
+				Spell.TYPE.LINE:
+					_update_line_tiles(current_spell.range)
 
 func _reset_action_econ():
 	super._reset_action_econ()
