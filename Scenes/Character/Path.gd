@@ -27,13 +27,18 @@ func _draw():
 					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
 						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
 		"magic":
-			match character.current_spell.spell_type:
-				Spell.TYPE.RANGED:
+			match character.current_spell.spell_range_type:
+				Spell.RANGE_TYPE.MELEE:
+					for tile in character.adjacent_tiles:
+						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
+							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
+								character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
+				Spell.RANGE_TYPE.RANGED:
 					for tile in character.circle_tiles:
 						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
 							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
 								character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
-				2:
+				Spell.RANGE_TYPE.LINE:
 					for tile in character.line_tiles:
 						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
 							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:

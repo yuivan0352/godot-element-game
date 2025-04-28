@@ -9,8 +9,8 @@ region = Rect2(80, 0, 16, 16)
 
 [resource]
 script = ExtResource("1_gff48")
-spell_range_type = 0
-spell_type = 1
+spell_range_type = 1
+spell_type = 0
 spell_name = "Bubble Shot"
 range = 3
 dice_count = 1

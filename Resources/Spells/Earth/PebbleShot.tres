@@ -9,8 +9,8 @@ region = Rect2(48, 0, 16, 16)
 
 [resource]
 script = ExtResource("1_ho3mt")
-spell_range_type = 0
-spell_type = 1
+spell_range_type = 1
+spell_type = 0
 spell_name = "Pebble Shot"
 range = 3
 dice_count = 1

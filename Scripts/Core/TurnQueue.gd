@@ -60,7 +60,7 @@ func setup_turn_order():
 		current_unit.take_turn()
 		buttons_disabled.emit(true)
 	else:
-		current_unit.spell_info.emit(current_unit.spells)
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 
 func _update_char_pos(coords):
 	if current_unit is Character:

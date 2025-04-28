@@ -24,6 +24,7 @@ func _ready() -> void:
 			spell_resource = spell_dir.get_next()
 	for spell in possible_spells:
 		equipped_spells.append(spell)
+	print(equipped_spells)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -34,7 +35,7 @@ func _ui_element_mouse_exited():
 	path._on_ui_element_mouse_exited()
 	
 func change_mode(input_mode: String, spell_info: Spell):
-	if mode == input_mode:
+	if mode == input_mode and spell_info == null:
 		mode = "idle"
 		current_spell = null
 	else:
@@ -73,7 +74,10 @@ func _attack_action(attack_type_array):
 					_update_adj_tiles()
 			else:
 				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
-		actions -= 1
+		if mode == "magic":
+			actions -= current_spell.action_cost
+		else:
+			actions -= 1
 		update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
 		mode = "idle"
 	else:

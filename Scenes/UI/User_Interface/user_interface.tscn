@@ -230,6 +230,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_mad2t")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rp5le")
 icon = SubResource("AtlasTexture_d1c4k")
 expand_icon = true
+script = ExtResource("13_lny1u")
 
 [node name="Spell3" type="Button" parent="MagicBar/MarginContainer/MagicButtons"]
 custom_minimum_size = Vector2(64, 64)
@@ -239,6 +240,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_geroj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lny1u")
 icon = SubResource("AtlasTexture_c87su")
 expand_icon = true
+script = ExtResource("13_lny1u")
 
 [node name="ActionEcon" type="Panel" parent="."]
 offset_left = 1208.0
@@ -378,6 +380,10 @@ offset_bottom = 229.0
 [connection signal="mouse_exited" from="MagicBar" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell1" to="MagicBar/MarginContainer/MagicButtons/Spell1" method="on_spell_press"]
 [connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell1" to="." method="_switch_mode"]
+[connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell2" to="MagicBar/MarginContainer/MagicButtons/Spell2" method="on_spell_press"]
+[connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell2" to="." method="_switch_mode"]
+[connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell3" to="MagicBar/MarginContainer/MagicButtons/Spell3" method="on_spell_press"]
+[connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell3" to="." method="_switch_mode"]
 [connection signal="mouse_entered" from="ActionEcon" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="ActionEcon" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="gui_input" from="UnitInfo" to="UnitInfo" method="_on_gui_input"]
