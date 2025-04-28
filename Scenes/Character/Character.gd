@@ -41,10 +41,10 @@ func change_mode(input_mode: String, spell_info: Spell):
 		mode = input_mode
 		current_spell = spell_info
 		if current_spell != null:
-			match current_spell.spell_type:
-				Spell.TYPE.RANGED:
+			match current_spell.spell_range_type:
+				Spell.RANGE_TYPE.RANGED:
 					_update_circle_tiles(current_spell.range)
-				Spell.TYPE.LINE:
+				Spell.RANGE_TYPE.LINE:
 					_update_line_tiles(current_spell.range)
 
 func _reset_action_econ():
@@ -110,21 +110,13 @@ func _input(event):
 					_attack_action(adjacent_tiles)
 			"magic":
 				if event.is_action_pressed("interact"):
-					match current_spell.spell_type:
-						Spell.TYPE.RANGED:
-							unit_stats.mana -= 1
-							_attack_action(circle_tiles)
-						Spell.TYPE.LINE:
-							unit_stats.mana -= 1
-							_attack_action(circle_tiles)
-			#"magic_ranged":
-				#if event.is_action_pressed("interact"):
-					#unit_stats.mana -= 1
-					#_attack_action(circle_tiles)
-			#"magic_line":
-				#if event.is_action_pressed("interact"):
-					#unit_stats.mana -= 1
-					#_attack_action(line_tiles)
+					unit_stats.mana -= current_spell.mana_cost
+					if current_spell.spell_type == Spell.TYPE.DAMAGE:
+						match current_spell.spell_range_type:
+							Spell.RANGE_TYPE.RANGED:
+								_attack_action(circle_tiles)
+							Spell.RANGE_TYPE.LINE:
+								_attack_action(circle_tiles)
 
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):

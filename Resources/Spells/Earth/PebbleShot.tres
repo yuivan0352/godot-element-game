@@ -9,10 +9,14 @@ region = Rect2(48, 0, 16, 16)
 
 [resource]
 script = ExtResource("1_ho3mt")
+spell_range_type = 0
 spell_type = 1
 spell_name = "Pebble Shot"
 range = 3
 dice_count = 1
 dice_type = 0
 elemental_type = 3
+mana_cost = 1
+action_cost = 1
+bonus_action_cost = 0
 button_texture = SubResource("AtlasTexture_r7epa")
