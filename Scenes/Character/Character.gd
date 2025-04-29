@@ -24,7 +24,6 @@ func _ready() -> void:
 			spell_resource = spell_dir.get_next()
 	for spell in possible_spells:
 		equipped_spells.append(spell)
-	print(equipped_spells)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true

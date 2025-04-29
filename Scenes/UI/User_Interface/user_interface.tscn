@@ -243,10 +243,16 @@ expand_icon = true
 script = ExtResource("13_lny1u")
 
 [node name="ActionEcon" type="Panel" parent="."]
-offset_left = 1208.0
-offset_top = 448.0
-offset_right = 1280.0
-offset_bottom = 640.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -273.0
+offset_bottom = -81.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ActionEcon"]
 layout_mode = 0
