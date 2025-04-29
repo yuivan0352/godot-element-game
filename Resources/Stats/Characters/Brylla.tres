@@ -6,11 +6,11 @@
 resource_local_to_scene = true
 script = ExtResource("1_nn64y")
 name = "Brylla"
-health = 10
-max_health = 10
+health = 12
+max_health = 12
 mana = 1
 armor_class = 6
 movement_speed = 30
-brains = 1
-brawns = 1
-bewitchment = 1
+brains = 5
+brawns = 5
+bewitchment = 5
