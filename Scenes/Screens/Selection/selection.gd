@@ -7,7 +7,7 @@ var Quorral = preload("res://Scenes/Character/Classes/Quorral.tscn")
 var selected_characters = []
 
 func _on_back_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/Screens/Lobby/Lobby.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Screens/Start/Start.tscn")
 
 func _on_go_button_pressed() -> void:
 	SignalBus.selected_characters = selected_characters

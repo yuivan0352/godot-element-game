@@ -89,25 +89,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_61vwe")
 text = "Options
 "
 
-[node name="SelectionButton" type="Button" parent="."]
-layout_mode = 1
-offset_left = 40.0
-offset_top = 40.0
-offset_right = 284.0
-offset_bottom = 103.0
-size_flags_vertical = 3
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_nogfk")
-theme_override_styles/hover = SubResource("StyleBoxFlat_4pgak")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_yttio")
-theme_override_styles/normal = SubResource("StyleBoxFlat_61vwe")
-text = "Select Team
-"
-
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
-[connection signal="pressed" from="SelectionButton" to="." method="_on_selection_button_pressed"]

@@ -14,10 +14,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_a4nhk"]
 font = ExtResource("6_g5fs5")
 
-[sub_resource type="LabelSettings" id="LabelSettings_8jeef"]
-font = ExtResource("6_g5fs5")
-font_size = 12
-
 [sub_resource type="LabelSettings" id="LabelSettings_1vnqu"]
 font = ExtResource("6_g5fs5")
 
@@ -38,6 +34,10 @@ font_size = 17
 [sub_resource type="LabelSettings" id="LabelSettings_qyi80"]
 font = ExtResource("6_g5fs5")
 font_size = 17
+
+[sub_resource type="LabelSettings" id="LabelSettings_8jeef"]
+font = ExtResource("6_g5fs5")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_wquny"]
 font = ExtResource("6_g5fs5")
@@ -63,10 +63,11 @@ stretch_mode = 3
 
 [node name="StatsMenu" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_top = 0.471
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 212.0
+offset_top = 0.0499878
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_h8rpc")
@@ -74,14 +75,14 @@ theme = ExtResource("1_h8rpc")
 [node name="StatsTitle" type="Label" parent="StatsMenu"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.012605
-anchor_right = 0.5
-anchor_bottom = 0.012605
-offset_left = -127.5
-offset_top = 5.0
-offset_right = 127.5
-offset_bottom = 21.0
+anchor_left = -0.002
+anchor_top = 0.034
+anchor_right = 1.0
+anchor_bottom = 0.101
+offset_left = 0.00800002
+offset_top = -0.092
+offset_right = 0.5
+offset_bottom = -0.0380001
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -90,36 +91,16 @@ label_settings = SubResource("LabelSettings_a4nhk")
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Points" type="Label" parent="StatsMenu"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.727231
-anchor_top = 0.67981
-anchor_right = 0.727231
-anchor_bottom = 0.67981
-offset_left = -20.52
-offset_top = -12.424
-offset_right = 20.48
-offset_bottom = 14.576
-grow_horizontal = 2
-grow_vertical = 2
-text = "points: 3
-"
-label_settings = SubResource("LabelSettings_8jeef")
-script = ExtResource("5_t1pdx")
-metadata/_edit_use_anchors_ = true
-
 [node name="StatAllocationMenu" type="VBoxContainer" parent="StatsMenu"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.725
-anchor_top = 0.372
-anchor_right = 0.725
-anchor_bottom = 0.372
-offset_left = -52.9083
-offset_top = -58.5721
-offset_right = 53.0917
-offset_bottom = 58.4279
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.134
+anchor_right = 0.929
+anchor_bottom = 0.626
+offset_left = 3.0
+offset_top = 0.108
+offset_right = 0.0339966
+offset_bottom = 0.0119934
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
@@ -416,17 +397,34 @@ grow_vertical = 2
 text = "Bewitchment"
 label_settings = SubResource("LabelSettings_qyi80")
 
+[node name="Points" type="Label" parent="StatsMenu"]
+layout_mode = 2
+anchor_left = 0.65
+anchor_top = 0.634
+anchor_right = 0.811
+anchor_bottom = 0.748
+offset_left = -0.100006
+offset_top = 0.108002
+offset_right = 0.00598145
+offset_bottom = -0.0240021
+grow_horizontal = 0
+grow_vertical = 2
+text = "points: 3
+"
+label_settings = SubResource("LabelSettings_8jeef")
+script = ExtResource("5_t1pdx")
+
 [node name="Stats" type="VBoxContainer" parent="StatsMenu"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.278
-anchor_top = 0.417
-anchor_right = 0.278
-anchor_bottom = 0.417
-offset_left = -60.948
-offset_top = -72.496
-offset_right = 61.052
-offset_bottom = 72.504
+anchor_left = 0.038
+anchor_top = 0.112
+anchor_right = 0.518
+anchor_bottom = 0.722
+offset_left = 0.0119972
+offset_top = 0.0939999
+offset_right = 0.0919952
+offset_bottom = -0.0860138
 theme_override_constants/separation = 1
 script = ExtResource("8_g5fs5")
 
