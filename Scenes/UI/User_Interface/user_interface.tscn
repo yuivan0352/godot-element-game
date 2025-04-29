@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=40 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -9,11 +9,8 @@
 [ext_resource type="Script" uid="uid://b36td63hn5vf5" path="res://Scenes/UI/User_Interface/attack_button.gd" id="6_kws0h"]
 [ext_resource type="Script" uid="uid://bllkxcv7vc2d0" path="res://Scenes/UI/User_Interface/end_turn_button.gd" id="8_luhdb"]
 [ext_resource type="Script" uid="uid://orqvufbguj4c" path="res://Scenes/UI/User_Interface/magic_button.gd" id="8_uddve"]
-[ext_resource type="Script" uid="uid://bbhnu3x3ocpyy" path="res://Scenes/UI/User_Interface/back_button.gd" id="9_5kiam"]
-[ext_resource type="Script" uid="uid://pd4ns7ois4n4" path="res://Scenes/UI/User_Interface/melee_spell.gd" id="9_b4xq2"]
-[ext_resource type="Script" uid="uid://dxcihrokc7kgh" path="res://Scenes/UI/User_Interface/ranged_spell.gd" id="10_ebqlf"]
-[ext_resource type="Script" uid="uid://bm2piervqt7wp" path="res://Scenes/UI/User_Interface/line_spell.gd" id="11_7ifof"]
 [ext_resource type="Texture2D" uid="uid://ck6cd0r7gfhx6" path="res://Assets/Texture/action_empty.png" id="13_c87su"]
+[ext_resource type="Script" uid="uid://bm8p1h0qebg2d" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
@@ -50,10 +47,6 @@ region = Rect2(16, 64, 16, 16)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_714rb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ahhh"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(32, 48, 16, 16)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mad2t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp5le"]
@@ -69,10 +62,6 @@ region = Rect2(32, 32, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_c87su"]
 atlas = ExtResource("3_woo7i")
 region = Rect2(16, 32, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5kiam"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(0, 64, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_714rb"]
 atlas = ExtResource("13_c87su")
@@ -204,25 +193,36 @@ icon = SubResource("AtlasTexture_1ogfw")
 expand_icon = true
 script = ExtResource("8_luhdb")
 
-[node name="MagicButtons" type="GridContainer" parent="Hotbar/MarginContainer"]
+[node name="MagicBar" type="Panel" parent="."]
 visible = false
+offset_left = 1056.0
+offset_top = 416.0
+offset_right = 1136.0
+offset_bottom = 640.0
+
+[node name="MarginContainer" type="MarginContainer" parent="MagicBar"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 208.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="MagicButtons" type="GridContainer" parent="MagicBar/MarginContainer"]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
-columns = 4
 
-[node name="MeleeSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+[node name="Spell1" type="Button" parent="MagicBar/MarginContainer/MagicButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_c87su")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_714rb")
-icon = SubResource("AtlasTexture_0ahhh")
 expand_icon = true
-script = ExtResource("9_b4xq2")
+script = ExtResource("13_lny1u")
 
-[node name="RangedSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+[node name="Spell2" type="Button" parent="MagicBar/MarginContainer/MagicButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
@@ -230,9 +230,9 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_mad2t")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rp5le")
 icon = SubResource("AtlasTexture_d1c4k")
 expand_icon = true
-script = ExtResource("10_ebqlf")
+script = ExtResource("13_lny1u")
 
-[node name="LineSpell" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
+[node name="Spell3" type="Button" parent="MagicBar/MarginContainer/MagicButtons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 mouse_filter = 1
@@ -240,21 +240,19 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_geroj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lny1u")
 icon = SubResource("AtlasTexture_c87su")
 expand_icon = true
-script = ExtResource("11_7ifof")
-
-[node name="BackButton" type="Button" parent="Hotbar/MarginContainer/MagicButtons"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-mouse_filter = 1
-icon = SubResource("AtlasTexture_5kiam")
-expand_icon = true
-script = ExtResource("9_5kiam")
+script = ExtResource("13_lny1u")
 
 [node name="ActionEcon" type="Panel" parent="."]
-offset_left = 1208.0
-offset_top = 448.0
-offset_right = 1280.0
-offset_bottom = 640.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -273.0
+offset_bottom = -81.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ActionEcon"]
 layout_mode = 0
@@ -355,6 +353,8 @@ offset_top = 40.0
 offset_right = 244.0
 offset_bottom = 229.0
 
+[connection signal="mouse_entered" from="TurnScroll" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="TurnScroll" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="mouse_entered" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="gui_input" from="TurnScroll/HBoxContainer/PreviousSprite1" to="TurnScroll" method="_on_previous_sprite_gui_input"]
@@ -376,20 +376,22 @@ offset_bottom = 229.0
 [connection signal="mouse_exited" from="HealthBar" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="mouse_entered" from="Hotbar" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="Hotbar" to="." method="_on_ui_element_mouse_exited"]
-[connection signal="attack_mode" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="." method="_switch_mode" binds= ["attack"]]
+[connection signal="attack_mode" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="." method="_switch_mode"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="Hotbar/MarginContainer/MainButtons/AttackButton" method="_mode_switch"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="Hotbar/MarginContainer/MainButtons/MagicButton" method="_ui_mode_switch"]
-[connection signal="return_to_idle" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="." method="_switch_mode" binds= ["idle"]]
+[connection signal="return_to_idle" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="." method="_switch_mode"]
 [connection signal="end_turn" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="." method="_end_turn"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="Hotbar/MarginContainer/MainButtons/EndTurnButton" method="_end_turn"]
-[connection signal="magic_melee" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="." method="_switch_mode" binds= ["magic_melee"]]
-[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/MeleeSpell" to="Hotbar/MarginContainer/MagicButtons/MeleeSpell" method="_mode_switch"]
-[connection signal="magic_ranged" from="Hotbar/MarginContainer/MagicButtons/RangedSpell" to="." method="_switch_mode" binds= ["magic_ranged"]]
-[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/RangedSpell" to="Hotbar/MarginContainer/MagicButtons/RangedSpell" method="_mode_switch"]
-[connection signal="magic_line" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="." method="_switch_mode" binds= ["magic_line"]]
-[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/LineSpell" to="Hotbar/MarginContainer/MagicButtons/LineSpell" method="_mode_switch"]
-[connection signal="pressed" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="Hotbar/MarginContainer/MagicButtons/BackButton" method="_return_to_main"]
-[connection signal="return_to_idle" from="Hotbar/MarginContainer/MagicButtons/BackButton" to="." method="_switch_mode" binds= ["idle"]]
+[connection signal="mouse_entered" from="MagicBar" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="MagicBar" to="." method="_on_ui_element_mouse_exited"]
+[connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell1" to="MagicBar/MarginContainer/MagicButtons/Spell1" method="on_spell_press"]
+[connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell1" to="." method="_switch_mode"]
+[connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell2" to="MagicBar/MarginContainer/MagicButtons/Spell2" method="on_spell_press"]
+[connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell2" to="." method="_switch_mode"]
+[connection signal="pressed" from="MagicBar/MarginContainer/MagicButtons/Spell3" to="MagicBar/MarginContainer/MagicButtons/Spell3" method="on_spell_press"]
+[connection signal="spell_info_pass" from="MagicBar/MarginContainer/MagicButtons/Spell3" to="." method="_switch_mode"]
+[connection signal="mouse_entered" from="ActionEcon" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="ActionEcon" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="gui_input" from="UnitInfo" to="UnitInfo" method="_on_gui_input"]
 [connection signal="mouse_entered" from="UnitInfo" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="UnitInfo" to="." method="_on_ui_element_mouse_exited"]

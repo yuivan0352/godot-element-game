@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3 uid="uid://dtrdwpxo4kfoo"]
+
+[ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="1_3twat"]
+[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="1_ci2gj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6jir"]
+atlas = ExtResource("1_ci2gj")
+region = Rect2(0, 32, 16, 16)
+
+[resource]
+script = ExtResource("1_3twat")
+spell_range_type = 0
+spell_type = 1
+spell_name = "Earth Stance"
+range = 0
+dice_count = 1
+dice_type = 1
+elemental_type = 3
+mana_cost = 1
+action_cost = 1
+bonus_action_cost = 1
+button_texture = SubResource("AtlasTexture_c6jir")
