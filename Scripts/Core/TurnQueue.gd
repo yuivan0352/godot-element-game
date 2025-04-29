@@ -117,3 +117,20 @@ func _play_turn():
 
 func _on_user_interface_switch_mode(mode: Variant) -> void:
 	pass # Replace with function body.
+
+#Spawning enemy reinforcements during battle
+func spawn_enemy_during_battle(enemy_name: String):
+	var enemy = enemy_chars.spawn_specific_enemy(enemy_name, layer_zero)
+	if enemy == null:
+		print("No valid spawn tile for ", enemy_name)
+		return
+	
+	print("Enemy ", enemy_name, " has arrived on the battlefield!")
+	var tile_coords = layer_zero.local_to_map(enemy.global_position)
+	enemy_positions[enemy] = tile_coords
+	layer_zero._set_char_pos_solid(enemy_positions)
+
+	turn_order.append(enemy)
+	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
+	enemy.turn_complete.connect(_play_turn)
+	enemy.unit_moving.connect(_transition_character_cam)
