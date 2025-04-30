@@ -71,6 +71,8 @@ func _attack_action(attack_type_array):
 					target_unit.queue_free()
 					tile_layer_zero._unsolid_coords(mouse_tile)
 					_update_adj_tiles()
+				if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
+					get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
 			else:
 				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
 		if mode == "magic":

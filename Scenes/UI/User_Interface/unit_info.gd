@@ -1,8 +1,12 @@
 extends Panel
 
 @onready var unit_name = $UnitName
-@onready var unit_stats = $UnitStats
-@onready var unit_sprite = $UnitSprite
+@onready var unit_sprite = $SpriteContainer/UnitSprite
+
+@onready var healthLabel = $UnitStats/Health
+@onready var manaLabel = $UnitStats/Mana
+@onready var armorLabel = $UnitStats/Armor
+@onready var movementLabel = $UnitStats/Movement
 
 var current_unit = null
 var is_dragging = false
@@ -37,11 +41,7 @@ func update_info(unit):
 	current_unit = unit
 	visible = true
 	
-	if unit_name:
-		if unit.unit_stats and unit.unit_stats.name:
-			unit_name.text = unit.unit_stats.name
-		else:
-			unit_name.text = unit.name
+	unit_name.text = unit.unit_stats.name
 	
 	if unit_sprite and unit.has_node("Sprite"):
 		var sprite_display = unit.get_node("Sprite")
@@ -53,28 +53,12 @@ func update_info(unit):
 
 
 func update_stats(unit):
-	if not unit or not unit.unit_stats:
-		return
-		
 	var stats = unit.unit_stats
 	
-	for child in unit_stats.get_children():
-		child.queue_free()
-	
-	create_stat_label("Health", stats.health)
-	create_stat_label("Armor Class", stats.armor_class)
-	create_stat_label("Movement Speed", stats.movement_speed)
-	create_stat_label("Brains", stats.brains)
-	create_stat_label("Brawns", stats.brawns)
-	create_stat_label("Bewitchment", stats.bewitchment)
-
-func create_stat_label(stat_name, value):
-	var label = Label.new()
-	label.text = stat_name + ": " + str(value)
-	
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	
-	unit_stats.add_child(label)
+	healthLabel.text = "Health: " + str(stats.health)
+	manaLabel.text = "Mana: " + str(stats.mana)
+	armorLabel.text = "Armor: " + str(stats.armor_class)
+	movementLabel.text = "Movement: " + str(stats.movement_speed)
 
 func close():
 	visible = false

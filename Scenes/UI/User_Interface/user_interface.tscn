@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=46 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -18,6 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://dm2ut08aaoqje" path="res://Assets/Texture/movement_bar_over.png" id="18_mad2t"]
 [ext_resource type="Texture2D" uid="uid://kf4s7dgu10me" path="res://Assets/Texture/magic_bar_under.png" id="19_geroj"]
 [ext_resource type="Texture2D" uid="uid://bpad5wkamhblg" path="res://Assets/Texture/magic_bar_over.png" id="20_lny1u"]
+[ext_resource type="Theme" uid="uid://dbykdefbhwgsj" path="res://Resources/Themes/StatBackground.tres" id="21_x3eeq"]
+[ext_resource type="Theme" uid="uid://cc6ntnanddm2n" path="res://Resources/Themes/CloseButton.tres" id="23_aita3"]
+[ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="23_xvgfx"]
+[ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
@@ -74,6 +78,19 @@ atlas = ExtResource("17_714rb")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xvgfx"]
 atlas = ExtResource("19_geroj")
+
+[sub_resource type="LabelSettings" id="LabelSettings_aita3"]
+font = ExtResource("23_xvgfx")
+font_size = 21
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1thyp"]
+font = ExtResource("23_xvgfx")
+font_size = 22
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
@@ -315,50 +332,106 @@ anchor_bottom = 1.0
 offset_top = -231.0
 offset_right = 245.0
 grow_vertical = 0
+theme = ExtResource("21_x3eeq")
 script = ExtResource("5_yx8tb")
 
 [node name="CloseButton" type="Button" parent="UnitInfo"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -26.0
-offset_top = -16.0
-offset_right = 24.0
-offset_bottom = 15.0
-grow_horizontal = 0
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.930684
+anchor_right = 0.5
+anchor_bottom = 0.930684
+offset_left = -20.5
+offset_top = -12.988
+offset_right = 20.5
+offset_bottom = 11.012
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("23_aita3")
 text = "Close"
+metadata/_edit_use_anchors_ = true
 
 [node name="UnitName" type="Label" parent="UnitInfo"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
+anchor_top = 0.071645
 anchor_right = 0.5
+anchor_bottom = 0.071645
 offset_left = -38.5
+offset_top = -11.55
 offset_right = 38.5
-offset_bottom = 23.0
+offset_bottom = 11.45
 grow_horizontal = 2
+text = "======== Something ========"
+label_settings = SubResource("LabelSettings_aita3")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="UnitSprite" type="TextureRect" parent="UnitInfo"]
+[node name="SpriteContainer" type="Panel" parent="UnitInfo"]
 layout_mode = 1
 anchors_preset = -1
+anchor_left = 0.230612
+anchor_top = 0.32684
+anchor_right = 0.230612
+anchor_bottom = 0.32684
+offset_left = -47.0
+offset_top = -45.5
+offset_right = 43.0
+offset_bottom = 44.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("25_1thyp")
+metadata/_edit_use_anchors_ = true
+
+[node name="UnitSprite" type="TextureRect" parent="UnitInfo/SpriteContainer"]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -102.5
-offset_top = -75.5
-offset_right = -62.5
-offset_bottom = -35.5
+offset_left = -42.0
+offset_top = -42.0
+offset_right = 43.0
+offset_bottom = 43.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="UnitStats" type="VBoxContainer" parent="UnitInfo"]
-layout_mode = 0
-offset_left = 60.0
-offset_top = 40.0
-offset_right = 244.0
-offset_bottom = 229.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.702
+anchor_top = 0.331
+anchor_right = 0.702
+anchor_bottom = 0.331
+offset_left = -60.99
+offset_top = -47.461
+offset_right = 61.01
+offset_bottom = 47.539
+theme_override_constants/separation = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Health" type="Label" parent="UnitInfo/UnitStats"]
+layout_mode = 2
+text = "Health:"
+label_settings = SubResource("LabelSettings_1thyp")
+
+[node name="Mana" type="Label" parent="UnitInfo/UnitStats"]
+layout_mode = 2
+text = "Mana:"
+label_settings = SubResource("LabelSettings_1thyp")
+
+[node name="Armor" type="Label" parent="UnitInfo/UnitStats"]
+layout_mode = 2
+text = "Armor:"
+label_settings = SubResource("LabelSettings_1thyp")
+
+[node name="Movement" type="Label" parent="UnitInfo/UnitStats"]
+layout_mode = 2
+text = "Movement:"
+label_settings = SubResource("LabelSettings_1thyp")
 
 [connection signal="mouse_entered" from="TurnScroll" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="TurnScroll" to="." method="_on_ui_element_mouse_exited"]
