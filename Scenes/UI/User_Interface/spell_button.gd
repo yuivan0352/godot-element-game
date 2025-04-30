@@ -7,4 +7,5 @@ func update_button():
 	icon = spell_info.button_texture
 
 func on_spell_press():
-	spell_info_pass.emit("magic", spell_info)
+	if spell_info != null:
+		spell_info_pass.emit("magic", spell_info)
