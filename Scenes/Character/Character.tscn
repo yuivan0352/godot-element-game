@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://brhl8kkmkf8im"]
+[gd_scene load_steps=8 format=3 uid="uid://brhl8kkmkf8im"]
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_vxr42"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_c5abm"]
 [ext_resource type="Texture2D" uid="uid://bu5i1hcwq7y4d" path="res://Assets/Sprites/warrior.png" id="3_3qx2k"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_3qx2k"]
 [ext_resource type="Texture2D" uid="uid://hs6jtjcds5dg" path="res://Assets/Texture/Animated_Soldier.png" id="5_pp8xd"]
-[ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="7_e0u81"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1cd2p"]
 size = Vector2(20, 46)
@@ -23,7 +22,6 @@ animations = [{
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_vxr42")
-spells = Array[ExtResource("7_e0u81")]([null])
 
 [node name="Path" type="Node2D" parent="."]
 script = ExtResource("2_c5abm")

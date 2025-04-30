@@ -34,7 +34,7 @@ func _ui_element_mouse_exited():
 	path._on_ui_element_mouse_exited()
 	
 func change_mode(input_mode: String, spell_info: Spell):
-	if mode == input_mode and spell_info == null:
+	if mode == input_mode and (spell_info == current_spell or spell_info == null):
 		mode = "idle"
 		current_spell = null
 	else:
@@ -60,7 +60,7 @@ func _attack_action(attack_type_array):
 			var attack_roll = rng.randi_range(1, 20)
 			if attack_roll >= target_unit.unit_stats.armor_class:
 				if mode == "magic":
-					damage = current_spell.damage
+					damage = current_spell.dice_count * rng.randi_range(1, current_spell.dice_type_nums.get(current_spell.dice_type))
 				else:
 					damage = rng.randi_range(1, 6)
 				target_unit.unit_stats.health -= damage
@@ -121,7 +121,7 @@ func _input(event):
 							Spell.RANGE_TYPE.RANGED:
 								_attack_action(circle_tiles)
 							Spell.RANGE_TYPE.LINE:
-								_attack_action(circle_tiles)
+								_attack_action(line_tiles)
 
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):
