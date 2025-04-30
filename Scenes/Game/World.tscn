@@ -882,6 +882,7 @@ use_parent_material = true
 tile_set = SubResource("TileSet_ivcak")
 
 [node name="OverviewCamera" parent="Environment" instance=ExtResource("8_2nhjv")]
+editor_draw_limits = true
 
 [node name="Combatants" type="Node2D" parent="."]
 

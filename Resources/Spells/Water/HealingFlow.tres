@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3 uid="uid://c6eyitjmaqi5u"]
+
+[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="1_6kdpx"]
+[ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="1_v67k4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6x7bk"]
+atlas = ExtResource("1_6kdpx")
+region = Rect2(32, 80, 16, 16)
+
+[resource]
+script = ExtResource("1_v67k4")
+spell_range_type = 0
+spell_type = 1
+spell_name = "Healing Flow"
+range = 0
+dice_count = 1
+dice_type = 1
+elemental_type = 1
+mana_cost = 1
+action_cost = 1
+bonus_action_cost = 1
+button_texture = SubResource("AtlasTexture_6x7bk")
+metadata/_custom_type_script = "uid://ddamvpuo6hhxo"

@@ -41,8 +41,8 @@ func _ready():
 	
 	setup_turn_order()
 
-func _change_current_unit_mode(mode : String):
-	current_unit.change_mode(mode)
+func _change_current_unit_mode(mode : String, spell_info: Spell):
+	current_unit.change_mode(mode, spell_info)
 
 func setup_turn_order():
 	for unit in turn_order:
@@ -59,6 +59,8 @@ func setup_turn_order():
 	if current_unit is Enemy:
 		current_unit.take_turn()
 		buttons_disabled.emit(true)
+	else:
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 
 func _update_char_pos(coords):
 	if current_unit is Character:
@@ -103,6 +105,7 @@ func _play_turn():
 	
 	if current_unit is Character:
 		overview_camera.make_current()
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 	current_character.emit(current_unit)
 
 	current_unit._reset_action_econ()
