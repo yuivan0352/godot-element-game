@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=52 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -20,8 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://bpad5wkamhblg" path="res://Assets/Texture/magic_bar_over.png" id="20_lny1u"]
 [ext_resource type="Theme" uid="uid://dbykdefbhwgsj" path="res://Resources/Themes/StatBackground.tres" id="21_x3eeq"]
 [ext_resource type="Theme" uid="uid://cc6ntnanddm2n" path="res://Resources/Themes/CloseButton.tres" id="23_aita3"]
+[ext_resource type="Theme" uid="uid://dmlgv0g1qok15" path="res://Resources/Themes/CombatLog.tres" id="23_x3eeq"]
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="23_xvgfx"]
+[ext_resource type="Texture2D" uid="uid://c31mh0syxbxy4" path="res://Assets/Texture/GUI.png" id="24_xvgfx"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
+[ext_resource type="Script" uid="uid://vj1lb7u563hw" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
@@ -91,6 +94,18 @@ font_size = 22
 shadow_size = 3
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aita3"]
+atlas = ExtResource("24_xvgfx")
+region = Rect2(0, 96, 48, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1thyp"]
+atlas = ExtResource("24_xvgfx")
+region = Rect2(149, 35, 7, 8)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x3eeq"]
+font = ExtResource("23_xvgfx")
+shadow_color = Color(0.0507813, 0.0482025, 0.0456238, 1)
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_csm4g")
@@ -329,8 +344,10 @@ texture_progress = ExtResource("20_lny1u")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -231.0
-offset_right = 245.0
+offset_left = 880.0
+offset_top = -544.0
+offset_right = 1125.0
+offset_bottom = -313.0
 grow_vertical = 0
 theme = ExtResource("21_x3eeq")
 script = ExtResource("5_yx8tb")
@@ -433,6 +450,55 @@ layout_mode = 2
 text = "Movement:"
 label_settings = SubResource("LabelSettings_1thyp")
 
+[node name="CombatLogController" type="Control" parent="."]
+layout_mode = 3
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_right = 384.0
+grow_vertical = 0
+
+[node name="CombatLog" type="Panel" parent="CombatLogController"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 200.0
+theme = ExtResource("23_x3eeq")
+
+[node name="ExpandButton" type="TextureButton" parent="CombatLogController/CombatLog"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -216.0
+offset_right = 48.0
+offset_bottom = -210.0
+grow_vertical = 0
+scale = Vector2(1.33289, 2.77186)
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_aita3")
+texture_pressed = SubResource("AtlasTexture_aita3")
+texture_hover = SubResource("AtlasTexture_aita3")
+texture_focused = SubResource("AtlasTexture_aita3")
+script = ExtResource("25_aita3")
+
+[node name="Sprite2D" type="Sprite2D" parent="CombatLogController/CombatLog/ExpandButton"]
+position = Vector2(5.796, 2.961)
+rotation = 4.71239
+scale = Vector2(0.5, 1.10609)
+texture = SubResource("AtlasTexture_1thyp")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatLogController/CombatLog"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 376.0
+offset_bottom = 192.0
+
+[node name="Label" type="Label" parent="CombatLogController/CombatLog/ScrollContainer"]
+custom_minimum_size = Vector2(356, 184)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_x3eeq")
+autowrap_mode = 3
+
 [connection signal="mouse_entered" from="TurnScroll" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="TurnScroll" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="mouse_entered" from="TurnScroll/HBoxContainer" to="." method="_on_ui_element_mouse_entered"]
@@ -477,3 +543,4 @@ label_settings = SubResource("LabelSettings_1thyp")
 [connection signal="mouse_entered" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="pressed" from="UnitInfo/CloseButton" to="UnitInfo" method="close"]
+[connection signal="pressed" from="CombatLogController/CombatLog/ExpandButton" to="CombatLogController/CombatLog/ExpandButton" method="expand_combat_log"]
