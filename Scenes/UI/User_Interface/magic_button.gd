@@ -4,8 +4,8 @@ extends Button
 @onready var magic_container = $"../../../../MagicBar/MarginContainer/MagicButtons"
 @onready var magic_bar = $"../../../../MagicBar"
 
-var _up_anchor_offset = 416.0
-var _down_anchor_offset = 640.0
+var _up_anchor_offset = -304.0
+var _down_anchor_offset = -80.0
 var _target_anchor_offset : float = _down_anchor_offset
 var _popped_up = false
 
