@@ -195,7 +195,7 @@ script = ExtResource("8_luhdb")
 
 [node name="MagicBar" type="Panel" parent="."]
 visible = false
-anchors_preset = -1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -386,7 +386,6 @@ offset_bottom = 229.0
 [connection signal="attack_mode" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="." method="_switch_mode"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/AttackButton" to="Hotbar/MarginContainer/MainButtons/AttackButton" method="_mode_switch"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="Hotbar/MarginContainer/MainButtons/MagicButton" method="_ui_mode_switch"]
-[connection signal="return_to_idle" from="Hotbar/MarginContainer/MainButtons/MagicButton" to="." method="_switch_mode"]
 [connection signal="end_turn" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="." method="_end_turn"]
 [connection signal="pressed" from="Hotbar/MarginContainer/MainButtons/EndTurnButton" to="Hotbar/MarginContainer/MainButtons/EndTurnButton" method="_end_turn"]
 [connection signal="mouse_entered" from="MagicBar" to="." method="_on_ui_element_mouse_entered"]

@@ -9,8 +9,6 @@ var _down_anchor_offset = -80.0
 var _target_anchor_offset : float = _down_anchor_offset
 var _popped_up = false
 
-signal return_to_idle
-
 func _ui_mode_switch():
 	if !_popped_up:
 		magic_container.visible = true
@@ -20,7 +18,6 @@ func _ui_mode_switch():
 		magic_container.visible = false
 		_target_anchor_offset = _down_anchor_offset
 	_popped_up = !_popped_up
-	return_to_idle.emit("idle", null)
 
 func _process(delta: float) -> void:
 	magic_bar.offset_top = lerp(magic_bar.offset_top, _target_anchor_offset, 0.2)
