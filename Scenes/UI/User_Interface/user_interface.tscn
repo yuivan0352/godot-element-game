@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://bllkxcv7vc2d0" path="res://Scenes/UI/User_Interface/end_turn_button.gd" id="8_luhdb"]
 [ext_resource type="Script" uid="uid://orqvufbguj4c" path="res://Scenes/UI/User_Interface/magic_button.gd" id="8_uddve"]
 [ext_resource type="Texture2D" uid="uid://ck6cd0r7gfhx6" path="res://Assets/Texture/action_empty.png" id="13_c87su"]
-[ext_resource type="Script" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
+[ext_resource type="Script" uid="uid://bm8p1h0qebg2d" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
@@ -212,7 +212,7 @@ script = ExtResource("8_luhdb")
 
 [node name="MagicBar" type="Panel" parent="."]
 visible = false
-anchors_preset = -1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
