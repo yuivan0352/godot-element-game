@@ -30,9 +30,14 @@ func _ready():
 				astar_grid.set_point_solid(tile, true)
 
 func set_terrain():
-	var pattern = tile_set.get_pattern((randi() % 4) + (4 * (randi() % 3)))
+	var biometype = (4 * (randi() % 3))
+	var pattern = tile_set.get_pattern((randi() % 4) + biometype)
+	var pattern2 = tile_set.get_pattern(biometype + 1)
 	if pattern:
 		set_pattern(Vector2i(0,0), pattern)
+		# how TO ADD THE PATTERN
+		set_pattern(Vector2i(1,0),pattern2)
+		print()
 
 func _set_char_pos_solid(char_positions):
 	for key in char_positions:
@@ -67,6 +72,9 @@ func _process(_delta):
 			layer_one.erase_cell(tile)
 
 	if dictionary.has(str(tile_position)):
+		
+	
+	
 		if !in_ui_element:
 			if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)

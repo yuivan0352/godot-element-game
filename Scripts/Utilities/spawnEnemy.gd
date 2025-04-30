@@ -21,7 +21,9 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	rng.randomize()
-
+	
+func get_enemy_positions() -> Dictionary:
+	return positions
 func spawn_characters(count: int, layer: TileMapLayer) -> Array[Enemy]:
 	var spawned_characters: Array[Enemy] = []
 	var attempts = 0

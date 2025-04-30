@@ -41,6 +41,11 @@ func _ready():
 	
 	setup_turn_order()
 
+func get_enemy_positions():
+	return enemy_positions
+func get_pc_positions():
+	return pc_positions
+
 func _change_current_unit_mode(mode : String):
 	current_unit.change_mode(mode)
 
