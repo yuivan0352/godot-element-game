@@ -12,6 +12,7 @@ size = Vector2(20, 22)
 [node name="Quorral" type="Node2D"]
 script = ExtResource("1_excmy")
 unit_stats = ExtResource("2_bgnvm")
+unit_elements = Array[int]([3])
 
 [node name="Path" type="Node2D" parent="."]
 script = ExtResource("2_aff21")

@@ -1244,56 +1244,25 @@ cache/0/10/0/glyphs/402653270/size = Vector2(7, 8)
 cache/0/10/0/glyphs/402653270/uv_rect = Rect2(81, 1, 7, 8)
 cache/0/10/0/glyphs/402653270/texture_idx = 0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yjit"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16j43"]
+texture = ExtResource("1_htop5")
+region_rect = Rect2(1, 81, 14, 14)
+modulate_color = Color(0.396889, 0.396889, 0.396889, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7xrpp"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 0.75)
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htop5"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yfbcp"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.225, 0.225, 0.225, 0.6)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4jfc0"]
+texture = ExtResource("1_htop5")
+region_rect = Rect2(1, 81, 14, 14)
+modulate_color = Color(0.67069, 0.67069, 0.67069, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xjs12"]
 texture = ExtResource("1_htop5")
 region_rect = Rect2(1, 81, 14, 14)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mtjdl"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_htop5"]
+texture = ExtResource("1_htop5")
+region_rect = Rect2(1, 81, 14, 14)
 
 [resource]
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
@@ -1315,8 +1284,8 @@ Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 16
 Button/fonts/font = SubResource("FontFile_3nayt")
-Button/styles/disabled = SubResource("StyleBoxFlat_5yjit")
-Button/styles/focus = SubResource("StyleBoxFlat_7xrpp")
-Button/styles/hover = SubResource("StyleBoxFlat_yfbcp")
+Button/styles/disabled = SubResource("StyleBoxTexture_16j43")
+Button/styles/focus = SubResource("StyleBoxEmpty_htop5")
+Button/styles/hover = SubResource("StyleBoxTexture_4jfc0")
 Button/styles/normal = SubResource("StyleBoxTexture_xjs12")
-Button/styles/pressed = SubResource("StyleBoxTexture_mtjdl")
+Button/styles/pressed = SubResource("StyleBoxTexture_htop5")

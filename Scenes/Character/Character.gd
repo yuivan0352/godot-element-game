@@ -6,8 +6,24 @@ var mode : String = "idle"
 @onready var clickable_area = $Sprite/clickableArea
 
 var in_ui_element: bool
+var current_spell: Spell
+var possible_spells: Array[Spell]
 
 signal unit_clicked(unit)
+signal spell_info(spell_array)
+
+func _ready() -> void:
+	super._ready()
+	var spell_resource_path = "res://Resources/Spells/" + str(Spell.ELEMENTAL_TYPE.find_key(unit_elements[0]))
+	var spell_dir = DirAccess.open(spell_resource_path)
+	if spell_resource_path:
+		spell_dir.list_dir_begin()
+		var spell_resource = spell_dir.get_next()
+		while spell_resource != "":
+			possible_spells.append(load(spell_resource_path + "/" + spell_resource))
+			spell_resource = spell_dir.get_next()
+	for spell in possible_spells:
+		equipped_spells.append(spell)
 
 func _ui_element_mouse_entered():
 	in_ui_element = true
@@ -17,11 +33,19 @@ func _ui_element_mouse_exited():
 	in_ui_element = false
 	path._on_ui_element_mouse_exited()
 	
-func change_mode(input_mode: String):
-	if mode == input_mode:
+func change_mode(input_mode: String, spell_info: Spell):
+	if mode == input_mode and (spell_info == current_spell or spell_info == null):
 		mode = "idle"
+		current_spell = null
 	else:
 		mode = input_mode
+		current_spell = spell_info
+		if current_spell != null:
+			match current_spell.spell_range_type:
+				Spell.RANGE_TYPE.RANGED:
+					_update_circle_tiles(current_spell.range)
+				Spell.RANGE_TYPE.LINE:
+					_update_line_tiles(current_spell.range)
 
 func _reset_action_econ():
 	super._reset_action_econ()
@@ -30,17 +54,31 @@ func _reset_action_econ():
 func _attack_action(attack_type_array):
 	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
 	var target_unit = turn_queue.enemy_positions.find_key(mouse_tile)
+	var damage = 0
 	if actions > 0:
 		if target_unit != null and attack_type_array.has(mouse_tile):
-			target_unit.unit_stats.health -= rng.randi_range(1, 6)
-			print(target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
-			if target_unit.unit_stats.health <= 0:
-				turn_queue.enemy_positions.erase(target_unit)
-				turn_queue.turn_order.erase(target_unit)
-				target_unit.queue_free()
-				tile_layer_zero._unsolid_coords(mouse_tile)
-				_update_adj_tiles()
-		actions -= 1
+			var attack_roll = rng.randi_range(1, 20)
+			if attack_roll >= target_unit.unit_stats.armor_class:
+				if mode == "magic":
+					damage = current_spell.dice_count * rng.randi_range(1, current_spell.dice_type_nums.get(current_spell.dice_type))
+				else:
+					damage = rng.randi_range(1, 6)
+				target_unit.unit_stats.health -= damage
+				print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
+				if target_unit.unit_stats.health <= 0:
+					turn_queue.enemy_positions.erase(target_unit)
+					turn_queue.turn_order.erase(target_unit)
+					target_unit.queue_free()
+					tile_layer_zero._unsolid_coords(mouse_tile)
+					_update_adj_tiles()
+				if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
+					get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
+			else:
+				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
+		if mode == "magic":
+			actions -= current_spell.action_cost
+		else:
+			actions -= 1
 		update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, (movement_limit - moved_distance) * 5)
 		mode = "idle"
 	else:
@@ -72,19 +110,18 @@ func _input(event):
 						current_id_path = current_id_path.slice(0, 1)
 					unit_still.emit()
 					mode = "idle"
-			"attack", "magic_melee":
+			"attack":
 				if event.is_action_pressed("interact"):
-					if mode == "magic_melee":
-						unit_stats.mana -= 1
 					_attack_action(adjacent_tiles)
-			"magic_ranged":
+			"magic":
 				if event.is_action_pressed("interact"):
-					unit_stats.mana -= 1
-					_attack_action(circle_tiles)
-			"magic_line":
-				if event.is_action_pressed("interact"):
-					unit_stats.mana -= 1
-					_attack_action(line_tiles)
+					unit_stats.mana -= current_spell.mana_cost
+					if current_spell.spell_type == Spell.TYPE.DAMAGE:
+						match current_spell.spell_range_type:
+							Spell.RANGE_TYPE.RANGED:
+								_attack_action(circle_tiles)
+							Spell.RANGE_TYPE.LINE:
+								_attack_action(line_tiles)
 
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta):

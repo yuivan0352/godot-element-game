@@ -12,6 +12,7 @@ size = Vector2(20, 22)
 [node name="Brylla" type="Node2D"]
 script = ExtResource("1_xaie8")
 unit_stats = ExtResource("2_qvsfw")
+unit_elements = Array[int]([2])
 
 [node name="Path" type="Node2D" parent="."]
 script = ExtResource("2_ig3x3")

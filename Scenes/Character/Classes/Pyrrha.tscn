@@ -12,6 +12,7 @@ size = Vector2(20, 22)
 [node name="Prryha" type="Node2D"]
 script = ExtResource("1_enbfc")
 unit_stats = ExtResource("2_f6j36")
+unit_elements = Array[int]([0])
 
 [node name="Path" type="Node2D" parent="."]
 script = ExtResource("2_gdr3b")
