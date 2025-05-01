@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3 uid="uid://cljef7p3418n6"]
+
+[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="1_sa3po"]
+[ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="1_sbsyg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3htdq"]
+atlas = ExtResource("1_sa3po")
+region = Rect2(64, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_sbsyg")
+spell_range_type = 1
+spell_type = 0
+spell_name = "Flame Shot"
+range = 3
+dice_count = 1
+dice_type = 0
+elemental_type = 0
+mana_cost = 1
+action_cost = 1
+bonus_action_cost = 0
+button_texture = SubResource("AtlasTexture_3htdq")

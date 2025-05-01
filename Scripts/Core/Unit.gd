@@ -17,12 +17,15 @@ var line_tiles: Array[Vector2i]
 var actions: int
 var bonus_actions : int
 
+
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
 @onready var overview_camera = $"../../../Environment/OverviewCamera"
 @onready var turn_queue = $"../../../Services/TurnQueue"
 @onready var character_camera = $CharacterCamera
 @export var unit_stats: Stats
+@export var equipped_spells: Array[Spell]
+@export var unit_elements: Array[Spell.ELEMENTAL_TYPE]
 
 signal turn_complete
 signal unit_still
@@ -38,8 +41,6 @@ func _ready():
 		actions = 1
 		bonus_actions = 1
 		_update_adj_tiles()
-		_update_circle_tiles()
-		_update_line_tiles()
 
 func _update_adj_tiles():
 	adjacent_tiles = []
@@ -56,26 +57,26 @@ func _in_circle_range(center: Vector2i, tile: Vector2i, radius: float):
 	var distance_squared = (dx*dx) + (dy*dy)
 	return distance_squared <= radius*radius
 
-func _update_circle_tiles():
+func _update_circle_tiles(range: int):
 	circle_tiles = []
 	var tile_position = tile_layer_zero.local_to_map(global_position)
 
-	var top = ceil(tile_position.y - 5)
-	var bottom  = floor(tile_position.y + 5)
-	var left = ceil(tile_position.x - 5)
-	var right = floor(tile_position.x + 5)
+	var top = ceil(tile_position.y - range)
+	var bottom  = floor(tile_position.y + range)
+	var left = ceil(tile_position.x - range)
+	var right = floor(tile_position.x + range)
 
 	for y in range(top, bottom + 1):
 		for x in range(left, right + 1):
 			var tile = Vector2i(x, y)
-			if _in_circle_range(tile_position, tile, 5.5):
+			if _in_circle_range(tile_position, tile, (range + 0.5)):
 				circle_tiles.append(tile)
 
-func _update_line_tiles():
+func _update_line_tiles(range: int):
 	line_tiles = []
 	var tile_position = tile_layer_zero.local_to_map(global_position)
 	line_tiles.append_array(tile_layer_zero.get_surrounding_cells(tile_position))
-	for i in range(1, 5):
+	for i in range(1, range):
 		line_tiles.append(line_tiles[0] + (Vector2i.RIGHT * i))
 		line_tiles.append(line_tiles[1] + (Vector2i.DOWN * i))
 		line_tiles.append(line_tiles[2] + (Vector2i.LEFT * i))
@@ -109,7 +110,5 @@ func move_towards_target(_delta) -> bool:
 				tile_layer_zero._solid_coords(tile_layer_zero.local_to_map(global_position))
 				turn_queue._update_char_pos(tile_layer_zero.local_to_map(global_position))
 				_update_adj_tiles()
-				_update_circle_tiles()
-				_update_line_tiles()
 				return true
 	return false

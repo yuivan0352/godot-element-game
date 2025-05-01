@@ -87,5 +87,5 @@ func _process(_delta):
 							else:
 								layer_one.set_cell(tile_position, 3, Vector2i(3, 3), 0)
 							in_movement_range = false
-						"attack", "magic_melee", "magic_ranged", "magic_line":
+						"attack", "magic":
 							layer_one.set_cell(tile_position, 2, Vector2i(4, 3), 0)

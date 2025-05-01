@@ -8,6 +8,7 @@ class_name UserInterface
 @onready var bonus_action_icon = $ActionEcon/HBoxContainer/BonusActionIcon
 @onready var movement_bar = $ActionEcon/MovementBar
 @onready var mana_bar = $ActionEcon/ManaBar
+@onready var magic_buttons = $MagicBar/MarginContainer/MagicButtons
 
 var current_unit
 var turn_array
@@ -36,8 +37,8 @@ func _update_mana_bar(used_mana: int):
 func _update_movement_bar():
 	movement_bar.value = movement_bar.value - 5
 	
-func _switch_mode(mode : String):
-	switch_mode.emit(mode)
+func _switch_mode(mode : String, spell_info: Spell):
+	switch_mode.emit(mode, spell_info)
 
 func _on_ui_element_mouse_entered() -> void:
 	ui_element_mouse_entered.emit()
@@ -62,3 +63,8 @@ func _buttons_disabled(mode):
 	var mainButtons = hotbar.get_child(0).get_child(0).get_children()
 	for button in mainButtons:
 		button.disabled = mode
+
+func _fill_spell_buttons(spell_array):
+	for i in range(spell_array.size()):
+		magic_buttons.get_children()[i].spell_info = spell_array[i]
+		magic_buttons.get_children()[i].update_button()

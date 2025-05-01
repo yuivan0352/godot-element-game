@@ -23,7 +23,7 @@ signal buttons_disabled
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(1, layer_zero)
 	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
@@ -46,8 +46,8 @@ func get_enemy_positions():
 func get_pc_positions():
 	return pc_positions
 
-func _change_current_unit_mode(mode : String):
-	current_unit.change_mode(mode)
+func _change_current_unit_mode(mode : String, spell_info: Spell):
+	current_unit.change_mode(mode, spell_info)
 
 func setup_turn_order():
 	for unit in turn_order:
@@ -64,6 +64,8 @@ func setup_turn_order():
 	if current_unit is Enemy:
 		current_unit.take_turn()
 		buttons_disabled.emit(true)
+	else:
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 
 func _update_char_pos(coords):
 	if current_unit is Character:
@@ -108,11 +110,13 @@ func _play_turn():
 	
 	if current_unit is Character:
 		overview_camera.make_current()
+		current_unit.spell_info.emit(current_unit.equipped_spells)
 	current_character.emit(current_unit)
 
 	current_unit._reset_action_econ()
 	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 	if current_unit is Character:
+		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
 	elif current_unit is Enemy:
 		print("Processing enemy turn")

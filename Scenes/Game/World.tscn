@@ -2818,7 +2818,6 @@ metadata/_edit_horizontal_guides_ = [1.0, 2.0, -326.0]
 
 [node name="UserInterface" parent="." instance=ExtResource("2_alos7")]
 unique_name_in_owner = true
-visible = false
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -2835,7 +2834,7 @@ tile_set = SubResource("TileSet_ivcak")
 metadata/_edit_lock_ = true
 
 [node name="OverviewCamera" parent="Environment" instance=ExtResource("8_2nhjv")]
-metadata/_edit_lock_ = true
+editor_draw_limits = true
 
 [node name="Combatants" type="Node2D" parent="."]
 

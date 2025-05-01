@@ -21,21 +21,28 @@ func _draw():
 		"moving":
 			for i in character.current_id_path.size():
 				character.tile_layer_one.set_cell(character.current_id_path[i], 2, Vector2i(4,2), 0)
-		"attack", "magic_melee":
+		"attack":
 			for tile in character.adjacent_tiles:
 				if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
 					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
 						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
-		"magic_ranged":
-			for tile in character.circle_tiles:
-				if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
-					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
-						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
-		"magic_line":
-			for tile in character.line_tiles:
-				if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
-					if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
-						character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
+		"magic":
+			match character.current_spell.spell_range_type:
+				Spell.RANGE_TYPE.MELEE:
+					for tile in character.adjacent_tiles:
+						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
+							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
+								character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
+				Spell.RANGE_TYPE.RANGED:
+					for tile in character.circle_tiles:
+						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
+							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
+								character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
+				Spell.RANGE_TYPE.LINE:
+					for tile in character.line_tiles:
+						if tile != character.tile_layer_one.local_to_map(get_global_mouse_position()):
+							if !character.tile_layer_zero.astar_grid.is_point_solid(tile) and tile.x >= 0 and tile.y >= 0:
+								character.tile_layer_one.set_cell(tile, 2, Vector2i(4, 2), 0)
 
 func _on_character_unit_moving():
 	path_set = true
