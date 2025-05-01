@@ -1,3 +1,145 @@
-[gd_scene format=3 uid="uid://be21h85tc2gbi"]
+[gd_scene load_steps=14 format=3 uid="uid://be21h85tc2gbi"]
 
-[node name="Upgrade" type="Node2D"]
+[ext_resource type="Script" uid="uid://b6msb4pro24c1" path="res://Scenes/Screens/Upgrade/upgrade.gd" id="1_cp5m0"]
+[ext_resource type="Script" uid="uid://c44rfkyosbdip" path="res://Scenes/Screens/Upgrade/team.gd" id="1_g3own"]
+[ext_resource type="PackedScene" uid="uid://bjvmoxonb0fd8" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
+[ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="2_g3own"]
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="3_7uw2u"]
+[ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_cp5m0"]
+[ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="5_cvvpl"]
+[ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_ypp3r"]
+[ext_resource type="Theme" uid="uid://cc6ntnanddm2n" path="res://Resources/Themes/Button.tres" id="9_cvvpl"]
+
+[sub_resource type="Resource" id="Resource_ypp3r"]
+resource_local_to_scene = true
+script = ExtResource("3_7uw2u")
+name = "Arius"
+health = 15
+max_health = 15
+mana = 2
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+
+[sub_resource type="Resource" id="Resource_3w7n4"]
+resource_local_to_scene = true
+script = ExtResource("3_7uw2u")
+name = "Brylla"
+health = 12
+max_health = 12
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+
+[sub_resource type="Resource" id="Resource_gu4qa"]
+resource_local_to_scene = true
+script = ExtResource("3_7uw2u")
+name = "Pyrrha"
+health = 11
+max_health = 11
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+
+[sub_resource type="Resource" id="Resource_8y3rt"]
+resource_local_to_scene = true
+script = ExtResource("3_7uw2u")
+name = "Quorral"
+health = 10
+max_health = 10
+mana = 1
+armor_class = 9
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+
+[node name="Upgrade" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_cp5m0")
+
+[node name="TextureRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Team" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.121
+anchor_top = 0.074
+anchor_right = 0.879
+anchor_bottom = 0.836
+offset_left = 0.107986
+offset_top = 0.0480003
+offset_right = -0.108093
+offset_bottom = 0.271973
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 30
+script = ExtResource("1_g3own")
+
+[node name="Arius" parent="Team" instance=ExtResource("1_j13i5")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Arius.tscn"
+characterTexture = ExtResource("2_g3own")
+characterStat = SubResource("Resource_ypp3r")
+
+[node name="Brylla" parent="Team" instance=ExtResource("1_j13i5")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Brylla.tscn"
+characterTexture = ExtResource("4_cp5m0")
+characterStat = SubResource("Resource_3w7n4")
+
+[node name="Pyrrha" parent="Team" instance=ExtResource("1_j13i5")]
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Pyrrha.tscn"
+characterTexture = ExtResource("5_cvvpl")
+characterStat = SubResource("Resource_gu4qa")
+
+[node name="Quorral" parent="Team" instance=ExtResource("1_j13i5")]
+visible = false
+layout_mode = 2
+characterPath = "res://Scenes/Character/Classes/Quorral.tscn"
+characterTexture = ExtResource("6_ypp3r")
+characterStat = SubResource("Resource_8y3rt")
+
+[node name="GoButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -85.0
+offset_top = -80.0
+offset_right = 85.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme = ExtResource("9_cvvpl")
+theme_override_font_sizes/font_size = 25
+text = "Go!"
+
+[connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

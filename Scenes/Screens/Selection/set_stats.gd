@@ -62,16 +62,18 @@ func _on_add_pressed() -> void:
 	print("reallocate: ", statMenu.reallocate)
 
 func update_addButton() -> void:
-	if trackAllocation == 3:
-		addButton.disabled = true
-	if trackAllocation > -3:
-		subtractButton.disabled = false
+	if get_tree().current_scene.name == "Selection":
+		if trackAllocation == 3:
+			addButton.disabled = true
+		if trackAllocation > -3:
+			subtractButton.disabled = false
 	
 func update_subtractButton() -> void:
-	if trackAllocation < 3:
-		addButton.disabled = false
-	if trackAllocation == -3:
-		subtractButton.disabled = true
+	if get_tree().current_scene.name == "Selection":
+		if trackAllocation < 3:
+			addButton.disabled = false
+		if trackAllocation == -3:
+			subtractButton.disabled = true
 
 func update_difference_label() -> void:
 	if trackAllocation >= 0:
