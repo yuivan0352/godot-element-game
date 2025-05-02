@@ -171,7 +171,7 @@ func check_and_end_turn():
 		
 		#Checks whether it can attack in its range
 		if is_adjacent_to_closest_player(enemy_tile_pos, closest_player):
-			enemy_moves.use_melee_move(self)
+			enemy_moves.use_melee_move(self, player_tile_pos)
 		else:
 			enemy_moves.use_ranged_move(self)
 	

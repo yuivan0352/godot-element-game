@@ -65,7 +65,7 @@ func setup_turn_order():
 	current_unit = turn_order[0]
 	set_current_unit_stats()
 	
-	print(current_unit_stats.name, "'s turn")
+	print(current_unit.unit_stats.name, "'s turn")
 	current_character.emit(current_unit)
 	overview_camera.set_camera_position(current_unit)
 	
@@ -122,7 +122,7 @@ func _play_turn():
 	current_character.emit(current_unit)
 
 	current_unit._reset_action_econ()
-	current_unit.update_action_econ.emit(1, 1, current_unit_stats.mana, current_unit_stats.movement_speed, current_unit_stats.movement_speed)
+	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 	if current_unit is Character:
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
