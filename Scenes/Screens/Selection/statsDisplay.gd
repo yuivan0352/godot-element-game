@@ -9,6 +9,7 @@ extends VBoxContainer
 @onready var armorLabel = $Armor
 @onready var movementLabel = $Movement
 
+var characterStat
 var allocations = {
 	"health": 0,
 	"mana": 0,
@@ -17,6 +18,13 @@ var allocations = {
 }
 
 func _ready() -> void:
+	if get_tree().current_scene.name == "Selection":
+		characterStat = characterSlot.characterStat
+	else:
+		for stat in Global.characters_stats:
+			if characterSlot.characterStat.name == stat.name:
+				characterStat = stat
+	
 	update_stats()
 
 func _on_stat_changed(stat_name: String, allocation_value: int) -> void:
@@ -24,11 +32,11 @@ func _on_stat_changed(stat_name: String, allocation_value: int) -> void:
 	update_stats()
 	
 func update_stats() -> void:
-	if characterSlot.characterStat:
-		healthLabel.text = "Health: " + str(characterSlot.characterStat.health)
-		brainsLabel.text = "Brains: " + str(characterSlot.characterStat.brains)
-		brawnsLabel.text = "Brawns: " + str(characterSlot.characterStat.brawns)
-		bewitchmentLabel.text = "Bewitchment: " + str(characterSlot.characterStat.bewitchment)
-		manaLabel.text = "Mana: " + str(characterSlot.characterStat.mana)
-		armorLabel.text = "Armor: " + str(characterSlot.characterStat.armor_class)
-		movementLabel.text = "Movement: " + str(characterSlot.characterStat.movement_speed)
+	if characterStat:
+		healthLabel.text = "Health: " + str(characterStat.health)
+		brainsLabel.text = "Brains: " + str(characterStat.brains)
+		brawnsLabel.text = "Brawns: " + str(characterStat.brawns)
+		bewitchmentLabel.text = "Bewitchment: " + str(characterStat.bewitchment)
+		manaLabel.text = "Mana: " + str(characterStat.mana)
+		armorLabel.text = "Armor: " + str(characterStat.armor_class)
+		movementLabel.text = "Movement: " + str(characterStat.movement_speed)

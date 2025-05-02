@@ -53,7 +53,11 @@ func update_info(unit):
 
 
 func update_stats(unit):
-	var stats = unit.unit_stats
+	var stats
+	
+	for stat in Global.characters_stats:
+		if unit.unit_stats.name == stat.name:
+			stats = stat
 	
 	healthLabel.text = "Health: " + str(stats.health)
 	manaLabel.text = "Mana: " + str(stats.mana)

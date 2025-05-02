@@ -16,12 +16,14 @@ font = ExtResource("6_g5fs5")
 
 [sub_resource type="LabelSettings" id="LabelSettings_1vnqu"]
 font = ExtResource("6_g5fs5")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_afigv"]
 font = ExtResource("6_g5fs5")
 
 [sub_resource type="LabelSettings" id="LabelSettings_12rrr"]
 font = ExtResource("6_g5fs5")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1pdx"]
 font = ExtResource("6_g5fs5")
