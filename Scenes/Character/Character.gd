@@ -25,6 +25,11 @@ func _ready() -> void:
 	for spell in possible_spells:
 		equipped_spells.append(spell)
 
+func set_unit_stats():
+	for stat in Global.characters_stats:
+		if unit_stats.name == stat.name:
+			unit_stats = stat
+
 func _ui_element_mouse_entered():
 	in_ui_element = true
 	path._on_ui_element_mouse_entered()

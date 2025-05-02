@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=53 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -454,6 +454,7 @@ label_settings = SubResource("LabelSettings_1thyp")
 
 [node name="CombatLogController" type="Control" parent="."]
 layout_mode = 3
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_right = 384.0
