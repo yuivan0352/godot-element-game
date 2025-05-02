@@ -29,7 +29,6 @@ var bonus_actions : int
 @export var unit_elements: Array[Spell.ELEMENTAL_TYPE]
 
 
-
 signal turn_complete
 signal unit_still
 signal unit_moving
@@ -44,7 +43,6 @@ func _ready():
 		actions = 1
 		bonus_actions = 1
 		_update_adj_tiles()
-		_update_circle_tiles()
 
 func _update_adj_tiles():
 	adjacent_tiles = []

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bjvmoxonb0fd8"]
+[gd_scene load_steps=20 format=3 uid="uid://bhqcy1oe7cn5l"]
 
 [ext_resource type="Theme" uid="uid://bpoak1k73xvy4" path="res://Resources/Themes/StatAllocation.tres" id="1_h8rpc"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="1_nxyla"]
@@ -16,12 +16,14 @@ font = ExtResource("6_g5fs5")
 
 [sub_resource type="LabelSettings" id="LabelSettings_1vnqu"]
 font = ExtResource("6_g5fs5")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_afigv"]
 font = ExtResource("6_g5fs5")
 
 [sub_resource type="LabelSettings" id="LabelSettings_12rrr"]
 font = ExtResource("6_g5fs5")
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_t1pdx"]
 font = ExtResource("6_g5fs5")

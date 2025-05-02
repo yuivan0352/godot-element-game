@@ -6,7 +6,6 @@ var enemy_scenes: Dictionary = {
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
 	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
-	"Slime": preload("res://Scenes/Enemy/EnemySlime.tscn")
 }
 
 var enemy_stats: Dictionary = {
@@ -14,6 +13,14 @@ var enemy_stats: Dictionary = {
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
 	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
+}
+
+var reinforcement_enemy_scenes: Dictionary = {
+	"Slime": preload("res://Scenes/Enemy/EnemySlime.tscn")
+}
+
+
+var reinforcement_enemy_stats: Dictionary = {
 	"Slime": preload("res://Resources/Stats/Enemies/EnemySlime.tres")
 }
 
@@ -69,8 +76,8 @@ func spawn_specific_enemy(enemy_type: String, layer: TileMapLayer) -> Enemy:
 		if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !player_chars.positions.has(tile_position):
 			var position = Vector2(tile_position) * tile_size + Vector2(tile_size / 2, tile_size / 2)
 			
-			var char_instance = enemy_scenes[enemy_type].instantiate()
-			var stats = enemy_stats[enemy_type].duplicate()
+			var char_instance = reinforcement_enemy_scenes[enemy_type].instantiate()
+			var stats = reinforcement_enemy_stats[enemy_type].duplicate()
 			
 			char_instance.unit_stats = stats
 			char_instance.global_position = position

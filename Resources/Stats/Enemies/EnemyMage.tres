@@ -15,3 +15,4 @@ brains = 3
 brawns = 1
 bewitchment = 5
 enemy_class = "Ranged"
+used_iron_defense = false

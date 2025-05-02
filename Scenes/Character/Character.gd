@@ -146,7 +146,6 @@ func _physics_process(_delta):
 							tile_position
 						)
 						hover_id_path = hover_id_path.slice(1, hover_id_path.size() - 1)
-			
 		move_towards_target(_delta)
 
 func _on_area_clicked():

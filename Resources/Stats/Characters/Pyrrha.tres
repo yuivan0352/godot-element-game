@@ -14,3 +14,5 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
+enemy_class = ""
+used_iron_defense = false

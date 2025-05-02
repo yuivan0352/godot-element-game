@@ -86,7 +86,6 @@ func take_turn():
 					
 					# Try to stay between 3-5 tiles from player (ideal range)
 					if dist_to_player >= 3 and dist_to_player <= 5:
-						# Score based on being in range and not moving too far from current
 						var score = 100 - dist_from_current
 						if score > best_score:
 							best_score = score

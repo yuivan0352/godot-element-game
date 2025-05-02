@@ -13,55 +13,53 @@ var available_moves = []
 
 func _ready() -> void:
 	rng.randomize()
-
+	
 func use_melee_move(attacker):
 	var unit_name = attacker.unit_stats.name 
-	available_moves = unit_moves.get(unit_name, []) 
+	available_moves = unit_moves.get(unit_name, [])
 	for move in available_moves:
 		var move_used = false
+		var roll = rng.randi_range(1, 20)
 		match move:
 			"Iron Defense":
-				move_used = await(iron_defense(attacker, attacker.turn_queue, 2))
+				move_used = await(iron_defense(attacker, attacker.turn_queue, 2, roll))
 			"Mage Armor":
-				move_used = await(iron_defense(attacker, attacker.turn_queue, 1))
+				move_used = await(iron_defense(attacker, attacker.turn_queue, 1, roll))
 			"Necrotic Touch":
-				move_used = await(necrotic_touch(attacker, attacker.turn_queue, 1))
+				move_used = await(necrotic_touch(attacker, attacker.turn_queue, 1, roll))
 			"Cleave":
-				move_used = await(cleave(attacker, attacker.turn_queue))
+				move_used = await(cleave(attacker, attacker.turn_queue, roll))
 			"Slash":
-				move_used = await(slash(attacker, attacker.turn_queue))
-			#same as slash, but we call the move (for mage enemy)
+				move_used = await(slash(attacker, attacker.turn_queue, roll))
 			"Unarmed Strike":
-				move_used = await(slash(attacker, attacker.turn_queue))
-			#same as slash, but we call the move pounce (for slime enemy)
+				move_used = await(slash(attacker, attacker.turn_queue, roll))
 			"Pounce":
-				move_used = await(slash(attacker, attacker.turn_queue))
-			#same as slash, but we call the move stab (for archer enemy)
+				move_used = await(slash(attacker, attacker.turn_queue, roll))
 			"Stab":
-				move_used = await(slash(attacker, attacker.turn_queue))
+				move_used = await(slash(attacker, attacker.turn_queue, roll))
 							
 		if move_used:
-			print(move, " has been used")
+			print(move, " has been used (roll: ", roll, ")")
 			break
 
 	await get_tree().create_timer(1.5).timeout
-	attacker.turn_complete.emit()		
-			
+	attacker.turn_complete.emit()
+
 func use_ranged_move(attacker):
 	var unit_name = attacker.unit_stats.name 
 	available_moves = unit_moves.get(unit_name, [])
 	for move in available_moves:
 		var move_used = false
+		var roll = rng.randi_range(1, 20)
 		match move:
 			"Iron Defense":
-				move_used = await(iron_defense(attacker, attacker.turn_queue, 2))
+				move_used = await(iron_defense(attacker, attacker.turn_queue, 2, roll))
 			"Healing Spell":
-				move_used = await(healing_spell(attacker, attacker.turn_queue, 1))
+				move_used = await(healing_spell(attacker, attacker.turn_queue, 1, roll))
 			"Mass Healing":
-				move_used = await(mass_healing(attacker, attacker.turn_queue, 2))
-			#Iron defense, but for spellcasters
+				move_used = await(mass_healing(attacker, attacker.turn_queue, 2, roll))
 			"Mage Armor":
-				move_used = await(iron_defense(attacker, attacker.turn_queue, 1))
+				move_used = await(iron_defense(attacker, attacker.turn_queue, 1, roll))
 			"Magic Missiles":
 				move_used = await(magic_missles(attacker, attacker.turn_queue, 2))
 			"Multi-Shot":
@@ -69,24 +67,26 @@ func use_ranged_move(attacker):
 			"Royal Reproduction":
 				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Slime", 2))
 			"Fire Bolt":
-				move_used = await(fire_bolt(attacker, attacker.turn_queue))
+				move_used = await(fire_bolt(attacker, attacker.turn_queue, roll))
 			"Piercing Shot":
-				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1))
+				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, roll))
 			"Arrow Shot":
-				move_used = await(arrow_shot(attacker, attacker.turn_queue))
+				move_used = await(arrow_shot(attacker, attacker.turn_queue, roll))
 				
 		if move_used:
-			print(move, " has been used")
+			print(move, " has been used (roll: ", roll, ")")
 			break
 		
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
-	
+
 #Single melee basic attack 
-func slash(attacker, turn_queue) -> bool:
+func slash(attacker, turn_queue, roll) -> bool:
+	attacker._update_adj_tiles()
+	
 	for tile in attacker.adjacent_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
-		if player != null:
+		if player != null and roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)) - rng.randi_range(1, player.unit_stats.armor_class)
@@ -96,10 +96,8 @@ func slash(attacker, turn_queue) -> bool:
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " is adjacent to player!")
-			print("Player's armor class: ", player.unit_stats.armor_class)
-			print("Enemy attacked ", player.unit_stats.name, " for ", damage, " damage!")
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
 				turn_queue.pc_positions.erase(player)
@@ -111,7 +109,9 @@ func slash(attacker, turn_queue) -> bool:
 	return false
 	
 #Attacks all players adjacent to the enemy in a circle
-func cleave(attacker, turn_queue) -> bool:
+func cleave(attacker, turn_queue, roll) -> bool:
+	attacker._update_adj_tiles()
+	
 	var hit_anyone = false
 	var players = 0
 	
@@ -122,7 +122,7 @@ func cleave(attacker, turn_queue) -> bool:
 	if players > 1:
 		for tile in attacker.adjacent_tiles:
 			var player = turn_queue.pc_positions.find_key(tile)
-			if player != null:
+			if player != null and roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.5).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns)
@@ -132,9 +132,7 @@ func cleave(attacker, turn_queue) -> bool:
 				else:
 					damage = 0
 				
-				print(attacker.unit_stats.name, " is attacking!")
-				print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
 
 				if player.unit_stats.health <= 0:
 					print(player.unit_stats.name, " has been defeated!")
@@ -148,23 +146,23 @@ func cleave(attacker, turn_queue) -> bool:
 	return hit_anyone
 
 #Single target normal ranged attack
-func arrow_shot(attacker, turn_queue) -> bool:
+func arrow_shot(attacker, turn_queue, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
-		if player != null:
+		if player != null and roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
-			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)) - rng.randi_range(1, player.unit_stats.armor_class)
+			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)) 
 			
 			if damage > 0:
 				player.unit_stats.health -= damage
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " is attacking!")
-			print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-			print("Player's armor class: ", player.unit_stats.armor_class)
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+
 
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
@@ -177,13 +175,15 @@ func arrow_shot(attacker, turn_queue) -> bool:
 	return false
 
 #Ignores armor class for shot
-func piercing_shot(attacker, turn_queue, mana_cost) -> bool:
+func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
 		
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
-		if player != null:
+		if player != null and roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains))
@@ -193,10 +193,8 @@ func piercing_shot(attacker, turn_queue, mana_cost) -> bool:
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " is attacking!")
-			print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-			print("Player's armor class: ", player.unit_stats.armor_class)
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+
 			attacker.unit_stats.mana -= mana_cost
 			
 			if player.unit_stats.health <= 0:
@@ -210,13 +208,14 @@ func piercing_shot(attacker, turn_queue, mana_cost) -> bool:
 	return false
 	
 #Single melee basic attack 
-func necrotic_touch(attacker, turn_queue, mana_cost) -> bool:
+func necrotic_touch(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_adj_tiles()
 	
 	if attacker.unit_stats.mana >= mana_cost:
 		
 		for tile in attacker.adjacent_tiles:
 			var player = turn_queue.pc_positions.find_key(tile)
-			if player != null:
+			if player != null and roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment))
@@ -226,10 +225,8 @@ func necrotic_touch(attacker, turn_queue, mana_cost) -> bool:
 				else:
 					damage = 0
 					
-				print(attacker.unit_stats.name, " is adjacent to player!")
-				print("Player's armor class: ", player.unit_stats.armor_class)
-				print("Enemy attacked ", player.unit_stats.name, " for ", damage, " damage!")
-				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+
 				attacker.unit_stats.mana -= mana_cost
 
 				if player.unit_stats.health <= 0:
@@ -244,6 +241,8 @@ func necrotic_touch(attacker, turn_queue, mana_cost) -> bool:
 	
 #Attacks all within the radius
 func magic_missles(attacker, turn_queue, mana_cost) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	var hit_anyone = false
 	var multiple_targets = []
 	#checks if attacker has mana to use this for mana_cost
@@ -258,7 +257,8 @@ func magic_missles(attacker, turn_queue, mana_cost) -> bool:
 			attacker.unit_stats.mana -= mana_cost
 			for tile in attacker.circle_tiles:
 				var player = turn_queue.pc_positions.find_key(tile)
-				if player != null:
+				var roll = rng.randi_range(1,20)
+				if player != null and roll >= player.unit_stats.armor_class:
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -268,9 +268,7 @@ func magic_missles(attacker, turn_queue, mana_cost) -> bool:
 					else:
 						damage = 0
 						
-					print(attacker.unit_stats.name, " is attacking!")
-					print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-					print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+					print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
 					
 					if player.unit_stats.health <= 0:
 						print(player.unit_stats.name, " has been defeated!")
@@ -291,6 +289,8 @@ func magic_missles(attacker, turn_queue, mana_cost) -> bool:
 
 #Attacks all within the radius
 func multi_shot(attacker, turn_queue, mana_cost) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	var hit_anyone = false
 	var multiple_targets = []
 
@@ -306,7 +306,8 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 			attacker.unit_stats.mana -= mana_cost
 			for tile in attacker.circle_tiles:
 				var player = turn_queue.pc_positions.find_key(tile)
-				if player != null:
+				var roll = rng.randi_range(1,20)
+				if player != null and roll >= player.unit_stats.armor_class:
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
@@ -316,9 +317,7 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 					else:
 						damage = 0
 						
-					print(attacker.unit_stats.name, " is attacking!")
-					print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-					print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+					print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
 					
 					if player.unit_stats.health <= 0:
 						print(player.unit_stats.name, " has been defeated!")
@@ -337,10 +336,12 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 			
 	return hit_anyone
 #Basic single target magic attack
-func fire_bolt(attacker, turn_queue) -> bool:
+func fire_bolt(attacker, turn_queue, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
-		if player != null:
+		if player != null and roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
@@ -350,9 +351,7 @@ func fire_bolt(attacker, turn_queue) -> bool:
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " is attacking!")
-			print("Player is within range! Attacking ", player.unit_stats.name, " for ", damage, " damage!")
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
 
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
@@ -364,7 +363,9 @@ func fire_bolt(attacker, turn_queue) -> bool:
 			return true
 	return false
 	
-func healing_spell(attacker, turn_queue, mana_cost) -> bool:
+func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
 	
@@ -388,7 +389,9 @@ func healing_spell(attacker, turn_queue, mana_cost) -> bool:
 	return false
 
 #Heals 2 or more allies in it's radius (can include self)
-func mass_healing(attacker, turn_queue, mana_cost) -> bool:
+func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
 	var healed = false
 	var valid_targets = []
 	
@@ -432,17 +435,14 @@ func mass_healing(attacker, turn_queue, mana_cost) -> bool:
 	return healed
 
 #increases armor_class of attacker (can only be used once per unit)
-func iron_defense(attacker, turn_queue, mana_cost) -> bool:
+func iron_defense(attacker, turn_queue, mana_cost, roll) -> bool:
 	if attacker.unit_stats.mana >= mana_cost and attacker.unit_stats.used_iron_defense == false:
 		if attacker.unit_stats.health <= attacker.unit_stats.max_health/2:
 			await get_tree().create_timer(1.0).timeout
-
-			var armor = 2
-			attacker.unit_stats.armor_class += armor
-
-			print(attacker.unit_stats.name, " used Iron Defense!")
-			print("Defense increased by ", armor)
-			print("Current armor: ", attacker.unit_stats.armor_class)
+			
+			var armor = rng.randi_range(1,5)
+			print(attacker.unit_stats.name, " increased his armor class by ", armor)
+			print("Current armor class: ", attacker.unit_stats.armor_class)
 			attacker.unit_stats.used_iron_defense = true
 			attacker.unit_stats.mana -= mana_cost
 			
@@ -454,10 +454,15 @@ func iron_defense(attacker, turn_queue, mana_cost) -> bool:
 
 #spawns in enemies during the game (enemy abilities to call reinforcements)
 func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost):
+	var roll = rng.randi_range(1,20)
+	
 	if attacker.unit_stats.mana >= mana_cost:
-		attacker.unit_stats.mana -= mana_cost
-		turn_queue.spawn_enemy_during_battle(enemy_name)
-		return true
+		if roll >= 10:
+			attacker.unit_stats.mana -= mana_cost
+			turn_queue.spawn_enemy_during_battle(enemy_name)
+			return true
+		else:
+			print(attacker.unit_stats.name, " failed to call reinforcements to battle")
 	else:
 		return false
 	
