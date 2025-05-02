@@ -25,6 +25,11 @@ func _ready() -> void:
 	for spell in possible_spells:
 		equipped_spells.append(spell)
 
+func set_unit_stats():
+	for stat in Global.characters_stats:
+		if unit_stats.name == stat.name:
+			unit_stats = stat
+
 func _ui_element_mouse_entered():
 	in_ui_element = true
 	path._on_ui_element_mouse_entered()
@@ -62,7 +67,7 @@ func _attack_action(attack_type_array):
 				if mode == "magic":
 					damage = current_spell.dice_count * rng.randi_range(1, current_spell.dice_type_nums.get(current_spell.dice_type))
 				else:
-					damage = rng.randi_range(1, 6)
+					damage = rng.randi_range(50, 100)
 				target_unit.unit_stats.health -= damage
 				print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
 				if target_unit.unit_stats.health <= 0:
@@ -71,8 +76,6 @@ func _attack_action(attack_type_array):
 					target_unit.queue_free()
 					tile_layer_zero._unsolid_coords(mouse_tile)
 					_update_adj_tiles()
-				if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
-					get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
 			else:
 				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
 		if mode == "magic":
@@ -84,6 +87,9 @@ func _attack_action(attack_type_array):
 	else:
 		mode = "idle"
 		return
+	
+	if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
+		get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
 
 func _input(event):
 	if self == turn_queue.current_unit and !in_ui_element:

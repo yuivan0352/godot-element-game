@@ -7,6 +7,7 @@ var enemy_positions: Dictionary
 
 var current_unit : Unit
 var prev_unit : Unit
+var current_unit_stats : Stats
 
 var turn_order: Array[Unit] = []
 var turn_num = 0
@@ -25,6 +26,9 @@ func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
+	for stat in Global.characters_stats:
+		print(stat, " : ", stat.health)
+	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
 	
@@ -40,6 +44,14 @@ func _ready():
 	turn_info.emit(turn_order, turn_num)
 	
 	setup_turn_order()
+	
+# current_unit is just a variable of the unit class
+# the stats associated using current_unit.unit_stats is not the correct stats
+# needs to be the globally tracked stats
+func set_current_unit_stats():
+	for stat in Global.characters_stats:
+		if current_unit.unit_stats.name == stat.name:
+			current_unit_stats = stat
 
 func _change_current_unit_mode(mode : String, spell_info: Spell):
 	current_unit.change_mode(mode, spell_info)
@@ -51,8 +63,9 @@ func setup_turn_order():
 		unit.unit_moving.connect(_transition_character_cam)
 	
 	current_unit = turn_order[0]
+	set_current_unit_stats()
 	
-	print(current_unit.unit_stats.name, "'s turn")
+	print(current_unit_stats.name, "'s turn")
 	current_character.emit(current_unit)
 	overview_camera.set_camera_position(current_unit)
 	
@@ -109,7 +122,7 @@ func _play_turn():
 	current_character.emit(current_unit)
 
 	current_unit._reset_action_econ()
-	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
+	current_unit.update_action_econ.emit(1, 1, current_unit_stats.mana, current_unit_stats.movement_speed, current_unit_stats.movement_speed)
 	if current_unit is Character:
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
