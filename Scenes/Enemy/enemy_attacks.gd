@@ -12,9 +12,15 @@ func perform_melee_attack(attacker, target_tile: Vector2i, turn_queue, tile_laye
 	if player != null:
 		if attack_roll >= player.unit_stats.armor_class:
 			var damage = rng.randi_range(1, 6)
-			player.unit_stats.health -= damage
+			var stats
+	
+			for stat in Global.characters_stats:
+				if player.unit_stats.name == stat.name:
+					stats = stat
+			stats.health -= damage
+			print(stats.name, ": ", stats.health)
 			print(attacker.unit_stats.name, " rolled a ", attack_roll, " and attacked ", player.unit_stats.name, " for ", damage, " damage!")
-			print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
+			print(player.unit_stats.name, " has " + str(stats.health), " HP left")
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
 				turn_queue.pc_positions.erase(player)
@@ -34,7 +40,13 @@ func perform_ranged_attack(attacker, target_tile: Vector2i, turn_queue, tile_lay
 		if attack_roll >= player.unit_stats.armor_class:
 			if player != null:
 				var damage = rng.randi_range(1, 6)
-				player.unit_stats.health -= damage
+				var stats
+	
+				for stat in Global.characters_stats:
+					if player.unit_stats.name == stat.name:
+						stats = stat
+				stats.health -= damage
+				print(stats.name, ": ", stats.health)
 				print(attacker.unit_stats.name, " rolled a ", attack_roll, " and attacked ", player.unit_stats.name, " for ", damage, " damage!")
 				print(player.unit_stats.name, " has " + str(player.unit_stats.health), " HP left")
 				if player.unit_stats.health <= 0:

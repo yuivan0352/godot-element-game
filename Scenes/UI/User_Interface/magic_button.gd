@@ -16,6 +16,7 @@ func _ui_mode_switch():
 		_target_anchor_offset = _up_anchor_offset
 	else:
 		magic_container.visible = false
+		magic_bar.visible = false
 		_target_anchor_offset = _down_anchor_offset
 	_popped_up = !_popped_up
 
