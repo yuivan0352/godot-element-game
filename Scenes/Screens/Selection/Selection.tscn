@@ -1,41 +1,69 @@
-[gd_scene load_steps=15 format=3 uid="uid://c2juun34w41eu"]
+[gd_scene load_steps=13 format=3 uid="uid://c2juun34w41eu"]
 
 [ext_resource type="Script" uid="uid://bx5kprbvc16d0" path="res://Scenes/Screens/Selection/selection.gd" id="1_evniu"]
-[ext_resource type="PackedScene" uid="uid://bjvmoxonb0fd8" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="2_wbgcf"]
+[ext_resource type="Theme" uid="uid://cc6ntnanddm2n" path="res://Resources/Themes/Button.tres" id="2_vgm7y"]
+[ext_resource type="PackedScene" uid="uid://bhqcy1oe7cn5l" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="2_wbgcf"]
 [ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="3_xej07"]
-[ext_resource type="Resource" uid="uid://5pkcymurr54d" path="res://Resources/Stats/Characters/Arius.tres" id="4_vgm7y"]
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="4_1g3a2"]
 [ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_xej07"]
 [ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="5_evsem"]
 [ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_1g3a2"]
-[ext_resource type="Resource" uid="uid://brl22qcdfjnri" path="res://Resources/Stats/Characters/Brylla.tres" id="6_gii8f"]
-[ext_resource type="Resource" uid="uid://c5sw7mnbil0y4" path="res://Resources/Stats/Characters/Pyrrha.tres" id="8_gyeut"]
-[ext_resource type="Resource" uid="uid://b2o84o0lwglob" path="res://Resources/Stats/Characters/Quorral.tres" id="10_2pyo4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8mln"]
+[sub_resource type="Resource" id="Resource_qx0en"]
+resource_local_to_scene = true
+script = ExtResource("4_1g3a2")
+name = "Arius"
+health = 15
+max_health = 15
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+potions = 0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yer5"]
-bg_color = Color(0.65834, 0.65834, 0.65834, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_size = 5
+[sub_resource type="Resource" id="Resource_gii8f"]
+resource_local_to_scene = true
+script = ExtResource("4_1g3a2")
+name = "Brylla"
+health = 12
+max_health = 12
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+potions = 0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxjxm"]
-bg_color = Color(0.513233, 0.513233, 0.513233, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_size = 5
+[sub_resource type="Resource" id="Resource_gyeut"]
+resource_local_to_scene = true
+script = ExtResource("4_1g3a2")
+name = "Pyrrha"
+health = 11
+max_health = 11
+mana = 1
+armor_class = 6
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+potions = 0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2o5qn"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_size = 5
+[sub_resource type="Resource" id="Resource_2pyo4"]
+resource_local_to_scene = true
+script = ExtResource("4_1g3a2")
+name = "Quorral"
+health = 10
+max_health = 10
+mana = 1
+armor_class = 9
+movement_speed = 30
+brains = 5
+brawns = 5
+bewitchment = 5
+potions = 0
 
 [node name="Selection" type="Control"]
 layout_mode = 3
@@ -46,24 +74,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_evniu")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.227451, 0.341176, 1)
+
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 1
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 156.0
-offset_bottom = 50.0
+offset_right = 168.0
+offset_bottom = 62.0
 size_flags_vertical = 3
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_e8mln")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6yer5")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mxjxm")
-theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
-text = "  ← Go Back
-"
+theme = ExtResource("2_vgm7y")
+theme_override_font_sizes/font_size = 24
+text = "Back"
 
 [node name="Team" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -85,25 +114,25 @@ theme_override_constants/separation = 30
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Arius.tscn"
 characterTexture = ExtResource("3_xej07")
-characterStat = ExtResource("4_vgm7y")
+characterStat = SubResource("Resource_qx0en")
 
 [node name="Brylla" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Brylla.tscn"
 characterTexture = ExtResource("4_xej07")
-characterStat = ExtResource("6_gii8f")
+characterStat = SubResource("Resource_gii8f")
 
 [node name="Pyrrha" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Pyrrha.tscn"
 characterTexture = ExtResource("5_evsem")
-characterStat = ExtResource("8_gyeut")
+characterStat = SubResource("Resource_gyeut")
 
 [node name="Quorral" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Quorral.tscn"
 characterTexture = ExtResource("6_1g3a2")
-characterStat = ExtResource("10_2pyo4")
+characterStat = SubResource("Resource_2pyo4")
 
 [node name="GoButton" type="Button" parent="."]
 layout_mode = 1
@@ -112,22 +141,15 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -68.0
-offset_top = -80.0
-offset_right = 68.0
-offset_bottom = -50.0
+offset_left = -118.0
+offset_top = -96.0
+offset_right = 118.0
+offset_bottom = -36.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_e8mln")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6yer5")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mxjxm")
-theme_override_styles/normal = SubResource("StyleBoxFlat_2o5qn")
+theme = ExtResource("2_vgm7y")
+theme_override_font_sizes/font_size = 32
 text = "Go!"
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

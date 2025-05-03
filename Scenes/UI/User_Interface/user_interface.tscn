@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://5kgjmtmpd164" path="res://Assets/Texture/potion_icon.png" id="9_0cpsf"]
 [ext_resource type="Texture2D" uid="uid://du8h7tswt4jt3" path="res://Assets/Texture/icon_border.png" id="11_s63p1"]
 [ext_resource type="Texture2D" uid="uid://ck6cd0r7gfhx6" path="res://Assets/Texture/action_empty.png" id="13_c87su"]
-[ext_resource type="Script" uid="uid://bm8p1h0qebg2d" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
+[ext_resource type="Script" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
@@ -28,7 +28,7 @@
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="23_xvgfx"]
 [ext_resource type="Texture2D" uid="uid://c31mh0syxbxy4" path="res://Assets/Texture/GUI.png" id="24_xvgfx"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
-[ext_resource type="Script" uid="uid://vj1lb7u563hw" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
+[ext_resource type="Script" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
