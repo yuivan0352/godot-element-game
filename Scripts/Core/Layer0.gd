@@ -7,8 +7,11 @@ var dictionary = {}
 var in_movement_range : bool = false
 var in_ui_element: bool
 var astar_grid: AStarGrid2D
+var currentPieces = []
+var piecePositions = [Vector2i(0,0),Vector2i(16,0),Vector2i(0,16),Vector2i(16,16)]
 
 func _ready():
+	Global.level += 1
 	set_terrain()
 	
 	astar_grid = AStarGrid2D.new()
@@ -30,15 +33,43 @@ func _ready():
 				astar_grid.set_point_solid(tile, true)
 
 func set_terrain():
-	var biometype = (4 * (randi() % 3))
-	var pattern = tile_set.get_pattern((randi() % 4) + biometype)
-	var pattern2 = tile_set.get_pattern(biometype + 1)
+	#adds the background
+	var background = tile_set.get_pattern(12)
+	set_pattern(Vector2i(0,0),background)
+	
+	var pieceNum = (randi() % 4)
+	currentPieces.append(0)
+	var pattern = tile_set.get_pattern(Global.biomeNum)
+	
 	if pattern:
-		set_pattern(Vector2i(0,0), pattern)
-		# how TO ADD THE PATTERN
-		set_pattern(Vector2i(1,0),pattern2)
+		set_pattern(piecePositions[0], pattern)
+	
+		if Global.level >= 2:
+			pieceNum = piece_choser(2)
+			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
+			set_pattern(piecePositions[pieceNum],pattern)
+		if Global.level >= 3:
+			pieceNum = piece_choser(1)
+			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
+			if pieceNum == 4:
+				pieceNum -= 1
+			set_pattern(piecePositions[pieceNum],pattern)
+		if Global.level == 4:
+			pieceNum = piece_choser(3)
+			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
+			if pieceNum == 4:
+				pieceNum -= 1
+			set_pattern(piecePositions[pieceNum],pattern)
 		print()
-
+func piece_choser(limit):
+	var pieceNum = (randi() % limit)
+	var currNum = 1
+	while currentPieces.has(pieceNum):
+		pieceNum = currNum
+		currNum += 1
+	currentPieces.append(pieceNum)
+	return pieceNum
+		
 func _set_char_pos_solid(char_positions):
 	for key in char_positions:
 		astar_grid.set_point_solid(char_positions[key])
@@ -57,6 +88,7 @@ func _on_ui_element_mouse_exited():
 
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
+		
 
 	# checks if the current current_unit exists and is of Character class
 	if (turn_queue.current_unit != null and turn_queue.current_unit is Character):

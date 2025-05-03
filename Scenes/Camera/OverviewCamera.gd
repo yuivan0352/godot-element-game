@@ -54,16 +54,19 @@ func _process(delta):
 	if !transitioning:
 		inputX = int(Input.is_action_pressed("cam_right")) - int(Input.is_action_pressed("cam_left"))
 		inputY = int(Input.is_action_pressed("cam_down")) - int(Input.is_action_pressed("cam_up"))
+		var posX = 400
+		var posY = 400
 		
-		if (position.x >= 144 && inputX > 0):
-			position.x = 144
+		
+		if (position.x >= 400 && inputX > 0):
+			position.x = 400
 		elif (position.x <= 112 && inputX < 0):
 			position.x = 112
 		else:
 			position.x = lerp(position.x, position.x + inputX * speed, speed * delta)
 			
-		if (position.y >= 191 && inputY > 0):
-			position.y = 191
+		if (position.y >= posY && inputY > 0):
+			position.y = posY
 		elif (position.y <= 70 && inputY < 0):
 			position.y = 70
 		else:

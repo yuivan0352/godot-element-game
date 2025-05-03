@@ -19,6 +19,7 @@ config/icon="res://Assets/Sprites/icon.svg"
 
 EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
 SignalBus="*res://Scripts/Utilities/SignalBus.gd"
+Global="*res://Scripts/Core/global.gd"
 
 [display]
 
