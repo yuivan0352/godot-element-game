@@ -1,8 +1,8 @@
-[gd_scene load_steps=55 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=54 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
-[ext_resource type="Theme" uid="uid://oc6jtms3k4b4" path="res://Resources/Themes/TurnScrollBackground.tres" id="2_x3eeq"]
+[ext_resource type="Theme" uid="uid://oc6jtms3k4b4" path="res://Resources/Themes/UIBackground.tres" id="2_x3eeq"]
 [ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_woo7i"]
 [ext_resource type="Script" uid="uid://c7xlcgx60sbmg" path="res://Scenes/UI/User_Interface/turn_scroll.gd" id="4_13sfg"]
 [ext_resource type="Texture2D" uid="uid://bqhuok67rdqcj" path="res://Assets/Texture/attack_icon.png" id="5_1aga7"]
@@ -24,7 +24,6 @@
 [ext_resource type="Texture2D" uid="uid://bpad5wkamhblg" path="res://Assets/Texture/magic_bar_over.png" id="20_lny1u"]
 [ext_resource type="Theme" uid="uid://dbykdefbhwgsj" path="res://Resources/Themes/StatBackground.tres" id="21_x3eeq"]
 [ext_resource type="Theme" uid="uid://cc6ntnanddm2n" path="res://Resources/Themes/Button.tres" id="23_aita3"]
-[ext_resource type="Theme" uid="uid://dmlgv0g1qok15" path="res://Resources/Themes/CombatLog.tres" id="23_x3eeq"]
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="23_xvgfx"]
 [ext_resource type="Texture2D" uid="uid://c31mh0syxbxy4" path="res://Assets/Texture/GUI.png" id="24_xvgfx"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
@@ -166,6 +165,7 @@ offset_left = -296.0
 offset_top = -80.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("2_x3eeq")
 
 [node name="MarginContainer" type="MarginContainer" parent="Hotbar"]
 layout_mode = 1
@@ -299,13 +299,14 @@ offset_top = -273.0
 offset_bottom = -81.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("2_x3eeq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ActionEcon"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 16.0
-offset_right = 136.0
-offset_bottom = 80.0
+offset_right = 142.0
+offset_bottom = 83.0
 scale = Vector2(0.5, 0.5)
 
 [node name="ActionIcon" type="TextureProgressBar" parent="ActionEcon/HBoxContainer"]
@@ -469,7 +470,7 @@ grow_vertical = 0
 layout_mode = 0
 offset_right = 384.0
 offset_bottom = 200.0
-theme = ExtResource("23_x3eeq")
+theme = ExtResource("2_x3eeq")
 
 [node name="ExpandButton" type="TextureButton" parent="CombatLogController/CombatLog"]
 layout_mode = 1
