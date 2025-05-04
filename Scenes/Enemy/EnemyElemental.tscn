@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://6kdjb3mcyfom"]
+[gd_scene load_steps=4 format=3 uid="uid://6kdjb3mcyfom"]
 
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_rn7n1"]
 [ext_resource type="Texture2D" uid="uid://co224ghmrj67f" path="res://Assets/Sprites/undead_elemental.png" id="2_rn7n1"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_g8wm5"]
 
 [node name="Enemy" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
@@ -11,6 +12,10 @@ script = ExtResource("1_rn7n1")
 position = Vector2(0, -2)
 scale = Vector2(0.0332594, 0.033264)
 texture = ExtResource("2_rn7n1")
+
+[node name="Path" type="Node2D" parent="."]
+position = Vector2(0, 2.98023e-08)
+script = ExtResource("3_g8wm5")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -26,5 +31,6 @@ rotation_smoothing_enabled = true
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(0.517826, 0.510001)
 
-[connection signal="unit_moving" from="." to="." method="_on_unit_moving"]
-[connection signal="unit_still" from="." to="." method="_on_unit_still"]
+[connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
+[connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
+[connection signal="unit_still" from="." to="Path" method="_on_character_unit_still"]

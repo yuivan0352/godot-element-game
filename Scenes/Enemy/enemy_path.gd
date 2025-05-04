@@ -18,3 +18,7 @@ func _on_character_unit_moving():
 
 func _on_character_unit_still():
 	path_set = false
+
+
+func _on_unit_still() -> void:
+	pass # Replace with function body.

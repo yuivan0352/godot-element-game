@@ -23,27 +23,34 @@ signal turn_info(order, current_turn)
 signal buttons_disabled
 
 func _ready():
+	var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
-	
+
+	if boss_unit:
+		enemy_units.append(boss_unit)  # Add boss to enemy list
+
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
-	
+
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
-	
+
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
-	
+
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
 
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)
+
 	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
 	turn_info.emit(turn_order, turn_num)
-	
+
 	setup_turn_order()
+
+
 	
 # current_unit is just a variable of the unit class
 # the stats associated using current_unit.unit_stats is not the correct stats

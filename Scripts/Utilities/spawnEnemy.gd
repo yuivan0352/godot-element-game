@@ -16,13 +16,23 @@ var enemy_stats: Dictionary = {
 }
 
 var reinforcement_enemy_scenes: Dictionary = {
-	"Slime": preload("res://Scenes/Enemy/EnemySlime.tscn")
+	"Slime": preload("res://Scenes/Enemy/EnemySlime.tscn"),
+	"Elemental": preload("res://Scenes/Enemy/EnemyElemental.tscn")
 }
-
 
 var reinforcement_enemy_stats: Dictionary = {
-	"Slime": preload("res://Resources/Stats/Enemies/EnemySlime.tres")
+	"Slime": preload("res://Resources/Stats/Enemies/EnemySlime.tres"),
+	"Elemental": preload("res://Resources/Stats/Enemies/EnemyElemental.tres")
 }
+
+var boss_enemy_scenes: Dictionary = {
+	"Boss": preload("res://Scenes/Enemy/EnemyBoss.tscn")
+}
+
+var boss_enemy_stats: Dictionary = {
+	"Boss": preload("res://Resources/Stats/Enemies/EnemyBoss.tres")
+}
+
 
 @onready var player_chars: Node2D = $"../Player"
 @onready var user_interface = %UserInterface
@@ -95,3 +105,40 @@ func spawn_specific_enemy(enemy_type: String, layer: TileMapLayer) -> Enemy:
 func get_random_enemy_type() -> String:
 	var enemy_keys = enemy_scenes.keys()
 	return enemy_keys[rng.randi_range(0, enemy_keys.size() - 1)]
+
+func spawn_2x2_enemy_center(enemy_type: String, layer: TileMapLayer) -> Enemy:
+	var map_size = layer.get_used_rect().size
+	var center = layer.get_used_rect().position + map_size / 2
+	var top_left = Vector2i(center) - Vector2i(1, 1)  # Adjust to top-left of 2x2 area
+
+	var tile_positions = [
+		top_left,
+		top_left + Vector2i(1, 0),
+		top_left + Vector2i(0, 1),
+		top_left + Vector2i(1, 1),
+	]
+
+	var can_spawn = true
+	for pos in tile_positions:
+		var tile_data = layer.get_cell_tile_data(pos)
+		if !tile_data or !tile_data.get_custom_data("walkable") or positions.has(pos) or player_chars.positions.has(pos):
+			can_spawn = false
+			break
+
+	if can_spawn:
+		var char_instance = boss_enemy_scenes[enemy_type].instantiate()
+		var stats = boss_enemy_stats[enemy_type].duplicate()
+		char_instance.unit_stats = stats
+
+		# Place in center of 2x2 block
+		var world_position = Vector2(top_left) * tile_size + Vector2(tile_size, tile_size)
+		char_instance.global_position = world_position
+		add_child(char_instance)
+
+		for pos in tile_positions:
+			positions[pos] = char_instance
+
+		char_instance.update_action_econ.connect(user_interface._update_actions)
+		return char_instance
+
+	return null
