@@ -51,24 +51,27 @@ func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	transitioning = false
 
 func _process(delta):
+	# zooms out 
+	self.zoom = Vector2(3,3)
+	
 	if !transitioning:
 		inputX = int(Input.is_action_pressed("cam_right")) - int(Input.is_action_pressed("cam_left"))
 		inputY = int(Input.is_action_pressed("cam_down")) - int(Input.is_action_pressed("cam_up"))
-		var posX = 400
-		var posY = 400
+		var posX = 416
+		var posY = 454
+		var bottomLimit = 38
 		
-		
-		if (position.x >= 400 && inputX > 0):
-			position.x = 400
-		elif (position.x <= 112 && inputX < 0):
-			position.x = 112
+		if (position.x >= posX && inputX > 0):
+			position.x = posX
+		elif (position.x <= 12 && inputX < 0):
+			position.x = 12
 		else:
 			position.x = lerp(position.x, position.x + inputX * speed, speed * delta)
 			
 		if (position.y >= posY && inputY > 0):
 			position.y = posY
-		elif (position.y <= 70 && inputY < 0):
-			position.y = 70
+		elif (position.y <= bottomLimit && inputY < 0):
+			position.y = bottomLimit
 		else:
 			position.y = lerp(position.y, position.y + inputY * speed, speed * delta)
 	

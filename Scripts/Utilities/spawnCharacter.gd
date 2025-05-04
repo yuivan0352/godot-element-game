@@ -37,7 +37,7 @@ func spawn_characters(count: int, layer: TileMapLayer) -> Array[Character]:
 	return spawned_characters
 
 func spawn_character(layer: TileMapLayer, character_scene) -> Character:
-	var tile_position = Vector2i(randi() % tile_size, randi() % tile_size)
+	var tile_position = Vector2i(randi() % tile_size*min(Global.level,2), randi() % tile_size*min(2,Global.level-1))
 	var tile_data = layer.get_cell_tile_data(tile_position)
 	
 	if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !enemy_chars.positions.has(tile_position):

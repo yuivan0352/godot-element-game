@@ -11,9 +11,8 @@ var currentPieces = []
 var piecePositions = [Vector2i(0,0),Vector2i(16,0),Vector2i(0,16),Vector2i(16,16)]
 
 func _ready():
-	Global.level += 1
 	set_terrain()
-	
+	Global.level += 1
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
@@ -34,8 +33,10 @@ func _ready():
 
 func set_terrain():
 	#adds the background
-	var background = tile_set.get_pattern(12)
-	set_pattern(Vector2i(0,0),background)
+	var terrain_background_index = 12 + (Global.biomeNum % 3)
+	var background = tile_set.get_pattern(terrain_background_index)
+	
+	set_pattern(Vector2i(-3,-3),background)
 	
 	var pieceNum = (randi() % 4)
 	currentPieces.append(0)
@@ -108,7 +109,7 @@ func _process(_delta):
 	
 	
 		if !in_ui_element:
-			if get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
+			if get_cell_tile_data(tile_position)!= null and get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)
 			else:
 				if turn_queue.current_unit != null and turn_queue.current_unit is Character:
