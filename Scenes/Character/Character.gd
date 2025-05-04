@@ -25,6 +25,11 @@ func _ready() -> void:
 	for spell in possible_spells:
 		equipped_spells.append(spell)
 
+func set_unit_stats():
+	for stat in Global.characters_stats:
+		if unit_stats.name == stat.name:
+			unit_stats = stat
+
 func _ui_element_mouse_entered():
 	in_ui_element = true
 	path._on_ui_element_mouse_entered()
@@ -50,6 +55,11 @@ func change_mode(input_mode: String, spell_info: Spell):
 func _reset_action_econ():
 	super._reset_action_econ()
 	mode = "idle"
+	
+func heal():
+	if unit_stats.health < unit_stats.max_health:
+		unit_stats.health += rng.randi_range(1, 6)
+		unit_stats.potions -= 1
 	
 func _attack_action(attack_type_array):
 	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())

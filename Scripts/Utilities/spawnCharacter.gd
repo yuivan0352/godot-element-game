@@ -1,10 +1,5 @@
 extends Node2D
 
-var Arius = preload("res://Scenes/Character/Classes/Arius.tscn")
-var Brylla = preload("res://Scenes/Character/Classes/Brylla.tscn")
-var Pyrrha = preload("res://Scenes/Character/Classes/Pyrrha.tscn")
-var Quorral = preload("res://Scenes/Character/Classes/Quorral.tscn")
-var characters = [Arius, Brylla, Pyrrha, Quorral]
 var selected_characters = []
 @onready var enemy_chars: Node2D = $"../Enemy"
 @onready var user_interface = %UserInterface
@@ -12,23 +7,12 @@ var positions = {}
 var tile_size = 16
 
 func _ready() -> void:
-	selected_characters = SignalBus.selected_characters
+	selected_characters = Global.selected_characters
 	
 func spawn_characters(count: int, layer: TileMapLayer) -> Array[Character]:
 	var spawned_characters: Array[Character] = []
-	
-	# if the amount of selected characters is less than what it 
-	# needs to be, fill with randomly selected characters until filled.
-	print(selected_characters)
-	if selected_characters.size() < count:
-		var not_spawned = characters.duplicate()
-		
-		for character in selected_characters:
-			not_spawned.erase(character)
-		while selected_characters.size() < 3:
-			selected_characters.append(not_spawned[randi() % not_spawned.size()])
 			
-	# actually spawn the characters
+	# spawn the characters
 	for character in selected_characters:
 		var character_instance = spawn_character(layer, character)
 		if character:

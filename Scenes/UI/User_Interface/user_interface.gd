@@ -9,6 +9,7 @@ class_name UserInterface
 @onready var movement_bar = $ActionEcon/MovementBar
 @onready var mana_bar = $ActionEcon/ManaBar
 @onready var magic_buttons = $MagicBar/MarginContainer/MagicButtons
+@onready var potion_button = $Hotbar/MarginContainer/MainButtons/PotionButton
 
 var current_unit
 var turn_array
@@ -19,10 +20,20 @@ signal ui_element_mouse_exited
 signal switch_mode(mode)
 signal end_turn
 signal buttons_disabled
+signal heal_emit
 
 func _get_current_unit(cu):
 	current_unit = cu
 	health_bar._update_health(current_unit)
+	if current_unit is Character:
+		var current_unit_stats
+			
+		for stat in Global.characters_stats:
+			if current_unit.unit_stats.name == stat.name:
+				current_unit_stats = stat
+		potion_button.text = str(current_unit_stats.potions)
+	else:
+		potion_button.text = str(current_unit.unit_stats.potions)
 
 func _update_actions(action, bonus_action, mana, movement_speed, moved_distance):
 	action_icon.value = action
@@ -36,6 +47,9 @@ func _update_mana_bar(used_mana: int):
 
 func _update_movement_bar():
 	movement_bar.value = movement_bar.value - 5
+	
+func _emit_heal():
+	heal_emit.emit()
 	
 func _switch_mode(mode : String, spell_info: Spell):
 	switch_mode.emit(mode, spell_info)

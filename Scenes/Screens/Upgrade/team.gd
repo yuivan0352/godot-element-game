@@ -4,7 +4,7 @@ func _ready() -> void:
 	var children = get_children()
 	var selectedCharacterPaths = []
 	
-	for character in SignalBus.selected_characters:
+	for character in Global.selected_characters:
 		selectedCharacterPaths.append(character.resource_path)
 	
 	print("selectedCharacters: ", selectedCharacterPaths)

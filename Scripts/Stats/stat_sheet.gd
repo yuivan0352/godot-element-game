@@ -11,3 +11,4 @@ class_name Stats
 @export var brains : int
 @export var brawns : int
 @export var bewitchment : int
+@export var potions: int
