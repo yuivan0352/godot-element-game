@@ -6,6 +6,7 @@ var enemy_scenes: Dictionary = {
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
 	"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
+	"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
 	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
 }
 
@@ -14,6 +15,7 @@ var enemy_stats: Dictionary = {
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
 	"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
+	"Slime Monster": preload("res://Resources/Stats/Enemies/SlimeMonster.tres"),
 	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
 }
 

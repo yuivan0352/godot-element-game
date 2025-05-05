@@ -8,8 +8,10 @@ var unit_moves = {
 	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
-	"Snake": ["Bite"],
-	"King Slime": ["Royal Reproduction", "Pounce"]
+	"Snake": ["Bite", "Poison Spit"],
+	"Slime Monster": ["Pounce"],
+	"King Slime": ["Royal Reproduction", "Pounce"],
+	"Boss": ["Obelisk Restoration"]
 }
 
 var available_moves = []
@@ -19,9 +21,10 @@ func _ready() -> void:
 	for element in elements:
 		var obelisk_name = element + " Obelisk"
 		var elemental_name = element + " Elemental"
-		var move_name = element + " Blast"
+		var blast_name = element + " Blast"
+		var melee_name = element + " Punch"
 		unit_moves[obelisk_name] = ["Elemental Summoning"]
-		unit_moves[elemental_name] = [move_name, "Unarmed Strike"]
+		unit_moves[elemental_name] = [blast_name, melee_name]
 	
 	rng.randomize()
 	
@@ -32,6 +35,8 @@ func use_melee_move(attacker, target_tile):
 		var move_used = false
 		var roll = rng.randi_range(1, 20)
 		match move:
+			"Obelisk Restoration":
+				move_used = await(obelisk_restoration(attacker, attacker.turn_queue, 3, roll))
 			"Elemental Summoning":
 				#Summons specific elemental for specific obelisk with that element
 				for element in elements:
@@ -51,7 +56,14 @@ func use_melee_move(attacker, target_tile):
 				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
 			"Stab":
 				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
-							
+			"Water Punch":
+				move_used = await(necrotic_touch(attacker, target_tile, attacker.turn_queue, 1, roll))
+			"Fire Punch":
+				move_used = await(necrotic_touch(attacker, target_tile, attacker.turn_queue, 1, roll))
+			"Rock Punch":
+				move_used = await(necrotic_touch(attacker, target_tile, attacker.turn_queue, 1, roll))
+			"Wind Punch":
+				move_used = await(necrotic_touch(attacker, target_tile, attacker.turn_queue, 1, roll))			
 		if move_used:
 			print(move, " has been used (roll: ", roll, ")")
 			break
@@ -66,6 +78,8 @@ func use_ranged_move(attacker):
 		var move_used = false
 		var roll = rng.randi_range(1, 20)
 		match move:
+			"Obelisk Restoration":
+				move_used = await(obelisk_restoration(attacker, attacker.turn_queue, 3, roll))
 			"Elemental Summoning":
 				#Summons specific elemental for specific obelisk with that element
 				for element in elements:
@@ -89,6 +103,8 @@ func use_ranged_move(attacker):
 				move_used = await(multi_shot(attacker, attacker.turn_queue, 2))
 			"Royal Reproduction":
 				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Slime", 2, roll))
+			"Poison Spit":
+				move_used = await(fire_bolt(attacker, attacker.turn_queue, roll))
 			"Fire Bolt":
 				move_used = await(fire_bolt(attacker, attacker.turn_queue, roll))
 			"Piercing Shot":
@@ -498,6 +514,55 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 			if ally != null:
 				if ally.unit_stats.health <= ally.unit_stats.max_health/2:
+					if roll >= ally.unit_stats.armor_class/2:
+						var line = draw_attack_line(attacker, ally)
+						await get_tree().create_timer(1.0).timeout
+						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
+						#Make sure it heals up to max hp and no more
+						if ally.unit_stats.health + healing_health > ally.unit_stats.max_health:
+							var health_healed_to_max = (ally.unit_stats.health + healing_health) - ally.unit_stats.max_health
+							healing_health = healing_health - health_healed_to_max
+							ally.unit_stats.health = ally.unit_stats.max_health
+						else:
+							ally.unit_stats.health += healing_health
+							
+						print(attacker.unit_stats.name, " is healing!")
+						print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
+						print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
+
+						healed = true
+						line.queue_free()
+					else:
+						print(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name)
+	else:
+		return healed
+			
+	return healed
+
+#Heals 2 or more allies in it's radius (can include self)
+func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_circle_tiles(50)
+	
+	var healed = false
+	var valid_targets = []
+	
+	if attacker.unit_stats.mana < mana_cost:
+		return healed
+
+	for tile in attacker.circle_tiles:
+		var ally = turn_queue.enemy_positions.find_key(tile)
+		#checks for allies with name Obelisk so it can heal them.
+		for element in elements:
+			if ally != null and ally.unit_stats.health <= ally.unit_stats.max_health/4 and (ally.unit_stats.name == element + " Obelisk"):
+				valid_targets.append(ally)
+				
+	if valid_targets.size() >= 2:
+		attacker.unit_stats.mana -= mana_cost
+		for tile in attacker.circle_tiles:
+			var ally = turn_queue.enemy_positions.find_key(tile)
+			
+			for element in elements:
+				if ally != null and ally.unit_stats.health <= ally.unit_stats.max_health/4 and (ally.unit_stats.name == element + " Obelisk"):
 					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
 						await get_tree().create_timer(1.0).timeout
