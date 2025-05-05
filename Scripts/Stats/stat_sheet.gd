@@ -14,4 +14,3 @@ class_name Stats
 
 #Enemy exclusive stats
 @export var enemy_class : String
-@export var used_iron_defense: bool = false
