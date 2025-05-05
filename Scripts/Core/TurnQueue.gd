@@ -31,9 +31,11 @@ func _ready():
 	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
+		unit._set_a_star()
 	
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
+		unit._set_a_star()
 	
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)

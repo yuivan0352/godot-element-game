@@ -2789,8 +2789,6 @@ unique_name_in_owner = true
 
 [node name="Layer0" type="TileMapLayer" parent="Environment"]
 use_parent_material = true
-position = Vector2(2.27374e-13, -1.19209e-07)
-rotation = 0.00257472
 tile_set = SubResource("TileSet_ivcak")
 script = ExtResource("7_ufyxm")
 
@@ -2799,6 +2797,7 @@ use_parent_material = true
 tile_set = SubResource("TileSet_ivcak")
 
 [node name="OverviewCamera" parent="Environment" instance=ExtResource("8_2nhjv")]
+limit_left = -6
 limit_right = 512
 limit_bottom = 548
 editor_draw_limits = true

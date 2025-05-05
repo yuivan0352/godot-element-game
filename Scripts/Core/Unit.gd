@@ -42,6 +42,10 @@ func _ready():
 		bonus_actions = 1
 		_update_adj_tiles()
 
+func _set_a_star():
+	astar_grid = tile_layer_zero.astar_grid
+	print(astar_grid.region)
+
 func _update_adj_tiles():
 	adjacent_tiles = []
 	var tile_position = tile_layer_zero.local_to_map(global_position)
