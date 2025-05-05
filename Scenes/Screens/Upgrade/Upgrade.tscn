@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b6msb4pro24c1" path="res://Scenes/Screens/Upgrade/upgrade.gd" id="1_cp5m0"]
 [ext_resource type="Script" uid="uid://c44rfkyosbdip" path="res://Scenes/Screens/Upgrade/team.gd" id="1_g3own"]
-[ext_resource type="PackedScene" uid="uid://bhqcy1oe7cn5l" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
+[ext_resource type="PackedScene" uid="uid://bjvmoxonb0fd8" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
 [ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="2_g3own"]
 [ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="3_7uw2u"]
 [ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_cp5m0"]
