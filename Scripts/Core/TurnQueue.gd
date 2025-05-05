@@ -15,6 +15,7 @@ var round_num = 0
 
 @onready var overview_camera = $"../../Environment/OverviewCamera"
 @onready var layer_zero = $"../../Environment/Layer0"
+@onready var layer_one = $"../../Environment/Layer1"
 @onready var player_chars = $"../../Combatants/Player"
 @onready var enemy_chars = $"../../Combatants/Enemy"
 
@@ -31,14 +32,13 @@ func _ready():
 	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
-		unit._set_a_star()
 	
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
-		unit._set_a_star()
 	
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
+	print(layer_one.get_used_rect())
 
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)

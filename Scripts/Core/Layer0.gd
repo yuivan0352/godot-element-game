@@ -11,6 +11,9 @@ var currentPieces = []
 var piecePositions = [Vector2i(0,0),Vector2i(16,0),Vector2i(0,16),Vector2i(16,16)]
 
 func _ready():
+	set_terrain()
+	Global.level += 1
+	
 	astar_grid = AStarGrid2D.new()
 	astar_grid.region = get_used_rect()
 	astar_grid.cell_size = Vector2(16, 16)
@@ -29,25 +32,24 @@ func _ready():
 			if tile_data == null or !tile_data.get_custom_data("walkable"):
 				astar_grid.set_point_solid(tile, true)
 				
-	set_terrain()
-	Global.level += 1
-				
-func _update_a_star():
-	astar_grid.region = get_used_rect()
-	astar_grid.update()
-	
-	for x in get_used_rect().size.x:
-		for y in get_used_rect().size.y:
-			var tile = Vector2i(
-				x + get_used_rect().position.x,
-				y + get_used_rect().position.y
-			)	
-			dictionary[str(tile)] = null
 
-			var tile_data = get_cell_tile_data(tile)
-			
-			if tile_data == null or !tile_data.get_custom_data("walkable"):
-				astar_grid.set_point_solid(tile, true)
+# Might need this function for round changes
+#func _update_a_star():
+	#astar_grid.region = get_used_rect()
+	#astar_grid.update()
+	#
+	#for x in get_used_rect().size.x:
+		#for y in get_used_rect().size.y:
+			#var tile = Vector2i(
+				#x + get_used_rect().position.x,
+				#y + get_used_rect().position.y
+			#)	
+			#dictionary[str(tile)] = null
+#
+			#var tile_data = get_cell_tile_data(tile)
+			#
+			#if tile_data == null or !tile_data.get_custom_data("walkable"):
+				#astar_grid.set_point_solid(tile, true)
 	
 
 func set_terrain():
@@ -81,8 +83,8 @@ func set_terrain():
 				pieceNum -= 1
 			set_pattern(piecePositions[pieceNum],pattern)
 			
-		_update_a_star()
 		print()
+
 func piece_choser(limit):
 	var pieceNum = (randi() % limit)
 	var currNum = 1
@@ -111,7 +113,6 @@ func _on_ui_element_mouse_exited():
 func _process(_delta):
 	var tile_position = local_to_map(get_global_mouse_position())
 		
-
 	# checks if the current current_unit exists and is of Character class
 	if (turn_queue.current_unit != null and turn_queue.current_unit is Character):
 		if (turn_queue.current_unit.hover_id_path.size() < turn_queue.current_unit.movement_limit - turn_queue.current_unit.moved_distance):
@@ -126,9 +127,6 @@ func _process(_delta):
 			layer_one.erase_cell(tile)
 
 	if dictionary.has(str(tile_position)):
-		
-	
-	
 		if !in_ui_element:
 			if get_cell_tile_data(tile_position)!= null and get_cell_tile_data(tile_position).get_custom_data("walkable") == false or turn_queue.pc_positions.find_key(tile_position) != null or turn_queue.enemy_positions.find_key(tile_position) != null:
 				layer_one.set_cell(tile_position, 3, Vector2i(2, 3), 0)

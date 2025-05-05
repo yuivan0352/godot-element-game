@@ -146,7 +146,7 @@ func _physics_process(_delta):
 		if !in_ui_element:
 			var mouse_pos = get_global_mouse_position()
 			var tile_position = tile_layer_zero.local_to_map(mouse_pos)
-			var grid_size = Vector2i(16, 16)
+			var grid_size = tile_layer_zero.get_used_cells()[-1] + Vector2i(1, 1)
 			
 			if tile_position.x >= 0 and tile_position.y >= 0 and tile_position.x < grid_size.x and tile_position.y < grid_size.y:
 				var char_tile_pos = tile_layer_zero.local_to_map(global_position)
