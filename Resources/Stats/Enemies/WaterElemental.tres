@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://bftv2hqqmd0sb"]
 
-[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_0fij3"]
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_i6y3e"]
 
 [resource]
 resource_local_to_scene = true
-script = ExtResource("1_0fij3")
-name = "Elemental"
+script = ExtResource("1_i6y3e")
+name = "Water Elemental"
 health = 10
 max_health = 10
 mana = 5
@@ -15,3 +15,4 @@ brains = 1
 brawns = 3
 bewitchment = 1
 enemy_class = "Melee"
+used_iron_defense = false

@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://ns6wxp8radb4"]
+
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_mu17p"]
+[ext_resource type="Texture2D" uid="uid://cxxvi14f27okr" path="res://Assets/Sprites/Wind Elemental.png" id="2_mu17p"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_vuygx"]
+
+[node name="Enemy" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_mu17p")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-2.98023e-08, -3)
+scale = Vector2(0.037, 0.04)
+texture = ExtResource("2_mu17p")
+
+[node name="Path" type="Node2D" parent="."]
+position = Vector2(0, 2.98023e-08)
+script = ExtResource("3_vuygx")
+
+[node name="CharacterCamera" type="Camera2D" parent="."]
+scale = Vector2(4, 2)
+enabled = false
+zoom = Vector2(5, 5)
+limit_left = 0
+limit_top = -32
+limit_right = 256
+limit_bottom = 256
+limit_smoothed = true
+rotation_smoothing_enabled = true
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.90735e-06, -2)
+scale = Vector2(0.851563, 0.92582)
+
+[connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
+[connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
+[connection signal="unit_still" from="." to="Path" method="_on_character_unit_still"]

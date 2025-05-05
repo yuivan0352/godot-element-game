@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://b31vqyqhc3aww"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_0gmnf"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_0gmnf")
+name = "Water Obelisk"
+health = 14
+max_health = 14
+mana = 2
+armor_class = 13
+movement_speed = 0
+brains = 1
+brawns = 4
+bewitchment = 3
+enemy_class = "Boss"
+used_iron_defense = false

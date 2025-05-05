@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://7gn6q80ndheu" path="res://Assets/Sprites/eye.png" id="2_e6ljg"]
 
 [node name="Enemy" type="Node2D"]
+z_index = 1000
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_e6ljg")
 

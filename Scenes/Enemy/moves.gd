@@ -1,19 +1,29 @@
 extends Unit
 
+var elements = ["Fire","Water","Earth","Wind"]
+
 var unit_moves = {
 	#Put most important move to least important
 	"Warrior": ["Iron Defense","Cleave", "Slash", "Arrow Shot"],
 	"Mage": ["Mass Healing", "Healing Spell","Mage Armor","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
-	"King Slime": ["Royal Reproduction", "Pounce"],
-	"Boss": ["Otherworldly Summoning"],
-	"Elemental": ["Necrotic Touch","Fire Bolt"]
+	"Snake": ["Bite"],
+	"King Slime": ["Royal Reproduction", "Pounce"]
 }
+
 
 var available_moves = []
 
 func _ready() -> void:
+	#Initalizes all elementals into the unit_moves list
+	for element in elements:
+		var obelisk_name = element + " Obelisk"
+		var elemental_name = element + " Elemental"
+		var move_name = element + " Blast"
+		unit_moves[obelisk_name] = ["Elemental Summoning"]
+		unit_moves[elemental_name] = [move_name, "Unarmed Strike"]
+	
 	rng.randomize()
 	
 func use_melee_move(attacker, target_tile):
@@ -23,8 +33,11 @@ func use_melee_move(attacker, target_tile):
 		var move_used = false
 		var roll = rng.randi_range(1, 20)
 		match move:
-			"Otherworldly Summoning":
-				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Elemental", 0, roll))
+			"Elemental Summoning":
+				#Summons specific elemental for specific obelisk with that element
+				for element in elements:
+					if attacker.unit_stats.name.findn(element) != -1:
+						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
 			"Iron Defense":
 				move_used = await(iron_defense(attacker, attacker.turn_queue, 2, roll))
 			"Mage Armor":
@@ -38,6 +51,8 @@ func use_melee_move(attacker, target_tile):
 			"Unarmed Strike":
 				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
 			"Pounce":
+				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
+			"Bite":
 				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
 			"Stab":
 				move_used = await(slash(attacker, target_tile, attacker.turn_queue, roll))
@@ -56,8 +71,19 @@ func use_ranged_move(attacker):
 		var move_used = false
 		var roll = rng.randi_range(1, 20)
 		match move:
-			"Otherworldly Summoning":
-				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Elemental", 0, roll))
+			"Elemental Summoning":
+				#Summons specific elemental for specific obelisk with that element
+				for element in elements:
+					if attacker.unit_stats.name.findn(element) != -1:
+						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
+			"Water Blast":
+				move_used = await(elemental_blast(attacker, attacker.turn_queue, roll))
+			"Fire Blast":
+				move_used = await(elemental_blast(attacker, attacker.turn_queue, roll))
+			"Rock Blast":
+				move_used = await(elemental_blast(attacker, attacker.turn_queue, roll))
+			"Wind Blast":
+				move_used = await(elemental_blast(attacker, attacker.turn_queue, roll))
 			"Iron Defense":
 				move_used = await(iron_defense(attacker, attacker.turn_queue, 2, roll))
 			"Healing Spell":
@@ -393,7 +419,40 @@ func fire_bolt(attacker, turn_queue, roll) -> bool:
 				print(attacker.unit_stats.name, " missed")
 				return true
 	return false
+
+#Basic single target magic attack
+func elemental_blast(attacker, turn_queue, roll) -> bool:
+	attacker._update_circle_tiles(5)
 	
+	for tile in attacker.circle_tiles:
+		var player = turn_queue.pc_positions.find_key(tile)
+		if player != null:
+			print("Enemy has been detected in range of Obelisk")
+			if roll >= player.unit_stats.armor_class:
+				var line = draw_attack_line(attacker, player)
+				await get_tree().create_timer(1.0).timeout
+				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+				
+				if damage > 0:
+					player.unit_stats.health -= damage
+				else:
+					damage = 0
+					
+				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+
+				if player.unit_stats.health <= 0:
+					print(player.unit_stats.name, " has been defeated!")
+					turn_queue.pc_positions.erase(player)
+					turn_queue.turn_order.erase(player)
+					player.queue_free()
+
+				line.queue_free()
+				return true
+			else:
+				print(attacker.unit_stats.name, " missed its target")
+				return true
+	return false
+		
 func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 	attacker._update_circle_tiles(5)
 	

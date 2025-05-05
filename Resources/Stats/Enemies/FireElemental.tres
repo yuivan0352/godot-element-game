@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://d0v2mialmrla0"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_pluwa"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_pluwa")
+name = "Fire Elemental"
+health = 10
+max_health = 10
+mana = 5
+armor_class = 1
+movement_speed = 30
+brains = 1
+brawns = 3
+bewitchment = 1
+enemy_class = "Melee"
+used_iron_defense = false

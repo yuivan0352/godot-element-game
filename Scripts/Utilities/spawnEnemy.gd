@@ -5,6 +5,7 @@ var enemy_scenes: Dictionary = {
 	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
+	"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
 	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
 }
 
@@ -12,17 +13,36 @@ var enemy_stats: Dictionary = {
 	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
+	"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
 	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
 }
 
 var reinforcement_enemy_scenes: Dictionary = {
 	"Slime": preload("res://Scenes/Enemy/EnemySlime.tscn"),
-	"Elemental": preload("res://Scenes/Enemy/EnemyElemental.tscn")
+	
+	"Water Elemental": preload("res://Scenes/Enemy/WaterElemental.tscn"),
+	"Fire Elemental": preload("res://Scenes/Enemy/FireElemental.tscn"),
+	"Earth Elemental": preload("res://Scenes/Enemy/EarthElemental.tscn"),
+	"Wind Elemental": preload("res://Scenes/Enemy/WindElemental.tscn"),
+	
+	"Water Obelisk": preload("res://Scenes/Enemy/WaterObelisk.tscn"),
+	"Fire Obelisk": preload("res://Scenes/Enemy/FireObelisk.tscn"),
+	"Earth Obelisk": preload("res://Scenes/Enemy/EarthObelisk.tscn"),
+	"Wind Obelisk": preload("res://Scenes/Enemy/WindObelisk.tscn")
 }
 
 var reinforcement_enemy_stats: Dictionary = {
 	"Slime": preload("res://Resources/Stats/Enemies/EnemySlime.tres"),
-	"Elemental": preload("res://Resources/Stats/Enemies/EnemyElemental.tres")
+	
+	"Water Elemental": preload("res://Resources/Stats/Enemies/WaterElemental.tres"),
+	"Fire Elemental": preload("res://Resources/Stats/Enemies/FireElemental.tres"),
+	"Earth Elemental": preload("res://Resources/Stats/Enemies/EarthElemental.tres"),
+	"Wind Elemental": preload("res://Resources/Stats/Enemies/WindElemental.tres"),
+ 
+	"Water Obelisk": preload("res://Resources/Stats/Enemies/WaterObelisk.tres"),
+	"Fire Obelisk": preload("res://Resources/Stats/Enemies/FireObelisk.tres"),
+	"Earth Obelisk": preload("res://Resources/Stats/Enemies/EarthObelisk.tres"),
+	"Wind Obelisk": preload("res://Resources/Stats/Enemies/WindObelisk.tres")
 }
 
 var boss_enemy_scenes: Dictionary = {
@@ -32,6 +52,8 @@ var boss_enemy_scenes: Dictionary = {
 var boss_enemy_stats: Dictionary = {
 	"Boss": preload("res://Resources/Stats/Enemies/EnemyBoss.tres")
 }
+
+
 
 
 @onready var player_chars: Node2D = $"../Player"

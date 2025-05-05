@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co224ghmrj67f"
-path="res://.godot/imported/undead_elemental.png-8cfe429bc8a3592d9f7fdb99f82518e4.ctex"
+uid="uid://n5cvr6u6g3oe"
+path="res://.godot/imported/Water Elemental.png-b61ad1f11a26fbb51a845454a8e0a132.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/undead_elemental.png"
-dest_files=["res://.godot/imported/undead_elemental.png-8cfe429bc8a3592d9f7fdb99f82518e4.ctex"]
+source_file="res://Assets/Sprites/Water Elemental.png"
+dest_files=["res://.godot/imported/Water Elemental.png-b61ad1f11a26fbb51a845454a8e0a132.ctex"]
 
 [params]
 

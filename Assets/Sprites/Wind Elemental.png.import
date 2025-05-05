@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8verh05gu5dp"
-path="res://.godot/imported/obelisk.png-7f80fc79b6984afae7b70139523f5180.ctex"
+uid="uid://cxxvi14f27okr"
+path="res://.godot/imported/Wind Elemental.png-befac3143cbc5332ca6e2df73814e154.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/obelisk.png"
-dest_files=["res://.godot/imported/obelisk.png-7f80fc79b6984afae7b70139523f5180.ctex"]
+source_file="res://Assets/Sprites/Wind Elemental.png"
+dest_files=["res://.godot/imported/Wind Elemental.png-befac3143cbc5332ca6e2df73814e154.ctex"]
 
 [params]
 

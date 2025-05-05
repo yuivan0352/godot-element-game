@@ -6,11 +6,11 @@
 resource_local_to_scene = true
 script = ExtResource("1_ic8to")
 name = "Boss"
-health = 10
-max_health = 10
+health = 1000
+max_health = 1000
 mana = 5
 armor_class = 1
-movement_speed = 30
+movement_speed = 0
 brains = 1
 brawns = 3
 bewitchment = 1
