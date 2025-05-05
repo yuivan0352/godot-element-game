@@ -31,7 +31,9 @@ func _get_current_unit(cu):
 		for stat in Global.characters_stats:
 			if current_unit.unit_stats.name == stat.name:
 				current_unit_stats = stat
+		
 		potion_button.text = str(current_unit_stats.potions)
+		
 	else:
 		potion_button.text = str(current_unit.unit_stats.potions)
 
