@@ -4,7 +4,7 @@ var elements = ["Fire","Water","Earth","Wind"]
 
 var unit_moves = {
 	#Put most important move to least important
-	"Warrior": ["Cleave", "Slash", "Arrow Shot"],
+	"Warrior": ["Arrow Shot","Cleave", "Slash"],
 	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
@@ -36,7 +36,7 @@ func use_melee_move(attacker, target_tile):
 				#Summons specific elemental for specific obelisk with that element
 				for element in elements:
 					if attacker.unit_stats.name.findn(element) != -1:
-						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
+						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 3, roll))
 			"Necrotic Touch":
 				move_used = await(necrotic_touch(attacker, target_tile, attacker.turn_queue, 1, roll))
 			"Cleave":
@@ -111,7 +111,7 @@ func slash(attacker, target_tile, turn_queue, roll) -> bool:
 		if roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
-			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains))
+			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
 			if damage > 0:
 				player.unit_stats.health -= damage
@@ -358,7 +358,7 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 				if roll >= player.unit_stats.armor_class:
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
-					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 					
 					if damage > 0:
 						player.unit_stats.health -= damage
@@ -392,7 +392,7 @@ func fire_bolt(attacker, turn_queue, roll) -> bool:
 			if roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
-				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
 				if damage > 0:
 					player.unit_stats.health -= damage
@@ -425,7 +425,7 @@ func elemental_blast(attacker, turn_queue, roll) -> bool:
 			if roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
-				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
 				if damage > 0:
 					player.unit_stats.health -= damage
@@ -457,7 +457,7 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 		var ally = turn_queue.enemy_positions.find_key(tile)
 		if ally != null:
 			if ally.unit_stats.health < ally.unit_stats.max_health / 2:
-				if roll > ally.unit_stats.armor_class/2:
+				if roll >= ally.unit_stats.armor_class/2:
 					var line = draw_attack_line(attacker, ally)
 					await get_tree().create_timer(1.0).timeout
 					
@@ -498,7 +498,7 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 			if ally != null:
 				if ally.unit_stats.health <= ally.unit_stats.max_health/2:
-					if roll > ally.unit_stats.armor_class/2:
+					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
 						await get_tree().create_timer(1.0).timeout
 						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
