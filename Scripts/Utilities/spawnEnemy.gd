@@ -4,14 +4,14 @@ extends Node2D
 var enemy_scenes: Dictionary = {
 
 	"Spider": preload("res://Scenes/Enemy/Spider.tscn"),
-
+	"Cultist": preload("res://Scenes/Enemy/Cultist.tscn")
 	
 }
 
 var enemy_stats: Dictionary = {
 
 	"Spider": preload("res://Resources/Stats/Enemies/Spider.tres"),
-
+	"Cultist": preload("res://Resources/Stats/Enemies/Cultist.tres")
 }
 
 var reinforcement_enemy_scenes: Dictionary = {

@@ -29,12 +29,12 @@ var elements = ["Fire","Water","Earth","Wind"]
 var status_effects: Dictionary = {}
 
 func _ready():
-	var player_units = player_chars.spawn_characters(3, layer_zero)
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	
 	
 	#Spawns boss unit in center, and all elemental obelisks (FOR FINAL LEVEL)
 	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
-	#enemy_units.append(boss_unit)
+	var player_units = player_chars.spawn_characters(3, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
 	#var obelisk_array = []
 	#for i in elements.size():

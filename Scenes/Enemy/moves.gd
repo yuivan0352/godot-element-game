@@ -16,19 +16,20 @@ var unit_moves = {
 	"Skeleton Warrior": ["Slash"],
 	"Slime Monster": ["Pounce"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
-	"Boss": ["Obelisk Restoration"]
+	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
+	"The Omnipotent Eye": ["Obelisk Restoration"]
 }
 
 var available_moves = []
 
 func _ready() -> void:
-	#Initalizes all elementals into the unit_moves list
+	#Initalizes all elementals + obelisks into the unit_moves list
 	for element in elements:
 		var obelisk_name = element + " Obelisk"
 		var elemental_name = element + " Elemental"
 		var blast_name = element + " Blast"
 		var melee_name = element + " Punch"
-		unit_moves[obelisk_name] = ["Elemental Summoning"]
+		unit_moves[obelisk_name] = ["Elemental Summoning", element + " Beam"]
 		unit_moves[elemental_name] = [blast_name, melee_name]
 	
 	rng.randomize()
@@ -48,7 +49,7 @@ func use_melee_move(attacker, target_tile):
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))
 			"Necrotic Touch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 1, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Cleave":
 				move_used = await(cleave(attacker, attacker.turn_queue, roll))
 			"Slash":
@@ -64,13 +65,13 @@ func use_melee_move(attacker, target_tile):
 			"Stab":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Water Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 1, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Fire Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 1, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Rock Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 1, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Wind Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 1, roll))			
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))			
 		if move_used:
 			print(move, " has been used (roll: ", roll, ")")
 			break
@@ -93,19 +94,29 @@ func use_ranged_move(attacker):
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
 			"Water Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
 			"Fire Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
 			"Rock Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
 			"Wind Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
+			"Water Beam":
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+			"Fire Beam":
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+			"Rock Beam":
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+			"Wind Beam":
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+			"Hex":
+				move_used = await(hex_ranged(attacker,attacker.turn_queue, 3, roll))
 			"Sticky Webbing":
 				move_used = await(slow_ranged(attacker, attacker.turn_queue, roll))
 			"Healing Spell":
-				move_used = await(healing_spell(attacker, attacker.turn_queue, 1, roll))
+				move_used = await(healing_spell(attacker, attacker.turn_queue, 2, roll))
 			"Mass Healing":
-				move_used = await(mass_healing(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(mass_healing(attacker, attacker.turn_queue, 4, roll))
 			"Magic Missiles":
 				move_used = await(magic_missiles(attacker, attacker.turn_queue, 2))
 			"Multi-Shot":
@@ -115,7 +126,7 @@ func use_ranged_move(attacker):
 			"Poison Spit":
 				move_used = await(poison_ranged(attacker, attacker.turn_queue, roll))
 			"Fire Bolt":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
 			"Piercing Shot":
 				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, roll))
 			"Arrow Shot":
@@ -158,7 +169,7 @@ func basic_melee(attacker, target_tile, turn_queue, roll) -> bool:
 	
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
-		if roll >= player.unit_stats.armor_class:
+		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
@@ -198,7 +209,7 @@ func cleave(attacker, turn_queue, roll) -> bool:
 		for tile in attacker.adjacent_tiles:
 			var player = turn_queue.pc_positions.find_key(tile)
 			if player != null:
-				if roll >= player.unit_stats.armor_class:
+				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns)
@@ -230,7 +241,7 @@ func arrow_shot(attacker, turn_queue, roll) -> bool:
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
-			if roll >= player.unit_stats.armor_class:
+			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)) 
@@ -269,7 +280,7 @@ func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
 		var player = turn_queue.pc_positions.find_key(tile)
 		
 		if player != null:
-			if roll >= player.unit_stats.armor_class:
+			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = (rng.randi_range(2, 4) + rng.randi_range(1, attacker.unit_stats.brains))
@@ -305,7 +316,7 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	
 	if player != null:
-		if roll >= player.unit_stats.armor_class:
+		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment) :
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment))
@@ -356,7 +367,7 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 			var roll = rng.randi_range(1,20)
 			
 			if player != null:
-				if roll >= player.unit_stats.armor_class:
+				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -405,7 +416,7 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 			var player = turn_queue.pc_positions.find_key(tile)
 			var roll = rng.randi_range(1,20)
 			if player != null:
-				if roll >= player.unit_stats.armor_class:
+				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 					var line = draw_attack_line(attacker, player)
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -433,13 +444,17 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 	return hit_anyone
 	
 #Basic single target magic attack
-func magic_ranged(attacker, turn_queue, roll) -> bool:
+func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 	attacker._update_circle_tiles(5)
+	
+	if attacker.unit_stats.mana < mana_cost:
+		return false
 	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
-			if roll >= player.unit_stats.armor_class:
+			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
+				attacker.unit_stats.mana -= mana_cost
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -471,7 +486,7 @@ func poison_ranged(attacker, turn_queue, roll) -> bool:
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
-			if roll >= player.unit_stats.armor_class:
+			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -506,7 +521,7 @@ func poison_ranged(attacker, turn_queue, roll) -> bool:
 func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
-		if roll >= player.unit_stats.armor_class:
+		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
@@ -535,6 +550,35 @@ func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
 			print(attacker.unit_stats.name, " missed")
 			return true
 
+	return false
+
+func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
+	if attacker.unit_stats.mana < mana_cost:
+		return false
+	
+	for tile in attacker.circle_tiles:
+		var player = turn_queue.pc_positions.find_key(tile)
+		if player != null:
+			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
+				attacker.unit_stats.mana -= mana_cost
+				
+				var line = draw_attack_line(attacker, player)
+				await get_tree().create_timer(1.0).timeout
+				
+				var affectable_stats = ["brains", "brawns", "bewitchment"]
+				
+				var stat_affected = affectable_stats[randi() % affectable_stats.size()]
+				
+				print(player.unit_stats.name + " is cursed and has their " + stat_affected.capitalize() + " stat lowered!")
+				apply_status_effect(attacker,player,turn_queue,"Hex: " + stat_affected.capitalize(), 1,stat_affected,3)
+					
+				line.queue_free()
+				return true
+			else:
+				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				return true
 	return false
 
 #Ranged attack that applies slow
@@ -741,7 +785,7 @@ func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
 		return false
 		
 	attacker.unit_stats.mana -= mana_cost
-	if roll >= 10:
+	if roll >= attacker.unit_stats.armor_class:
 		turn_queue.spawn_enemy_during_battle(enemy_name)
 		return true
 	else:

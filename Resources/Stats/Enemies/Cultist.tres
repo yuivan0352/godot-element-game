@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://cu5p3rs0koclc"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_mufk1"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_mufk1")
+name = "Cultist"
+health = 12
+max_health = 12
+mana = 3
+armor_class = 6
+movement_speed = 20
+brains = 4
+brawns = 2
+bewitchment = 2
+potions = 0
+enemy_class = "Ranged"
