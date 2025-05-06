@@ -188,12 +188,14 @@ func apply_status_effect(unit: Unit) -> void:
 			unit.unit_stats.set(stat_altered, effect.changed_value)
 
 			effect.duration -= 1
-			print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
-			print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
 			
-			if effect.duration <= 0:
+			if effect.duration >= 1:
+				print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
+				print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
+			else:
 				unit.unit_stats.set(stat_altered, effect.original_value)
 				#Make sure update movement_speed back to normal if slow
+				print(effect.name + " has wore off on " + unit.unit_stats.name)
 				unit.movement_limit = unit.unit_stats.movement_speed/5
 				effects.remove(i)
 				

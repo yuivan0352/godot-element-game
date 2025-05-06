@@ -4,16 +4,16 @@ var elements = ["Fire","Water","Earth","Wind"]
 
 var unit_moves = {
 	#Put most important move to least important
-	"Warrior": ["Arrow Shot","Cleave", "Slash"],
+	"Warrior": ["Iron Defense","Arrow Shot","Cleave", "Slash"],
 	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
-	"Crocodile": ["Pounce"],
+	"Crocodile": ["Vicious Bite","Pounce"],
 	"Spider": ["Sticky Webbing", "Poisonous Bite"],
 	"Devil": ["Fire Bolt"],
 	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
-	"Skeleton Warrior": ["Slash"],
+	"Skeleton Warrior": ["Hardened Bones","Slash"],
 	"Slime Monster": ["Pounce"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
@@ -48,22 +48,28 @@ func use_melee_move(attacker, target_tile):
 				for element in elements:
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))
+			"Iron Defense":
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",3,roll))	
+			"Hardened Bones":
+				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",3,roll))				
 			"Necrotic Touch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Cleave":
 				move_used = await(cleave(attacker, attacker.turn_queue, roll))
+			"Vicious Bite":
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 3, 5, 4, roll))
 			"Slash":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, roll))
 			"Unarmed Strike":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 0, 1, 0, roll))
 			"Pounce":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, roll))
 			"Poisonous Bite":
 				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Poisonous Sting":
 				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Stab":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, roll))
 			"Water Punch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Fire Punch":
@@ -136,7 +142,7 @@ func use_ranged_move(attacker):
 			print(move, " has been used (roll: ", roll, ")")
 			break
 		else:
-			print("No range move available")
+			continue
 			
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
@@ -161,18 +167,27 @@ func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: S
 			return false  
 
 	turn_queue.status_effects[player].append(status_effect)
-	print(attacker.unit_stats.name, " applies ", status_name, " to ", player.unit_stats.name, " for ", turns, " turns.")
+	
+	if(attacker.unit_stats.name == player.unit_stats.name):
+		print(attacker.unit_stats.name, " uses ", status_name, " for ", turns, " turns.")
+	else:
+		print(attacker.unit_stats.name, " applies ", status_name, " to ", player.unit_stats.name, " for ", turns, " turns.")
+		
 	return true
 
 #Single melee basic attack 
-func basic_melee(attacker, target_tile, turn_queue, roll) -> bool:
+func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage: int, mana_cost: int, roll) -> bool:
+	
+	if attacker.unit_stats.mana < mana_cost:
+		return false
 	
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
+			attacker.unit_stats.mana -= mana_cost
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
-			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
+			var damage = (rng.randi_range(min_damage, max_damage) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
 			if damage > 0:
 				player.unit_stats.health -= damage
@@ -778,6 +793,21 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 		return healed
 			
 	return healed
+
+func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost, roll):
+	if attacker.unit_stats.mana < mana_cost:
+		return false
+
+	if roll >= attacker.unit_stats.armor_class:
+		
+		attacker.unit_stats.mana -= mana_cost
+		await get_tree().create_timer(1.0).timeout		
+		# -1 to add instead of subtracting
+		apply_status_effect(attacker,attacker,turn_queue,buff_name,-2,stat_affected,2)
+		return true
+	else:
+		print(attacker.unit_stats.name, " missed")
+		return true
 
 #spawns in enemies during the game (enemy abilities to call reinforcements)
 func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
