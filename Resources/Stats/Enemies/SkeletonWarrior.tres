@@ -1,17 +1,18 @@
-[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://hh7olh54nt1y"]
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://doruyqnexjnl8"]
 
 [ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_5ns1b"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_5ns1b")
-name = ""
-health = 0
-max_health = 0
-mana = 0
-armor_class = 0
-movement_speed = 0
-brains = 0
-brawns = 0
-bewitchment = 0
+name = "Skeleton Warrior"
+health = 10
+max_health = 10
+mana = 2
+armor_class = 5
+movement_speed = 20
+brains = 2
+brawns = 2
+bewitchment = 2
 potions = 0
+enemy_class = "Melee"

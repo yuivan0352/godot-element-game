@@ -12,3 +12,6 @@ class_name Stats
 @export var brawns : int
 @export var bewitchment : int
 @export var potions: int
+
+#enemy-exclusive stat [Melee, Ranged, Boss]
+@export var enemy_class: String

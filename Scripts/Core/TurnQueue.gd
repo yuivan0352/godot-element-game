@@ -30,7 +30,7 @@ var status_effects: Dictionary = {}
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
-	var enemy_units = enemy_chars.spawn_characters(8, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
 	#Spawns boss unit in center, and all elemental obelisks (FOR FINAL LEVEL)
 	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
@@ -138,14 +138,17 @@ func _play_turn():
 		overview_camera.transition_camera(prev_cam, curr_cam, cam_trans_duration)
 		await get_tree().create_timer(1).timeout
 	
+	
 	if current_unit is Character:
 		overview_camera.make_current()
 		current_unit.spell_info.emit(current_unit.equipped_spells)
 	current_character.emit(current_unit)
+	
+	apply_status_effect(current_unit)
 
 	current_unit._reset_action_econ()
 	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
-	
+		
 	if current_unit is Character:
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
@@ -175,7 +178,7 @@ func spawn_enemy_during_battle(enemy_name: String):
 	enemy.unit_moving.connect(_transition_character_cam)
 
 #Apply status effect for X amount of turns
-func _apply_status_effect(unit: Unit) -> void:
+func apply_status_effect(unit: Unit) -> void:
 	if status_effects.has(unit):
 		var effects = status_effects[unit]
 		for i in range(effects.size() - 1, -1, -1):
@@ -186,11 +189,18 @@ func _apply_status_effect(unit: Unit) -> void:
 
 			effect.duration -= 1
 			print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
-			print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + (effect.original_value - effect.changed_value))
+			print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
+			
 			if effect.duration <= 0:
 				unit.unit_stats.set(stat_altered, effect.original_value)
+				#Make sure update movement_speed back to normal if slow
+				unit.movement_limit = unit.unit_stats.movement_speed/5
 				effects.remove(i)
 				
+			#Make sure update movement_speed if slow
+			if stat_altered == "movement_speed":
+				unit.movement_limit = unit.unit_stats.movement_speed/5
+	
 		if effects.size() == 0:
 			status_effects.erase(unit)
 		else:

@@ -14,4 +14,5 @@ movement_speed = 20
 brains = 4
 brawns = 2
 bewitchment = 2
+potions = 0
 enemy_class = "Melee"

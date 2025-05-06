@@ -14,4 +14,5 @@ movement_speed = 0
 brains = 1
 brawns = 3
 bewitchment = 1
-enemy_class = "Boss"
+potions = 0
+enemy_class = "Ranged"

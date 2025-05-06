@@ -2,34 +2,16 @@ extends Node2D
 
 # Preload enemy scenes and stat files
 var enemy_scenes: Dictionary = {
-	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
-	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
-	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
-	"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
-	"Scorpion": preload("res://Scenes/Enemy/Scorpion.tscn"),
-	"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
-	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
-	"Hungershroom": preload("res://Scenes/Enemy/Hungershroom.tscn"),
+
 	"Spider": preload("res://Scenes/Enemy/Spider.tscn"),
-	"Skeleton Warrior": preload("res://Scenes/Enemy/SkeletonWarrior.tscn"),
-	"Devil": preload("res://Scenes/Enemy/Devil.tscn"),
-	"Crocodile": preload("res://Scenes/Enemy/Crocodile.tscn")
+
 	
 }
 
 var enemy_stats: Dictionary = {
-	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
-	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
-	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
-	"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
-	"Scorpion": preload("res://Resources/Stats/Enemies/Scorpion.tres"),
-	"Slime Monster": preload("res://Resources/Stats/Enemies/SlimeMonster.tres"),
-	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
-	"Hungershroom": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
-	"Spider": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
-	"Skeleton Warrior": preload("res://Resources/Stats/Enemies/SkeletonWarrior.tres"),
-	"Devil": preload("res://Resources/Stats/Enemies/Devil.tres"),
-	"Crocodile" preload("res://Resources/Stats/Enemies/Crocodile.tres")
+
+	"Spider": preload("res://Resources/Stats/Enemies/Spider.tres"),
+
 }
 
 var reinforcement_enemy_scenes: Dictionary = {

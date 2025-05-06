@@ -9,10 +9,11 @@ var unit_moves = {
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
 	"Crocodile": ["Pounce"],
-	"Spider": ["Sticky Webbing"],
+	"Spider": ["Sticky Webbing", "Poisonous Bite"],
 	"Devil": ["Fire Bolt"],
-	"Scorpion": ["Poisonous Bite"],
+	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
+	"Skeleton Warrior": ["Slash"],
 	"Slime Monster": ["Pounce"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Boss": ["Obelisk Restoration"]
@@ -58,6 +59,8 @@ func use_melee_move(attacker, target_tile):
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Poisonous Bite":
 				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
+			"Poisonous Sting":
+				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Stab":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Water Punch":
@@ -97,6 +100,8 @@ func use_ranged_move(attacker):
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
 			"Wind Blast":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, roll))
+			"Sticky Webbing":
+				move_used = await(slow_ranged(attacker, attacker.turn_queue, roll))
 			"Healing Spell":
 				move_used = await(healing_spell(attacker, attacker.turn_queue, 1, roll))
 			"Mass Healing":
@@ -119,31 +124,33 @@ func use_ranged_move(attacker):
 		if move_used:
 			print(move, " has been used (roll: ", roll, ")")
 			break
-		
+		else:
+			print("No range move available")
+			
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
 
-func apply_status_effect(attacker, player, turn_queue: TurnQueue, name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
+func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
 
 	var status_effect = {
-		"name": name,
+		"name": status_name,
 		"duration": turns,
 		"stat_altered": stat_altered,
 		"stat_reduction": stat_reduction,
 		"original_value": player.unit_stats.get(stat_altered),
 		"changed_value": player.unit_stats.get(stat_altered) - stat_reduction
 	}
-
+	
 	if not turn_queue.status_effects.has(player):
 		turn_queue.status_effects[player] = []
 
 	for effect in turn_queue.status_effects[player]:
-		if effect.name == name:
-			print(player.unit_stats.name, " already has ", name, " effect. Not stacking.")
+		if effect.name == status_name:
+			print(player.unit_stats.name, " already has ", status_name, " effect. Not stacking.")
 			return false  
 
 	turn_queue.status_effects[player].append(status_effect)
-	print(attacker.unit_stats.name, " applies ", name, " to ", player.unit_stats.name, " for ", turns, " turns.")
+	print(attacker.unit_stats.name, " applies ", status_name, " to ", player.unit_stats.name, " for ", turns, " turns.")
 	return true
 
 #Single melee basic attack 
@@ -733,16 +740,13 @@ func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
 	if attacker.unit_stats.mana < mana_cost:
 		return false
 		
-		attacker.unit_stats.mana -= mana_cost
-		
+	attacker.unit_stats.mana -= mana_cost
 	if roll >= 10:
 		turn_queue.spawn_enemy_during_battle(enemy_name)
 		return true
 	else:
 		print(attacker.unit_stats.name, " failed to call reinforcements into battle")
 		return true
-	
-	return false
 
 func draw_attack_line(attacker: Node2D, target: Node2D) -> Line2D:
 	var line = Line2D.new()
