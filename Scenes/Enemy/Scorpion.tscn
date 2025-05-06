@@ -9,8 +9,8 @@ position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_vagp0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -1.5)
-scale = Vector2(0.036, 0.03)
+position = Vector2(0, -3)
+scale = Vector2(0.048, 0.041)
 texture = ExtResource("2_vagp0")
 
 [node name="Path" type="Node2D" parent="."]
@@ -28,7 +28,7 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0, -3)
 scale = Vector2(0.75, 0.7)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]

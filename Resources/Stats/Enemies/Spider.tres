@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://yme2gk0f4mvi"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_uecuy"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_uecuy")
+name = ""
+health = 0
+max_health = 0
+mana = 0
+armor_class = 0
+movement_speed = 0
+brains = 0
+brawns = 0
+bewitchment = 0
+potions = 0

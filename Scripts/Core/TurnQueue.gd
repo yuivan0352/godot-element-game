@@ -26,11 +26,11 @@ signal buttons_disabled
 var elements = ["Fire","Water","Earth","Wind"]
 
 #Damage over time effects applied from enemy attack
-var dot_effects: Dictionary = {}
+var status_effects: Dictionary = {}
 
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(8, layer_zero)
 	
 	#Spawns boss unit in center, and all elemental obelisks (FOR FINAL LEVEL)
 	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
@@ -173,4 +173,25 @@ func spawn_enemy_during_battle(enemy_name: String):
 	turn_order.append(enemy)
 	enemy.turn_complete.connect(_play_turn)
 	enemy.unit_moving.connect(_transition_character_cam)
-	
+
+#Apply status effect for X amount of turns
+func _apply_status_effect(unit: Unit) -> void:
+	if status_effects.has(unit):
+		var effects = status_effects[unit]
+		for i in range(effects.size() - 1, -1, -1):
+			var effect = effects[i]
+
+			var stat_altered = effect.stat_altered 
+			unit.unit_stats.set(stat_altered, effect.changed_value)
+
+			effect.duration -= 1
+			print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
+			print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + (effect.original_value - effect.changed_value))
+			if effect.duration <= 0:
+				unit.unit_stats.set(stat_altered, effect.original_value)
+				effects.remove(i)
+				
+		if effects.size() == 0:
+			status_effects.erase(unit)
+		else:
+			status_effects[unit] = effects

@@ -1,20 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://3jp2psvsrbsh"]
+[gd_scene load_steps=4 format=3 uid="uid://c1k3vmd4exg02"]
 
-[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_xm8ef"]
-[ext_resource type="Texture2D" uid="uid://dwhwimsfr40uh" path="res://Assets/Sprites/slime monster.png" id="2_xm8ef"]
-[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_4nyug"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_s3yqu"]
+[ext_resource type="Texture2D" uid="uid://kt00jtsrh1hn" path="res://Assets/Sprites/skeleton_warrior.png" id="2_s3yqu"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_hwhpj"]
 
-[node name="Enemy2" type="Node2D"]
+[node name="Enemy3" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
-script = ExtResource("1_xm8ef")
+script = ExtResource("1_s3yqu")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(5.96046e-08, -2)
-scale = Vector2(0.015873, 0.0142857)
-texture = ExtResource("2_xm8ef")
+position = Vector2(-2.98023e-08, -1)
+scale = Vector2(0.0686274, 0.0747664)
+texture = ExtResource("2_s3yqu")
 
 [node name="Path" type="Node2D" parent="."]
-script = ExtResource("3_4nyug")
+script = ExtResource("3_hwhpj")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -28,8 +28,8 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-2.98023e-08, -1)
-scale = Vector2(0.958913, 0.955001)
+position = Vector2(0, -1)
+scale = Vector2(0.267825, 0.310001)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]

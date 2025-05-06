@@ -11,6 +11,4 @@ class_name Stats
 @export var brains : int
 @export var brawns : int
 @export var bewitchment : int
-
-#Enemy exclusive stats
-@export var enemy_class : String
+@export var potions: int

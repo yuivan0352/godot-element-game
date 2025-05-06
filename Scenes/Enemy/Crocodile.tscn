@@ -1,20 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://3jp2psvsrbsh"]
+[gd_scene load_steps=4 format=3 uid="uid://g7686mnc4bag"]
 
-[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_xm8ef"]
-[ext_resource type="Texture2D" uid="uid://dwhwimsfr40uh" path="res://Assets/Sprites/slime monster.png" id="2_xm8ef"]
-[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_4nyug"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_3yasr"]
+[ext_resource type="Texture2D" uid="uid://bj8snt51y1tnb" path="res://Assets/Sprites/crocodile_monster.png" id="2_3yasr"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_qv3pm"]
 
 [node name="Enemy2" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
-script = ExtResource("1_xm8ef")
+script = ExtResource("1_3yasr")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(5.96046e-08, -2)
-scale = Vector2(0.015873, 0.0142857)
-texture = ExtResource("2_xm8ef")
+position = Vector2(-4.76837e-07, -2)
+scale = Vector2(0.121951, 0.117647)
+texture = ExtResource("2_3yasr")
 
 [node name="Path" type="Node2D" parent="."]
-script = ExtResource("3_4nyug")
+script = ExtResource("3_qv3pm")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -28,7 +28,7 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-2.98023e-08, -1)
+position = Vector2(3.8147e-06, -2)
 scale = Vector2(0.958913, 0.955001)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]

@@ -8,6 +8,9 @@ var unit_moves = {
 	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Pounce"],
+	"Crocodile": ["Pounce"],
+	"Spider": ["Sticky Webbing"],
+	"Devil": ["Fire Bolt"],
 	"Scorpion": ["Poisonous Bite"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Slime Monster": ["Pounce"],
@@ -119,6 +122,29 @@ func use_ranged_move(attacker):
 		
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
+
+func apply_status_effect(attacker, player, turn_queue: TurnQueue, name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
+
+	var status_effect = {
+		"name": name,
+		"duration": turns,
+		"stat_altered": stat_altered,
+		"stat_reduction": stat_reduction,
+		"original_value": player.unit_stats.get(stat_altered),
+		"changed_value": player.unit_stats.get(stat_altered) - stat_reduction
+	}
+
+	if not turn_queue.status_effects.has(player):
+		turn_queue.status_effects[player] = []
+
+	for effect in turn_queue.status_effects[player]:
+		if effect.name == name:
+			print(player.unit_stats.name, " already has ", name, " effect. Not stacking.")
+			return false  
+
+	turn_queue.status_effects[player].append(status_effect)
+	print(attacker.unit_stats.name, " applies ", name, " to ", player.unit_stats.name, " for ", turns, " turns.")
+	return true
 
 #Single melee basic attack 
 func basic_melee(attacker, target_tile, turn_queue, roll) -> bool:
@@ -503,7 +529,80 @@ func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
 			return true
 
 	return false
-		
+
+#Ranged attack that applies slow
+func slow_ranged(attacker, turn_queue, roll) -> bool:
+	attacker._update_circle_tiles(5)
+	
+	for tile in attacker.circle_tiles:
+		var player = turn_queue.pc_positions.find_key(tile)
+		if player != null:
+			if roll >= player.unit_stats.armor_class:
+				var line = draw_attack_line(attacker, player)
+				await get_tree().create_timer(1.0).timeout
+				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
+				
+				
+				player.unit_stats.health -= damage	
+				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+				
+				#Apply slow effect if you get the roll
+				var slow_roll = rng.randi_range(1,20)
+				if slow_roll >= player.unit_stats.armor_class:
+					print(player.unit_stats.name + " is inflicted with slow")
+					apply_status_effect(attacker,player,turn_queue,"Enweb",5,"movement_speed",3)
+				else:
+					print("Enweb is not inflicted (", slow_roll, "/20)")
+					
+				if player.unit_stats.health <= 0:
+					print(player.unit_stats.name, " has been defeated!")
+					turn_queue.pc_positions.erase(player)
+					turn_queue.turn_order.erase(player)
+					player.queue_free()
+
+				line.queue_free()
+				return true
+			else:
+				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				return true
+	return false
+
+#Single melee basic attack 
+func slow_melee(attacker, target_tile, turn_queue, roll) -> bool:
+	
+	var player = turn_queue.pc_positions.find_key(target_tile)
+	if player != null:
+		if roll >= player.unit_stats.armor_class:
+			var line = draw_attack_line(attacker, player)
+			await get_tree().create_timer(1.0).timeout
+			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
+			
+			player.unit_stats.health -= damage
+
+			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+			
+			#Apply slow effect if you get the roll
+			var slow_roll = rng.randi_range(1,20)
+			if slow_roll >= player.unit_stats.armor_class:
+				print(player.unit_stats.name + " is inflicted with slow")
+				apply_status_effect(attacker,player,turn_queue,"Enweb",5,"movement_speed",3)
+			else:
+				print("Enweb is not inflicted (", slow_roll, "/20)")
+			
+			if player.unit_stats.health <= 0:
+				print(player.unit_stats.name, " has been defeated!")
+				turn_queue.pc_positions.erase(player)
+				turn_queue.turn_order.erase(player)
+				player.queue_free()
+			
+			line.queue_free()
+			return true
+		else:
+			print(attacker.unit_stats.name, " missed")
+			return true
+
+	return false
+	
 func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 	attacker._update_circle_tiles(5)
 	

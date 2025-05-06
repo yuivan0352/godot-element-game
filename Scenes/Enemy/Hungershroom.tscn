@@ -9,11 +9,12 @@ position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_hn12g")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(-2.98023e-08, -1.5)
-scale = Vector2(0.0327869, 0.0358306)
+position = Vector2(0, -5)
+scale = Vector2(0.0655738, 0.0675896)
 texture = ExtResource("2_hn12g")
 
 [node name="Path" type="Node2D" parent="."]
+position = Vector2(17, 2.98023e-08)
 script = ExtResource("3_rwxil")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
@@ -28,8 +29,8 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(0, -2)
-scale = Vector2(0.535651, 0.520002)
+position = Vector2(0, -5)
+scale = Vector2(0.717826, 0.960001)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]
