@@ -1,20 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4el0kxjj4025"]
+[gd_scene load_steps=4 format=3 uid="uid://cqnsokqkk2hb"]
 
-[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_vvcjj"]
-[ext_resource type="Texture2D" uid="uid://cg34o3eayyees" path="res://Assets/Sprites/Snake.png" id="2_vvcjj"]
-[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_dfrj0"]
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_vagp0"]
+[ext_resource type="Texture2D" uid="uid://cpy35c2heninf" path="res://Assets/Sprites/scorpion.png" id="2_vagp0"]
+[ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_cvfxq"]
 
 [node name="Enemy3" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
-script = ExtResource("1_vvcjj")
+script = ExtResource("1_vagp0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(-2.38419e-07, 4.76837e-07)
-scale = Vector2(0.570313, 0.657252)
-texture = ExtResource("2_vvcjj")
+position = Vector2(0, -1.5)
+scale = Vector2(0.036, 0.03)
+texture = ExtResource("2_vagp0")
 
 [node name="Path" type="Node2D" parent="."]
-script = ExtResource("3_dfrj0")
+script = ExtResource("3_cvfxq")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -28,8 +28,8 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(0.678256, 0.399989)
-scale = Vector2(0.567826, 0.760001)
+position = Vector2(0, -2)
+scale = Vector2(0.75, 0.7)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]

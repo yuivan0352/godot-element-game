@@ -6,8 +6,10 @@ var enemy_scenes: Dictionary = {
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
 	"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
+	"Scorpion": preload("res://Scenes/Enemy/Scorpion.tscn"),
 	"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
 	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
+	"Hungershroom": preload("res://Scenes/Enemy/Hungershroom.tscn")
 }
 
 var enemy_stats: Dictionary = {
@@ -15,8 +17,11 @@ var enemy_stats: Dictionary = {
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
 	"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
+	"Scorpion": preload("res://Resources/Stats/Enemies/Scorpion.tres"),
 	"Slime Monster": preload("res://Resources/Stats/Enemies/SlimeMonster.tres"),
 	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
+	"Hungershroom": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
+
 }
 
 var reinforcement_enemy_scenes: Dictionary = {

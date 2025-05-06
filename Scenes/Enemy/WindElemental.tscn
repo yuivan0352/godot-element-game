@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cxxvi14f27okr" path="res://Assets/Sprites/Wind Elemental.png" id="2_mu17p"]
 [ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_vuygx"]
 
-[node name="Enemy2" type="Node2D"]
+[node name="Enemy3" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_mu17p")
 

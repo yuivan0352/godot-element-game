@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cgp8icfgrnrhi" path="res://Assets/Sprites/Wind Obelisk.png" id="2_q0bft"]
 [ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_tvjn4"]
 
-[node name="Enemy2" type="Node2D"]
+[node name="Enemy3" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_yv0p6")
 

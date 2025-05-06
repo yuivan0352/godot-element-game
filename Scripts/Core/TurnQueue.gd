@@ -25,17 +25,22 @@ signal buttons_disabled
 #For obelisk spawning (final level)
 var elements = ["Fire","Water","Earth","Wind"]
 
+#Damage over time effects applied from enemy attack
+var dot_effects: Dictionary = {}
+
 func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
 	#Spawns boss unit in center, and all elemental obelisks (FOR FINAL LEVEL)
 	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
+	#enemy_units.append(boss_unit)
 	
+	#var obelisk_array = []
 	#for i in elements.size():
-	#	var obelisk = enemy_chars.spawn_specific_enemy(elements[i] + " Obelisk", layer_zero)
-	#	if obelisk: 
-	#		enemy_units.append(obelisk)
+		#var obelisk = enemy_chars.spawn_specific_enemy(elements[i] + " Obelisk", layer_zero)
+		#if obelisk: 
+			#enemy_units.append(obelisk)
 
 	#if boss_unit:
 	#	enemy_units.append(boss_unit)  
@@ -140,6 +145,7 @@ func _play_turn():
 
 	current_unit._reset_action_econ()
 	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
+	
 	if current_unit is Character:
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
@@ -167,3 +173,4 @@ func spawn_enemy_during_battle(enemy_name: String):
 	turn_order.append(enemy)
 	enemy.turn_complete.connect(_play_turn)
 	enemy.unit_moving.connect(_transition_character_cam)
+	
