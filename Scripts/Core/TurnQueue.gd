@@ -70,6 +70,10 @@ func set_current_unit_stats():
 
 func _change_current_unit_mode(mode : String, spell_info: Spell):
 	current_unit.change_mode(mode, spell_info)
+	
+func _heal_current_unit():
+	current_unit.heal()
+	current_character.emit(current_unit)
 
 func setup_turn_order():
 	for unit in turn_order:
@@ -80,7 +84,10 @@ func setup_turn_order():
 	current_unit = turn_order[0]
 	set_current_unit_stats()
 	
-	print(current_unit.unit_stats.name, "'s turn")
+	if current_unit is Enemy:
+		print(current_unit.unit_stats.name, "'s name")
+	elif current_unit is Character:
+		print(current_unit_stats.name, "'s turn")
 	current_character.emit(current_unit)
 	overview_camera.set_camera_position(current_unit)
 	
@@ -141,12 +148,14 @@ func _play_turn():
 	apply_status_effect(current_unit)
 
 	current_unit._reset_action_econ()
-	current_unit.update_action_econ.emit( current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
-		
+	
 	if current_unit is Character:
+		set_current_unit_stats()
+		current_unit.update_action_econ.emit(1, 1, current_unit_stats.mana, current_unit_stats.movement_speed, current_unit_stats.movement_speed)
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
 	elif current_unit is Enemy:
+		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		print("Processing enemy turn")
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()

@@ -56,6 +56,11 @@ func _reset_action_econ():
 	super._reset_action_econ()
 	mode = "idle"
 	
+func heal():
+	if unit_stats.health < unit_stats.max_health:
+		unit_stats.health += rng.randi_range(1, 6)
+		unit_stats.potions -= 1
+	
 func _attack_action(attack_type_array):
 	var mouse_tile = tile_layer_zero.local_to_map(get_global_mouse_position())
 	var target_unit = turn_queue.enemy_positions.find_key(mouse_tile)
