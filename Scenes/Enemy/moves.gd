@@ -40,7 +40,7 @@ func _ready() -> void:
 		var melee_name = element + " Punch"
 		unit_moves[obelisk_name] = ["Elemental Summoning", element + " Beam"]
 		unit_moves[elemental_name] = [blast_name, melee_name]
-	
+		
 	rng.randomize()
 
 func max_mana(attacker):
@@ -183,7 +183,6 @@ func check_status_effect(attacker, player, turn_queue, status_name):
 		
 	for effect in turn_queue.status_effects[player]:
 		if effect.name == status_name:
-			print("Already has iron defense")
 			return false 
 			
 func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:

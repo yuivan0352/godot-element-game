@@ -215,6 +215,7 @@ func apply_status_effect(unit: Unit) -> void:
 		else:
 			status_effects[unit] = effects
 
+#For final level*
 func check_obelisks_and_boss():
 	var boss_unit = null
 	var obelisk_count = 0

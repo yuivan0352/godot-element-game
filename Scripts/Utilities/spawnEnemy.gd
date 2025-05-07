@@ -65,13 +65,11 @@ var reinforcement_enemy_stats: Dictionary = {
 }
 
 var boss_enemy_scenes: Dictionary = {
-	"Boss": preload("res://Scenes/Enemy/EnemyBoss.tscn"),
-	"Placeholder": preload("res://Scenes/Enemy/Placeholder.tscn")
+	"Boss": preload("res://Scenes/Enemy/EnemyBoss.tscn")
 }
 
 var boss_enemy_stats: Dictionary = {
-	"Boss": preload("res://Resources/Stats/Enemies/EnemyBoss.tres"),
-	"Placeholder": preload("res://Resources/Stats/Enemies/Placeholder.tres")
+	"Boss": preload("res://Resources/Stats/Enemies/EnemyBoss.tres")
 }
 
 
