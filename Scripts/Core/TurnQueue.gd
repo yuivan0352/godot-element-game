@@ -26,24 +26,19 @@ signal buttons_disabled
 #For obelisk spawning (final level)
 var elements = ["Fire","Water","Earth","Wind"]
 
-#Damage over time effects applied from enemy attack
 var status_effects: Dictionary = {}
 
-func _ready():
-	var player_units = player_chars.spawn_characters(3, layer_zero)
-	
+func _ready():	
 	#Final Boss Level Spawn
-	#var enemy_units = []
-	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
-	#if boss_unit:
-		#enemy_units.append(boss_unit)
-		# Find and add the spawned obelisks to the enemy_units array
-		#for unit in enemy_chars.get_children():
-			#if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
-				#enemy_units.append(unit)
+	#var enemy_units = enemy_chars.spawn_enemy("Boss", layer_zero)
 	
+	#for element in elements:
+		#var obelisk = enemy_chars.spawn_enemy(element + " Obelisk", layer_zero)
+		#enemy_units.append_array(obelisk)
+		
 	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
-	
+	var player_units = player_chars.spawn_characters(3, layer_zero)
+
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
 	

@@ -6,13 +6,14 @@
 resource_local_to_scene = true
 script = ExtResource("1_pj8f8")
 name = "Quorral"
-health = 10
-max_health = 10
+health = 1000
+max_health = 1000
 mana = 1
 armor_class = 9
 movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-enemy_class = ""
 potions = 3
+enemy_class = ""
+used_self_buff = false

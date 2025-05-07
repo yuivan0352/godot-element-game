@@ -9,8 +9,8 @@ position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_e6ljg")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(-1.19209e-07, 0)
-scale = Vector2(0.0185764, 0.0185238)
+position = Vector2(9.53674e-07, -1.90735e-06)
+scale = Vector2(0.00993336, 0.0100026)
 texture = ExtResource("2_e6ljg")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
@@ -25,7 +25,7 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-2.8871e-08, 2.98023e-08)
+position = Vector2(-7.62939e-06, 1)
 rotation = 3.13557
 scale = Vector2(-1.53151, 1.53162)
 

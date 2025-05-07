@@ -1,9 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dhw08ijfisqm7"]
 
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_76qp8"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_33fw6"]
-load_path = "res://.godot/imported/placeholder.png-ae741ea0eea316a680a5788aa5634eea.ctex"
+[ext_resource type="Texture2D" uid="uid://bm1yaot8we7l5" path="res://Assets/Sprites/placeholder.png" id="2_76qp8"]
 
 [node name="Enemy2" type="Node2D"]
 z_index = 1000
@@ -11,9 +9,9 @@ position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_76qp8")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(1.19209e-07, -1.19209e-07)
-scale = Vector2(0.00595487, 0.00567767)
-texture = SubResource("CompressedTexture2D_33fw6")
+position = Vector2(0.896208, -0.0014194)
+scale = Vector2(-1.98496e-05, -1.0175e-05)
+texture = ExtResource("2_76qp8")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
@@ -27,6 +25,7 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 1.19209e-07)
 rotation = 3.13557
 scale = Vector2(0.247667, 0.203867)
 

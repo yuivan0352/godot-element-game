@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Stats" load_steps=2 format=3 uid="uid://vhejagpmbdg"]
+
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="1_qfj5y"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_qfj5y")
+name = "Placeholder"
+health = 1000
+max_health = 2000
+mana = 10
+armor_class = 10000
+movement_speed = 0
+brains = 3
+brawns = 1
+bewitchment = 5
+potions = 0
+enemy_class = "Boss"
+used_self_buff = false
