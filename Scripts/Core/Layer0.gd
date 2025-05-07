@@ -46,11 +46,10 @@ func _ready():
 	
 
 func set_terrain():
-	#adds the background
-	#var terrain_background_index = 12 + (Global.biomeNum % 3)
-	#var background = tile_set.get_pattern(terrain_background_index)
-	#
-	#set_pattern(Vector2i(-3,-3),background)
+	var terrain_background_index = 12 + (Global.biomeNum % 3)
+	var background = tile_set.get_pattern(terrain_background_index)
+	
+	set_pattern(Vector2i(-3,-3),background)
 	
 	var pieceNum = (randi() % 4)
 	currentPieces.append(0)
