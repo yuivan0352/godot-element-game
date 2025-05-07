@@ -19,19 +19,12 @@ func _ready():
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar_grid.update()
-	for x in get_used_rect().size.x:
-		for y in get_used_rect().size.y:
-			var tile = Vector2i(
-				x + get_used_rect().position.x,
-				y + get_used_rect().position.y
-			)	
-			dictionary[str(tile)] = null
-
-			var tile_data = get_cell_tile_data(tile)
-			
-			if tile_data == null or !tile_data.get_custom_data("walkable"):
-				astar_grid.set_point_solid(tile, true)
-				
+	
+	for tile in get_used_cells():
+		dictionary[str(tile)] = null
+		var tile_data = get_cell_tile_data(tile)
+		if tile_data == null or !tile_data.get_custom_data("walkable"):
+			astar_grid.set_point_solid(tile, true)
 
 # Might need this function for round changes
 #func _update_a_star():
@@ -56,8 +49,8 @@ func set_terrain():
 	#adds the background
 	#var terrain_background_index = 12 + (Global.biomeNum % 3)
 	#var background = tile_set.get_pattern(terrain_background_index)
-	
-	#set_pattern(Vector2i(0,0),background)
+	#
+	#set_pattern(Vector2i(-3,-3),background)
 	
 	var pieceNum = (randi() % 4)
 	currentPieces.append(0)

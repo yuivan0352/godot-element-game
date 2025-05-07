@@ -2797,9 +2797,9 @@ use_parent_material = true
 tile_set = SubResource("TileSet_ivcak")
 
 [node name="OverviewCamera" parent="Environment" instance=ExtResource("8_2nhjv")]
-limit_left = -6
-limit_right = 512
-limit_bottom = 548
+position = Vector2(400, 456)
+limit_left = -16
+limit_top = -16
 editor_draw_limits = true
 
 [node name="Combatants" type="Node2D" parent="."]

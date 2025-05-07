@@ -38,7 +38,6 @@ func _ready():
 	
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
-	print(layer_one.get_used_rect())
 
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)
@@ -84,6 +83,7 @@ func setup_turn_order():
 	overview_camera.set_camera_position(current_unit)
 	
 	if current_unit is Enemy:
+		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
 		buttons_disabled.emit(true)
 	else:
