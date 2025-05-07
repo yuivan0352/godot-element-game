@@ -15,6 +15,7 @@ var round_num = 0
 
 @onready var overview_camera = $"../../Environment/OverviewCamera"
 @onready var layer_zero = $"../../Environment/Layer0"
+@onready var layer_one = $"../../Environment/Layer1"
 @onready var player_chars = $"../../Combatants/Player"
 @onready var enemy_chars = $"../../Combatants/Enemy"
 
@@ -53,6 +54,11 @@ func set_current_unit_stats():
 		if current_unit.unit_stats.name == stat.name:
 			current_unit_stats = stat
 
+func get_enemy_positions():
+	return enemy_positions
+func get_pc_positions():
+	return pc_positions
+
 func _change_current_unit_mode(mode : String, spell_info: Spell):
 	current_unit.change_mode(mode, spell_info)
 	
@@ -77,6 +83,7 @@ func setup_turn_order():
 	overview_camera.set_camera_position(current_unit)
 	
 	if current_unit is Enemy:
+		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
 		buttons_disabled.emit(true)
 	else:
