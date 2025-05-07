@@ -9,6 +9,7 @@ const Explosion = preload("res://Scenes/Attack Effects/explosion.tscn")
 const Beam = preload("res://Scenes/Attack Effects/beam.tscn")
 const Heal = preload("res://Scenes/Attack Effects/heal.tscn")
 const Reinforcement = preload("res://Scenes/Attack Effects/reinforcement.tscn")
+const Magic_Melee = preload("res://Scenes/Attack Effects/magic_melee.tscn")
 
 
 var unit_moves = {
@@ -393,10 +394,10 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment) :
 			var line = draw_attack_line(attacker, player)
 			
-			var slash = Slash.instantiate()
-			get_tree().current_scene.add_child(slash)
-			slash.global_position = player.global_position
-			slash.rotation = (player.global_position - attacker.global_position).angle()
+			var magic_melee = Magic_Melee.instantiate()
+			get_tree().current_scene.add_child(magic_melee)
+			magic_melee.global_position = player.global_position
+			magic_melee.rotation = (player.global_position - attacker.global_position).angle()
 			
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment))

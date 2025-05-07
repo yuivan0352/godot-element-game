@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://nakvv08ksmkf"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_pqap6"]
+[ext_resource type="Texture2D" uid="uid://cru2nvjgcqunf" path="res://Assets/Attack Effects/magic_melee.png" id="2_pqap6"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_pqap6")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 2.98023e-08)
+scale = Vector2(0.0462076, 0.041093)
+texture = ExtResource("2_pqap6")
