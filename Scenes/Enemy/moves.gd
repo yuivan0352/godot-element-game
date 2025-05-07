@@ -15,16 +15,16 @@ const Magic_Melee = preload("res://Scenes/Attack Effects/magic_melee.tscn")
 var unit_moves = {
 	#Put most important move to least important
 	"Warrior": ["Iron Defense","Arrow Shot","Cleave","Slash"],
-	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
+	"Mage": ["Mass Healing", "Healing Spell","Aura Missile", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Slimy Steps","Pounce"],
 	"Crocodile": ["Vicious Bite","Pounce"],
 	"Spider": ["Sticky Webbing", "Poisonous Bite"],
-	"Devil": ["Fire Bolt","Scratch"],
+	"Devil": ["Mass Explosion","Fire Bolt","Scratch"],
 	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Skeleton Warrior": ["Hardened Bones","Slash"],
-	"Slime Monster": ["Pounce"],
+	"Slime Monster": ["Slimy Steps","Pounce"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
 	"The Omnipotent Eye": ["Obelisk Restoration","Boss Shout"]
@@ -143,17 +143,19 @@ func use_ranged_move(attacker):
 			"Sticky Webbing":
 				move_used = await(slow_ranged(attacker, attacker.turn_queue, "Enweb", roll))
 			"Healing Spell":
-				move_used = await(healing_spell(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(healing_spell(attacker, attacker.turn_queue, 3, roll))
 			"Mass Healing":
 				move_used = await(mass_healing(attacker, attacker.turn_queue, 4, roll))
-			"Magic Missiles":
-				move_used = await(magic_missiles(attacker, attacker.turn_queue, 2))
+			"Mass Explosion":
+				move_used = await(magic_missiles(attacker, attacker.turn_queue, 3))
 			"Multi-Shot":
 				move_used = await(multi_shot(attacker, attacker.turn_queue, 2))
 			"Royal Reproduction":
 				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Slime", 2, roll))
 			"Poison Spit":
 				move_used = await(poison_ranged(attacker, attacker.turn_queue, roll))
+			"Aura Missile":
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
 			"Fire Bolt":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
 			"Piercing Shot":
@@ -172,9 +174,28 @@ func use_ranged_move(attacker):
 	attacker.turn_complete.emit()
 
 func boss_dialogue():
-	print("YOU WILL NOT BEAT ME AS LONG AS MY OBELISKS STAND! I AM IMMORTAL!")
+	var boss_lines = [
+		"YOU WILL NOT BEAT ME AS LONG AS MY OBELISKS STAND! I AM IMMORTAL!",
+		"YOUR ATTACKS ARE FUTILE! THE OBELISKS GRANT ME UNENDING POWER!",
+		"AS LONG AS THE OBELISKS STAND, I CANNOT FALL!",
+		"YOU DARE CHALLENGE ME? FOOLS!",
+		"MY POWER IS BEYOND YOUR UNDERSTANDING!"
+	]
+
+	var evil_laughs = [
+		"MUHAHAHAHA!",
+		"FOOLISH MORTALS!",
+		"YOUR END DRAWS NEAR!",
+		"IS THAT ALL YOU’VE GOT?",
+		"I FEED ON YOUR HOPELESSNESS!"
+	]
+
+	var chosen_line = boss_lines[randi() % boss_lines.size()]
+	var chosen_laugh = evil_laughs[randi() % evil_laughs.size()]
+
+	print(chosen_line)
 	await get_tree().create_timer(0.5).timeout
-	print("MUHAHAHAHA!")
+	print(chosen_laugh)
 	return true
 
 
@@ -305,7 +326,7 @@ func cleave(attacker, turn_queue, roll) -> bool:
 
 #Single target normal ranged attack
 func arrow_shot(attacker, turn_queue, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
@@ -340,7 +361,7 @@ func arrow_shot(attacker, turn_queue, roll) -> bool:
 
 #Ignores armor class for shot
 func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
@@ -425,7 +446,7 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 	
 #Attacks all within the radius
 func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	var hit_anyone = false
 	var multiple_targets = []
@@ -483,7 +504,7 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 
 #Attacks all within the radius
 func multi_shot(attacker, turn_queue, mana_cost) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	var hit_anyone = false
 	var multiple_targets = []
@@ -536,7 +557,7 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 	
 #Basic single target magic attack
 func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
@@ -582,7 +603,7 @@ func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 
 #Ranged attack that applies poison
 func poison_ranged(attacker, turn_queue, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
@@ -659,7 +680,7 @@ func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
 	return false
 
 func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
@@ -703,7 +724,7 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 
 #Applies slow
 func slow_ranged(attacker, turn_queue, status_effect, roll) -> bool:
-	attacker._update_circle_tiles(5)
+	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckkml75wrksd5"]
+[gd_scene load_steps=3 format=3 uid="uid://dhw08ijfisqm7"]
 
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_76qp8"]
-[ext_resource type="Texture2D" uid="uid://c0oqe45q5phrh" path="res://Assets/Sprites/placeholder.png" id="2_76qp8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_33fw6"]
+load_path = "res://.godot/imported/placeholder.png-ae741ea0eea316a680a5788aa5634eea.ctex"
 
 [node name="Enemy2" type="Node2D"]
 z_index = 1000
@@ -11,7 +13,7 @@ script = ExtResource("1_76qp8")
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(1.19209e-07, -1.19209e-07)
 scale = Vector2(0.00595487, 0.00567767)
-texture = ExtResource("2_76qp8")
+texture = SubResource("CompressedTexture2D_33fw6")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
 scale = Vector2(4, 2)
