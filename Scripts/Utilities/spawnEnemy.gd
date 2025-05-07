@@ -83,7 +83,9 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	rng.randomize()
-
+	
+func get_enemy_positions() -> Dictionary:
+	return positions
 func spawn_characters(count: int, layer: TileMapLayer) -> Array[Enemy]:
 	var spawned_characters: Array[Enemy] = []
 	var attempts = 0
@@ -95,7 +97,7 @@ func spawn_characters(count: int, layer: TileMapLayer) -> Array[Enemy]:
 	return spawned_characters
 
 func spawn_character(layer: TileMapLayer) -> Enemy:
-	var tile_position = Vector2i(randi() % tile_size, randi() % tile_size)
+	var tile_position = Vector2i(randi() % tile_size*min(Global.level,2), randi() % tile_size*min(2,Global.level-1))
 	var tile_data = layer.get_cell_tile_data(tile_position)
 
 	if tile_data and tile_data.get_custom_data("walkable") and !positions.has(tile_position) and !player_chars.positions.has(tile_position):

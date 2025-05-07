@@ -42,6 +42,7 @@ func _ready():
 		initiative_roll = rng.randi_range(1, 20) + unit_stats.brawns
 		actions = 1
 		bonus_actions = 1
+		
 		_update_adj_tiles()
 
 func _update_adj_tiles():
