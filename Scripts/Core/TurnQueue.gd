@@ -41,7 +41,7 @@ func _ready():
 			#if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
 				#enemy_units.append(unit)
 	
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(20, layer_zero)
 	
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
@@ -112,7 +112,8 @@ func _play_turn():
 				unit.unit_stats.mana += 3
 				if unit.unit_stats.mana > 5:
 					unit.unit_stats.mana = 5
-			unit.unit_stats.mana += round_num + 1
+			else:		
+				unit.unit_stats.mana += round_num + 1
 	turn_info.emit(turn_order, turn_num)
 	
 	_transition_character_cam()
@@ -140,7 +141,7 @@ func _play_turn():
 	apply_status_effect(current_unit)
 
 	current_unit._reset_action_econ()
-	current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
+	current_unit.update_action_econ.emit( current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		
 	if current_unit is Character:
 		_change_current_unit_mode("idle", null)
@@ -183,8 +184,12 @@ func apply_status_effect(unit: Unit) -> void:
 			effect.duration -= 1
 			
 			if effect.duration >= 1:
-				print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
-				print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
+				if effect.original_value - effect.changed_value > 0:
+					print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
+					print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
+				else:
+					print(unit.unit_stats.name + " used " + effect.name + " on itself and has " + str(effect.duration) + " turns left of it")
+					print(unit.unit_stats.name + " had its " + stat_altered + " increased by " + str((-1 * (effect.original_value - effect.changed_value))) )
 			else:
 				unit.unit_stats.set(stat_altered, effect.original_value)
 				#Make sure update movement_speed back to normal if slow

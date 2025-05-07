@@ -15,3 +15,4 @@ class_name Stats
 
 #enemy-exclusive stat [Melee, Ranged, Boss]
 @export var enemy_class: String
+@export var used_self_buff: bool

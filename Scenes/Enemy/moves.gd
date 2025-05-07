@@ -4,13 +4,13 @@ var elements = ["Fire","Water","Earth","Wind"]
 
 var unit_moves = {
 	#Put most important move to least important
-	"Warrior": ["Iron Defense","Arrow Shot","Cleave", "Slash"],
+	"Warrior": ["Iron Defense","Arrow Shot","Cleave","Slash"],
 	"Mage": ["Mass Healing", "Healing Spell","Magic Missles","Fire Bolt", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
-	"Slime": ["Pounce"],
+	"Slime": ["Slimy Steps","Pounce"],
 	"Crocodile": ["Vicious Bite","Pounce"],
 	"Spider": ["Sticky Webbing", "Poisonous Bite"],
-	"Devil": ["Fire Bolt"],
+	"Devil": ["Fire Bolt","Scratch"],
 	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Skeleton Warrior": ["Hardened Bones","Slash"],
@@ -33,7 +33,11 @@ func _ready() -> void:
 		unit_moves[elemental_name] = [blast_name, melee_name]
 	
 	rng.randomize()
-	
+
+func max_mana(attacker):
+	if attacker.unit_stats.mana > 5:
+		attacker.unit_stats.mana = 5
+		
 func use_melee_move(attacker, target_tile):
 	var unit_name = attacker.unit_stats.name 
 	available_moves = unit_moves.get(unit_name, [])
@@ -49,16 +53,16 @@ func use_melee_move(attacker, target_tile):
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))
 			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",3,roll))	
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,2,roll))	
 			"Hardened Bones":
-				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",3,roll))				
+				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,2,roll))	
 			"Necrotic Touch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Cleave":
 				move_used = await(cleave(attacker, attacker.turn_queue, roll))
 			"Vicious Bite":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 3, 5, 4, roll))
-			"Slash":
+			"Scratch":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, roll))
 			"Unarmed Strike":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 0, 1, 0, roll))
@@ -70,6 +74,8 @@ func use_melee_move(attacker, target_tile):
 				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
 			"Stab":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, roll))
+			"Slash":
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, roll))
 			"Water Punch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Fire Punch":
@@ -102,6 +108,10 @@ func use_ranged_move(attacker):
 				for element in elements:
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
+			"Slimy Steps":
+				move_used = await(self_buff("Slimy Steps", attacker, attacker.turn_queue,"movement_speed",5,-5,2,roll))
+			"Iron Defense":
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",4,-2,2,roll))
 			"Water Blast":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
 			"Fire Blast":
@@ -121,7 +131,7 @@ func use_ranged_move(attacker):
 			"Hex":
 				move_used = await(hex_ranged(attacker,attacker.turn_queue, 5, roll))
 			"Sticky Webbing":
-				move_used = await(slow_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(slow_ranged(attacker, attacker.turn_queue, "Enweb", roll))
 			"Healing Spell":
 				move_used = await(healing_spell(attacker, attacker.turn_queue, 2, roll))
 			"Mass Healing":
@@ -156,7 +166,17 @@ func boss_dialogue():
 	await get_tree().create_timer(0.5).timeout
 	print("MUHAHAHAHA!")
 	return true
-	
+
+
+func check_status_effect(attacker, player, turn_queue, status_name):
+	if not turn_queue.status_effects.has(player):
+		return true
+		
+	for effect in turn_queue.status_effects[player]:
+		if effect.name == status_name:
+			print("Already has iron defense")
+			return false 
+			
 func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
 
 	var status_effect = {
@@ -168,13 +188,10 @@ func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: S
 		"changed_value": player.unit_stats.get(stat_altered) - stat_reduction
 	}
 	
+	check_status_effect(attacker, player, turn_queue, status_name)
+	
 	if not turn_queue.status_effects.has(player):
 		turn_queue.status_effects[player] = []
-
-	for effect in turn_queue.status_effects[player]:
-		if effect.name == status_name:
-			print(player.unit_stats.name, " already has ", status_name, " effect. Not stacking.")
-			return false  
 
 	turn_queue.status_effects[player].append(status_effect)
 	
@@ -193,8 +210,13 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 	
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
+		
+		max_mana(attacker)
+		attacker.unit_stats.mana -= mana_cost
+	
+		max_mana(attacker)
+		
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
-			attacker.unit_stats.mana -= mana_cost
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(min_damage, max_damage) + rng.randi_range(1, attacker.unit_stats.brawns))
@@ -305,6 +327,10 @@ func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
 		var player = turn_queue.pc_positions.find_key(tile)
 		
 		if player != null:
+			max_mana(attacker)
+			attacker.unit_stats.mana -= mana_cost
+			max_mana(attacker)
+			
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
@@ -316,8 +342,6 @@ func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
 					damage = 0
 					
 				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
-
-				attacker.unit_stats.mana -= mana_cost
 				
 				if player.unit_stats.health <= 0:
 					print(player.unit_stats.name, " has been defeated!")
@@ -341,6 +365,10 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	
 	if player != null:
+		max_mana(attacker)
+		attacker.unit_stats.mana -= mana_cost
+		max_mana(attacker)
+		
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment) :
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
@@ -352,8 +380,6 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 				damage = 0
 				
 			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
-
-			attacker.unit_stats.mana -= mana_cost
 
 			if player.unit_stats.health <= 0:
 				print(player.unit_stats.name, " has been defeated!")
@@ -385,7 +411,10 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 			multiple_targets.append(ally)
 			
 	if multiple_targets.size() >= 2:
+		
+		max_mana(attacker)
 		attacker.unit_stats.mana -= mana_cost
+		max_mana(attacker)
 		
 		for tile in attacker.circle_tiles:
 			var player = turn_queue.pc_positions.find_key(tile)
@@ -436,7 +465,11 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 			multiple_targets.append(ally)
 			
 	if multiple_targets.size() >= 2:
+		
+		max_mana(attacker)
 		attacker.unit_stats.mana -= mana_cost
+		max_mana(attacker)
+		
 		for tile in attacker.circle_tiles:
 			var player = turn_queue.pc_positions.find_key(tile)
 			var roll = rng.randi_range(1,20)
@@ -478,8 +511,12 @@ func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
+			
+			max_mana(attacker)
+			attacker.unit_stats.mana -= mana_cost
+			max_mana(attacker)
+			
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
-				attacker.unit_stats.mana -= mana_cost
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -586,8 +623,18 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
+			
+			var hex_curses = ["Hex: Brawns", "Hex: Brains", "Hex: Bewitchment"]
+			
+			for hex in hex_curses:
+				if !check_status_effect(attacker,player,turn_queue,hex):
+					return false
+			
+			max_mana(attacker)
+			attacker.unit_stats.mana -= mana_cost
+			max_mana(attacker)
+			
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
-				attacker.unit_stats.mana -= mana_cost
 				
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
@@ -595,10 +642,9 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 				var affectable_stats = ["brains", "brawns", "bewitchment"]
 				
 				var stat_affected = affectable_stats[randi() % affectable_stats.size()]
-				
-				print(player.unit_stats.name + " is cursed and has their " + stat_affected.capitalize() + " stat lowered!")
+			
 				apply_status_effect(attacker,player,turn_queue,"Hex: " + stat_affected.capitalize(), 1,stat_affected,3)
-					
+				print(player.unit_stats.name + " is cursed and has their " + stat_affected.capitalize() + " stat lowered!")
 				line.queue_free()
 				return true
 			else:
@@ -606,36 +652,24 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 				return true
 	return false
 
-#Ranged attack that applies slow
-func slow_ranged(attacker, turn_queue, roll) -> bool:
+#Applies slow
+func slow_ranged(attacker, turn_queue, status_effect, roll) -> bool:
 	attacker._update_circle_tiles(5)
 	
 	for tile in attacker.circle_tiles:
 		var player = turn_queue.pc_positions.find_key(tile)
 		if player != null:
+			
+			if !check_status_effect(attacker,player,turn_queue,status_effect):
+				return false
+				
 			if roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
 				await get_tree().create_timer(1.0).timeout
-				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)
-				
-				
-				player.unit_stats.health -= damage	
-				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
-				
+								
 				#Apply slow effect if you get the roll
-				var slow_roll = rng.randi_range(1,20)
-				if slow_roll >= player.unit_stats.armor_class:
-					print(player.unit_stats.name + " is inflicted with slow")
-					apply_status_effect(attacker,player,turn_queue,"Enweb",5,"movement_speed",3)
-				else:
-					print("Enweb is not inflicted (", slow_roll, "/20)")
-					
-				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
-					turn_queue.pc_positions.erase(player)
-					turn_queue.turn_order.erase(player)
-					player.queue_free()
-
+				print(player.unit_stats.name + " is inflicted with slow")
+				apply_status_effect(attacker,player,turn_queue,status_effect,5,"movement_speed",3)
 				line.queue_free()
 				return true
 			else:
@@ -644,10 +678,14 @@ func slow_ranged(attacker, turn_queue, roll) -> bool:
 	return false
 
 #Single melee basic attack 
-func slow_melee(attacker, target_tile, turn_queue, roll) -> bool:
+func slow_melee(attacker, target_tile, turn_queue, status_effect, roll) -> bool:
 	
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
+		
+		if !check_status_effect(attacker,player,turn_queue,status_effect):
+			return false
+		
 		if roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			await get_tree().create_timer(1.0).timeout
@@ -661,15 +699,9 @@ func slow_melee(attacker, target_tile, turn_queue, roll) -> bool:
 			var slow_roll = rng.randi_range(1,20)
 			if slow_roll >= player.unit_stats.armor_class:
 				print(player.unit_stats.name + " is inflicted with slow")
-				apply_status_effect(attacker,player,turn_queue,"Enweb",5,"movement_speed",3)
+				apply_status_effect(attacker,player,turn_queue,status_effect,5,"movement_speed",3)
 			else:
 				print("Enweb is not inflicted (", slow_roll, "/20)")
-			
-			if player.unit_stats.health <= 0:
-				print(player.unit_stats.name, " has been defeated!")
-				turn_queue.pc_positions.erase(player)
-				turn_queue.turn_order.erase(player)
-				player.queue_free()
 			
 			line.queue_free()
 			return true
@@ -689,6 +721,11 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 		var ally = turn_queue.enemy_positions.find_key(tile)
 		if ally != null:
 			if ally.unit_stats.health < ally.unit_stats.max_health / 2:
+				
+				max_mana(attacker)
+				attacker.unit_stats.mana -= mana_cost
+				max_mana(attacker)
+				
 				if roll >= ally.unit_stats.armor_class/2:
 					var line = draw_attack_line(attacker, ally)
 					await get_tree().create_timer(1.0).timeout
@@ -699,7 +736,6 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 					print(attacker.unit_stats.name, " is healing!")
 					print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
 					print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
-					attacker.unit_stats.mana -= mana_cost
 					
 					line.queue_free()
 					return true
@@ -724,7 +760,10 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 			valid_targets.append(ally)
 			
 	if valid_targets.size() >= 2:
+		max_mana(attacker)
 		attacker.unit_stats.mana -= mana_cost
+		max_mana(attacker)
+		
 		for tile in attacker.circle_tiles:
 			var ally = turn_queue.enemy_positions.find_key(tile)
 			
@@ -773,7 +812,11 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 				valid_targets.append(ally)
 				
 	if valid_targets.size() >= 2:
+		
+		max_mana(attacker)
 		attacker.unit_stats.mana -= mana_cost
+		max_mana(attacker)
+		
 		for tile in attacker.circle_tiles:
 			var ally = turn_queue.enemy_positions.find_key(tile)
 			
@@ -804,16 +847,24 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 	return healed
 
-func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost, roll):
-	if attacker.unit_stats.mana < mana_cost:
+func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost:int, stat_change: int, num_of_turns: int, roll):
+	if attacker.unit_stats.mana < mana_cost or attacker.unit_stats.used_self_buff == true:
 		return false
-
+	
+	if !check_status_effect(attacker,attacker,turn_queue,buff_name):
+		return false
+	
+	print("Before taking away mana: " + str(attacker.unit_stats.mana))
+	
+	attacker.unit_stats.mana -= mana_cost
+	
+	print("After taking away mana: " + str(attacker.unit_stats.mana))
+	
 	if roll >= attacker.unit_stats.armor_class:
-		
-		attacker.unit_stats.mana -= mana_cost
 		await get_tree().create_timer(1.0).timeout		
 		# -1 to add instead of subtracting
-		apply_status_effect(attacker,attacker,turn_queue,buff_name,-2,stat_affected,2)
+		apply_status_effect(attacker,attacker,turn_queue,buff_name,stat_change,stat_affected,num_of_turns)
+		attacker.unit_stats.used_self_buff = true
 		return true
 	else:
 		print(attacker.unit_stats.name, " missed")
@@ -823,8 +874,11 @@ func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost
 func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
 	if attacker.unit_stats.mana < mana_cost:
 		return false
-		
+	
+	max_mana(attacker)
 	attacker.unit_stats.mana -= mana_cost
+	max_mana(attacker)
+	
 	if roll >= attacker.unit_stats.armor_class:
 		turn_queue.spawn_enemy_during_battle(enemy_name)
 		return true
