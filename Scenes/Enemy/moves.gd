@@ -4,11 +4,11 @@ var elements = ["Fire","Water","Earth","Wind"]
 
 const Slash = preload("res://Scenes/Attack Effects/slash_effect.tscn")
 const Buff = preload("res://Scenes/Attack Effects/buff.tscn")
-const Curse = preload("res://Assets/Attack Effects/curse.png")
-const Explosion = preload("res://Assets/Attack Effects/explosion.png")
-const Beam = preload("res://Assets/Attack Effects/beam.png")
-const Heal = preload("res://Assets/Attack Effects/heal.png")
-const Reinforcement = preload("res://Assets/Attack Effects/reinforcements.png")
+const Curse = preload("res://Scenes/Attack Effects/curse.tscn")
+const Explosion = preload("res://Scenes/Attack Effects/explosion.tscn")
+const Beam = preload("res://Scenes/Attack Effects/beam.tscn")
+const Heal = preload("res://Scenes/Attack Effects/heal.tscn")
+const Reinforcement = preload("res://Scenes/Attack Effects/reinforcement.tscn")
 
 
 var unit_moves = {

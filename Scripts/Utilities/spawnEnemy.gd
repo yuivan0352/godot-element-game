@@ -4,8 +4,8 @@ extends Node2D
 var enemy_scenes: Dictionary = {
 
 	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
-	#"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
-	#"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
+	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
+	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
 	#"Crocodile": preload("res://Scenes/Enemy/Crocodile.tscn"),
 	#"Cultist": preload("res://Scenes/Enemy/Cultist.tscn"),
 	#"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
@@ -22,8 +22,8 @@ var enemy_scenes: Dictionary = {
 var enemy_stats: Dictionary = {
 	
 	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
-	#"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
-	#"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
+	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
+	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
 	#"Crocodile": preload("res://Resources/Stats/Enemies/Crocodile.tres"),
 	#"Cultist": preload("res://Resources/Stats/Enemies/Cultist.tres"),
 	#"Devil": preload("res://Resources/Stats/Enemies/Devil.tres"),
