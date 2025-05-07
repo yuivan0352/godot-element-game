@@ -17,7 +17,7 @@ var unit_moves = {
 	"Slime Monster": ["Pounce"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
-	"The Omnipotent Eye": ["Obelisk Restoration"]
+	"The Omnipotent Eye": ["Obelisk Restoration","Boss Shout"]
 }
 
 var available_moves = []
@@ -78,6 +78,9 @@ func use_melee_move(attacker, target_tile):
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
 			"Wind Punch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))			
+			"Boss Shout":
+				move_used = await(boss_dialogue())
+				
 		if move_used:
 			print(move, " has been used (roll: ", roll, ")")
 			break
@@ -116,7 +119,7 @@ func use_ranged_move(attacker):
 			"Wind Beam":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
 			"Hex":
-				move_used = await(hex_ranged(attacker,attacker.turn_queue, 3, roll))
+				move_used = await(hex_ranged(attacker,attacker.turn_queue, 5, roll))
 			"Sticky Webbing":
 				move_used = await(slow_ranged(attacker, attacker.turn_queue, roll))
 			"Healing Spell":
@@ -137,7 +140,8 @@ func use_ranged_move(attacker):
 				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, roll))
 			"Arrow Shot":
 				move_used = await(arrow_shot(attacker, attacker.turn_queue, roll))
-				
+			"Boss Shout":
+				move_used = await(boss_dialogue())
 		if move_used:
 			print(move, " has been used (roll: ", roll, ")")
 			break
@@ -147,6 +151,12 @@ func use_ranged_move(attacker):
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
 
+func boss_dialogue():
+	print("YOU WILL NOT BEAT ME AS LONG AS MY OBELISKS STAND! I AM IMMORTAL!")
+	await get_tree().create_timer(0.5).timeout
+	print("MUHAHAHAHA!")
+	return true
+	
 func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
 
 	var status_effect = {

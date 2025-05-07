@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckkml75wrksd5"]
+
+[ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_76qp8"]
+[ext_resource type="Texture2D" uid="uid://c0oqe45q5phrh" path="res://Assets/Sprites/placeholder.png" id="2_76qp8"]
+
+[node name="Enemy" type="Node2D"]
+z_index = 1000
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_76qp8")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(1.19209e-07, -1.19209e-07)
+scale = Vector2(0.00595487, 0.00567767)
+texture = ExtResource("2_76qp8")
+
+[node name="CharacterCamera" type="Camera2D" parent="."]
+scale = Vector2(4, 2)
+enabled = false
+zoom = Vector2(5, 5)
+limit_left = 0
+limit_top = -32
+limit_right = 256
+limit_bottom = 256
+limit_smoothed = true
+rotation_smoothing_enabled = true
+
+[node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
+rotation = 3.13557
+scale = Vector2(0.247667, 0.203867)
+
+[connection signal="unit_moving" from="." to="." method="_on_unit_moving"]
+[connection signal="unit_still" from="." to="." method="_on_unit_still"]

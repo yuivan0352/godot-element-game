@@ -29,43 +29,36 @@ var elements = ["Fire","Water","Earth","Wind"]
 var status_effects: Dictionary = {}
 
 func _ready():
-	
-	
-	#Spawns boss unit in center, and all elemental obelisks (FOR FINAL LEVEL)
-	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
 	var player_units = player_chars.spawn_characters(3, layer_zero)
+	
+	#Final Boss Level Spawn
+	#var enemy_units = []
+	#var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
+	#if boss_unit:
+		#enemy_units.append(boss_unit)
+		# Find and add the spawned obelisks to the enemy_units array
+		#for unit in enemy_chars.get_children():
+			#if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
+				#enemy_units.append(unit)
+	
 	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
-	#var obelisk_array = []
-	#for i in elements.size():
-		#var obelisk = enemy_chars.spawn_specific_enemy(elements[i] + " Obelisk", layer_zero)
-		#if obelisk: 
-			#enemy_units.append(obelisk)
-
-	#if boss_unit:
-	#	enemy_units.append(boss_unit)  
-
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
-
+	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
-
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
-
+	
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
-
+	
 	turn_order.append_array(player_units)
 	turn_order.append_array(enemy_units)
-
 	turn_order.sort_custom(func (a, b): return a.initiative_roll < b.initiative_roll)
 	turn_info.emit(turn_order, turn_num)
-
 	setup_turn_order()
-
-
 	
 # current_unit is just a variable of the unit class
 # the stats associated using current_unit.unit_stats is not the correct stats
@@ -197,7 +190,7 @@ func apply_status_effect(unit: Unit) -> void:
 				#Make sure update movement_speed back to normal if slow
 				print(effect.name + " has wore off on " + unit.unit_stats.name)
 				unit.movement_limit = unit.unit_stats.movement_speed/5
-				effects.remove(i)
+				effects.remove_at(i)
 				
 			#Make sure update movement_speed if slow
 			if stat_altered == "movement_speed":
@@ -207,3 +200,24 @@ func apply_status_effect(unit: Unit) -> void:
 			status_effects.erase(unit)
 		else:
 			status_effects[unit] = effects
+
+func check_obelisks_and_boss():
+	var boss_unit = null
+	var obelisk_count = 0
+	
+	# Find the boss and count obelisks
+	for unit in turn_order:
+		if unit is Enemy and unit.unit_stats.name == "Boss":
+			boss_unit = unit
+		elif unit is Enemy and "Obelisk" in unit.unit_stats.name:
+			obelisk_count += 1
+	
+	# If boss exists but no obelisks remain, kill the boss
+	if boss_unit != null and obelisk_count == 0:
+		print("All obelisks have been destroyed! The boss has no energy to take from!")
+		boss_unit.unit_stats.health = 0
+		print("The boss has been slain!")
+		boss_unit.erase()
+		return true
+	
+	return false
