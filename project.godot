@@ -21,6 +21,8 @@ enemy_moves="*res://Scenes/Enemy/moves.gd"
 SignalBus="*res://Scripts/Utilities/SignalBus.gd"
 Global="*res://Scripts/Utilities/Global.gd"
 EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
+Global="*res://Scripts/Utilities/Global.gd"
+Terrain="*res://Scripts/Utilities/Global.gd"
 
 [display]
 
