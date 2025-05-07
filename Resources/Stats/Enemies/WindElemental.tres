@@ -6,8 +6,8 @@
 resource_local_to_scene = true
 script = ExtResource("1_jnps6")
 name = "Wind Elemental"
-health = 10
-max_health = 10
+health = 6
+max_health = 6
 mana = 5
 armor_class = 1
 movement_speed = 30
@@ -16,3 +16,4 @@ brawns = 3
 bewitchment = 1
 potions = 0
 enemy_class = "Melee"
+used_self_buff = false

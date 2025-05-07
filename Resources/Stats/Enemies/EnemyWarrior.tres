@@ -16,3 +16,4 @@ brawns = 4
 bewitchment = 3
 potions = 0
 enemy_class = "Melee"
+used_self_buff = false

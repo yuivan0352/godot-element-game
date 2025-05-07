@@ -2,6 +2,15 @@ extends Unit
 
 var elements = ["Fire","Water","Earth","Wind"]
 
+const Slash = preload("res://Scenes/Attack Effects/slash_effect.tscn")
+const Buff = preload("res://Scenes/Attack Effects/buff.tscn")
+const Curse = preload("res://Assets/Attack Effects/curse.png")
+const Explosion = preload("res://Assets/Attack Effects/explosion.png")
+const Beam = preload("res://Assets/Attack Effects/beam.png")
+const Heal = preload("res://Assets/Attack Effects/heal.png")
+const Reinforcement = preload("res://Assets/Attack Effects/reinforcements.png")
+
+
 var unit_moves = {
 	#Put most important move to least important
 	"Warrior": ["Iron Defense","Arrow Shot","Cleave","Slash"],
@@ -218,6 +227,12 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 		
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
+			
+			var slash = Slash.instantiate()
+			get_tree().current_scene.add_child(slash)
+			slash.global_position = player.global_position
+			slash.rotation = (player.global_position - attacker.global_position).angle()
+		
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(min_damage, max_damage) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
@@ -258,6 +273,13 @@ func cleave(attacker, turn_queue, roll) -> bool:
 			if player != null:
 				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 					var line = draw_attack_line(attacker, player)
+					
+					var slash = Slash.instantiate()
+					get_tree().current_scene.add_child(slash)
+					slash.global_position = player.global_position
+					slash.rotation = (player.global_position - attacker.global_position).angle()
+		
+		
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns)
 					
@@ -371,6 +393,12 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 		
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment) :
 			var line = draw_attack_line(attacker, player)
+			
+			var slash = Slash.instantiate()
+			get_tree().current_scene.add_child(slash)
+			slash.global_position = player.global_position
+			slash.rotation = (player.global_position - attacker.global_position).angle()
+			
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment))
 			
@@ -423,6 +451,11 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 			if player != null:
 				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 					var line = draw_attack_line(attacker, player)
+					
+					var explosion = Explosion.instantiate()
+					get_tree().current_scene.add_child(explosion)
+					explosion.global_position = player.global_position
+			
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 					
@@ -518,6 +551,12 @@ func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 				var line = draw_attack_line(attacker, player)
+				
+				var beam = Beam.instantiate()
+				get_tree().current_scene.add_child(beam)
+				beam.global_position = player.global_position
+				beam.rotation = (player.global_position - attacker.global_position).angle()
+				
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
@@ -553,7 +592,6 @@ func poison_ranged(attacker, turn_queue, roll) -> bool:
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
-				
 				player.unit_stats.health -= damage	
 				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
 				
@@ -585,6 +623,12 @@ func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
 	if player != null:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
+			
+			var slash = Slash.instantiate()
+			get_tree().current_scene.add_child(slash)
+			slash.global_position = player.global_position
+			slash.rotation = (player.global_position - attacker.global_position).angle()
+					
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
@@ -637,6 +681,11 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 				
 				var line = draw_attack_line(attacker, player)
+				
+				var curse = Curse.instantiate()
+				get_tree().current_scene.add_child(curse)
+				curse.global_position = player.global_position
+					
 				await get_tree().create_timer(1.0).timeout
 				
 				var affectable_stats = ["brains", "brawns", "bewitchment"]
@@ -688,6 +737,12 @@ func slow_melee(attacker, target_tile, turn_queue, status_effect, roll) -> bool:
 		
 		if roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
+			
+			var slash = Slash.instantiate()
+			get_tree().current_scene.add_child(slash)
+			slash.global_position = player.global_position
+			slash.rotation = (player.global_position - attacker.global_position).angle()
+			
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
@@ -728,6 +783,11 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 				
 				if roll >= ally.unit_stats.armor_class/2:
 					var line = draw_attack_line(attacker, ally)
+					
+					var heal = Heal.instantiate()
+					get_tree().current_scene.add_child(heal)
+					heal.global_position = attacker.global_position
+					
 					await get_tree().create_timer(1.0).timeout
 					
 					var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -771,6 +831,11 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 				if ally.unit_stats.health <= ally.unit_stats.max_health/2:
 					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
+						
+						var heal = Heal.instantiate()
+						get_tree().current_scene.add_child(heal)
+						heal.global_position = attacker.global_position
+					
 						await get_tree().create_timer(1.0).timeout
 						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 						#Make sure it heals up to max hp and no more
@@ -824,6 +889,11 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 				if ally != null and ally.unit_stats.health <= ally.unit_stats.max_health/4 and (ally.unit_stats.name == element + " Obelisk"):
 					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
+						
+						var heal = Heal.instantiate()
+						get_tree().current_scene.add_child(heal)
+						heal.global_position = attacker.global_position
+						
 						await get_tree().create_timer(1.0).timeout
 						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 						#Make sure it heals up to max hp and no more
@@ -861,6 +931,11 @@ func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost
 	print("After taking away mana: " + str(attacker.unit_stats.mana))
 	
 	if roll >= attacker.unit_stats.armor_class:
+		
+		var buff = Buff.instantiate()
+		get_tree().current_scene.add_child(buff)
+		buff.global_position = attacker.global_position
+			
 		await get_tree().create_timer(1.0).timeout		
 		# -1 to add instead of subtracting
 		apply_status_effect(attacker,attacker,turn_queue,buff_name,stat_change,stat_affected,num_of_turns)
@@ -880,6 +955,11 @@ func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
 	max_mana(attacker)
 	
 	if roll >= attacker.unit_stats.armor_class:
+		
+		var reinforcement = Reinforcement.instantiate()
+		get_tree().current_scene.add_child(reinforcement)
+		reinforcement.global_position = attacker.global_position
+		
 		turn_queue.spawn_enemy_during_battle(enemy_name)
 		return true
 	else:

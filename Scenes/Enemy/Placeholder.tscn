@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cwcjarvd65308" path="res://Scenes/Enemy/enemy.gd" id="1_76qp8"]
 [ext_resource type="Texture2D" uid="uid://c0oqe45q5phrh" path="res://Assets/Sprites/placeholder.png" id="2_76qp8"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy2" type="Node2D"]
 z_index = 1000
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_76qp8")

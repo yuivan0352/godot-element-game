@@ -41,7 +41,7 @@ func _ready():
 			#if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
 				#enemy_units.append(unit)
 	
-	var enemy_units = enemy_chars.spawn_characters(20, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
@@ -219,14 +219,14 @@ func check_obelisks_and_boss():
 	var boss_unit = null
 	var obelisk_count = 0
 	
-	# Find the boss and count obelisks
+	# Locate boss and count obelisks left
 	for unit in turn_order:
-		if unit is Enemy and unit.unit_stats.name == "Boss":
+		if unit is Enemy and unit.unit_stats.name == "The Omnipotent Eye":
 			boss_unit = unit
 		elif unit is Enemy and "Obelisk" in unit.unit_stats.name:
 			obelisk_count += 1
 	
-	# If boss exists but no obelisks remain, kill the boss
+	#Check if boss exists and obelisk count is 0, therefore kill the boss automatically and wipe it out
 	if boss_unit != null and obelisk_count == 0:
 		print("All obelisks have been destroyed! The boss has no energy to take from!")
 		boss_unit.unit_stats.health = 0

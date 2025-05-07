@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://vpssi47rn2j7"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_0oj0f"]
+[ext_resource type="Texture2D" uid="uid://cptpbqtyy8m4t" path="res://Assets/Attack Effects/buff.png" id="2_0oj0f"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_0oj0f")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+rotation = -0.00767767
+scale = Vector2(0.0157788, 0.0161621)
+texture = ExtResource("2_0oj0f")

@@ -16,3 +16,4 @@ brawns = 1
 bewitchment = 2
 potions = 0
 enemy_class = "Boss"
+used_self_buff = false

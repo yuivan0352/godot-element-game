@@ -20,6 +20,7 @@ config/icon="res://Assets/Sprites/icon.svg"
 enemy_moves="*res://Scenes/Enemy/moves.gd"
 SignalBus="*res://Scripts/Utilities/SignalBus.gd"
 Global="*res://Scripts/Utilities/Global.gd"
+EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
 
 [display]
 

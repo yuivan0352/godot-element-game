@@ -16,3 +16,4 @@ brawns = 1
 bewitchment = 5
 potions = 0
 enemy_class = "Ranged"
+used_self_buff = false

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bae7836beld0r"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_rvr0o"]
+[ext_resource type="Texture2D" uid="uid://dk3a4i534jtkg" path="res://Assets/Attack Effects/reinforcements.png" id="2_rvr0o"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_rvr0o")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(7, -14)
+rotation = 0.0552156
+scale = Vector2(0.0069599, 0.0088765)
+texture = ExtResource("2_rvr0o")
