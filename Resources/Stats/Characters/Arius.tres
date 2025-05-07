@@ -14,5 +14,6 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-enemy_class = ""
 potions = 3
+enemy_class = ""
+used_self_buff = false
