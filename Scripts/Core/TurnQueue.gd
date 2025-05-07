@@ -42,7 +42,7 @@ func _ready():
 			#if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
 				#enemy_units.append(unit)
 	
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(1, layer_zero)
 	
 	for stat in Global.characters_stats:
 		print(stat, " : ", stat.health)
