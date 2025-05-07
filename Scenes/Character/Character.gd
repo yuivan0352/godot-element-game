@@ -146,9 +146,9 @@ func _physics_process(_delta):
 		if !in_ui_element:
 			var mouse_pos = get_global_mouse_position()
 			var tile_position = tile_layer_zero.local_to_map(mouse_pos)
-			var grid_size = Vector2i(16, 16)
+			var used_tiles = tile_layer_zero.get_used_cells()
 			
-			if tile_position.x >= 0 and tile_position.y >= 0 and tile_position.x < grid_size.x and tile_position.y < grid_size.y:
+			if tile_position in used_tiles:
 				var char_tile_pos = tile_layer_zero.local_to_map(global_position)
 				if tile_position != char_tile_pos:
 					if !is_moving:
@@ -157,6 +157,9 @@ func _physics_process(_delta):
 							tile_position
 						)
 						hover_id_path = hover_id_path.slice(1, hover_id_path.size() - 1)
+			else:
+				hover_id_path = []
+			
 		move_towards_target(_delta)
 
 func _on_area_clicked():

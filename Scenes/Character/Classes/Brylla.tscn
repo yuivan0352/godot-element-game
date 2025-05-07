@@ -35,10 +35,8 @@ shape = SubResource("RectangleShape2D_1cd2p")
 scale = Vector2(4, 2)
 enabled = false
 zoom = Vector2(5, 5)
-limit_left = 0
-limit_top = -32
-limit_right = 256
-limit_bottom = 256
+limit_left = -16
+limit_top = -16
 limit_smoothed = true
 rotation_smoothing_enabled = true
 
