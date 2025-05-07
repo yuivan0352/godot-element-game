@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scenes/Screens/Selection/stat_allocation_menu.gd" id="4_1vnqu"]
 [ext_resource type="Theme" uid="uid://cwwbma604omfg" path="res://Resources/Themes/StatButton.tres" id="5_12rrr"]
 [ext_resource type="Script" uid="uid://c2fktmojesjap" path="res://Scenes/Screens/Selection/set_stats.gd" id="5_g5fs5"]
-[ext_resource type="Script" path="res://Scenes/Screens/Selection/points.gd" id="5_t1pdx"]
+[ext_resource type="Script" uid="uid://dssqijtjt3xf1" path="res://Scenes/Screens/Selection/points.gd" id="5_t1pdx"]
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="6_g5fs5"]
 [ext_resource type="Script" uid="uid://bwtl1md1yy8w7" path="res://Scenes/Screens/Selection/statsDisplay.gd" id="8_g5fs5"]
 
@@ -466,9 +466,15 @@ layout_mode = 2
 text = "Movement:"
 label_settings = SubResource("LabelSettings_wquny")
 
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Brains" to="StatsMenu/Points" method="_on_points_changed"]
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Brains" to="StatsMenu/Stats" method="_on_stat_changed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Brains/Add" to="StatsMenu/StatAllocationMenu/Brains" method="_on_add_pressed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Brains/Subtract" to="StatsMenu/StatAllocationMenu/Brains" method="_on_subtract_pressed"]
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Brawns" to="StatsMenu/Points" method="_on_points_changed"]
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Brawns" to="StatsMenu/Stats" method="_on_stat_changed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Brawns/Add" to="StatsMenu/StatAllocationMenu/Brawns" method="_on_add_pressed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Brawns/Subtract" to="StatsMenu/StatAllocationMenu/Brawns" method="_on_subtract_pressed"]
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Bewitchment" to="StatsMenu/Points" method="_on_points_changed"]
+[connection signal="stat_changed" from="StatsMenu/StatAllocationMenu/Bewitchment" to="StatsMenu/Stats" method="_on_stat_changed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Bewitchment/Add" to="StatsMenu/StatAllocationMenu/Bewitchment" method="_on_add_pressed"]
 [connection signal="pressed" from="StatsMenu/StatAllocationMenu/Bewitchment/Subtract" to="StatsMenu/StatAllocationMenu/Bewitchment" method="_on_subtract_pressed"]

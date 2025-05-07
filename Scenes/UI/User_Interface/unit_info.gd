@@ -59,10 +59,16 @@ func update_stats(unit):
 		if unit.unit_stats.name == stat.name:
 			stats = stat
 	
-	healthLabel.text = "Health: " + str(stats.health)
-	manaLabel.text = "Mana: " + str(stats.mana)
-	armorLabel.text = "Armor: " + str(stats.armor_class)
-	movementLabel.text = "Movement: " + str(stats.movement_speed)
+	if unit is Character:
+		healthLabel.text = "Health: " + str(stats.health)
+		manaLabel.text = "Mana: " + str(stats.mana)
+		armorLabel.text = "Armor: " + str(stats.armor_class)
+		movementLabel.text = "Movement: " + str(stats.movement_speed)
+	else:
+		healthLabel.text = "Health: " + str(unit.unit_stats.health)
+		manaLabel.text = "Mana: " + str(unit.unit_stats.mana)
+		armorLabel.text = "Armor: " + str(unit.unit_stats.armor_class)
+		movementLabel.text = "Movement: " + str(unit.unit_stats.movement_speed)
 
 func close():
 	visible = false
