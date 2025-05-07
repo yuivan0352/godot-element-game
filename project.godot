@@ -17,8 +17,10 @@ config/icon="res://Assets/Sprites/icon.svg"
 
 [autoload]
 
-EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
+enemy_moves="*res://Scenes/Enemy/moves.gd"
+SignalBus="*res://Scripts/Utilities/SignalBus.gd"
 Global="*res://Scripts/Utilities/Global.gd"
+EnemyAttacks="*res://Scenes/Enemy/enemy_attacks.gd"
 Terrain="*res://Scripts/Utilities/Global.gd"
 
 [display]
