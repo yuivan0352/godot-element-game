@@ -4,12 +4,19 @@ var elements = ["Fire","Water","Earth","Wind"]
 
 const Slash = preload("res://Scenes/Attack Effects/slash_effect.tscn")
 const Buff = preload("res://Scenes/Attack Effects/buff.tscn")
+const Bite = preload("res://Scenes/Attack Effects/bite.tscn")
 const Curse = preload("res://Scenes/Attack Effects/curse.tscn")
 const Explosion = preload("res://Scenes/Attack Effects/explosion.tscn")
 const Beam = preload("res://Scenes/Attack Effects/beam.tscn")
-const Heal = preload("res://Scenes/Attack Effects/heal.tscn")
+const Yellow_Blast = preload("res://Scenes/Attack Effects/heal.tscn")
 const Reinforcement = preload("res://Scenes/Attack Effects/reinforcement.tscn")
-const Magic_Melee = preload("res://Scenes/Attack Effects/magic_melee.tscn")
+const Green_Blast = preload("res://Scenes/Attack Effects/green_blast.tscn")
+const Blue_Blast = preload("res://Scenes/Attack Effects/blue_blast.tscn")
+const Red_Blast = preload("res://Scenes/Attack Effects/red_blast.tscn")
+const Scratch = preload("res://Scenes/Attack Effects/scratch.tscn")
+const Punch = preload("res://Scenes/Attack Effects/punch.tscn")
+const Increase = preload("res://Scenes/Attack Effects/increase.tscn")
+
 
 
 var unit_moves = {
@@ -20,7 +27,7 @@ var unit_moves = {
 	"Slime": ["Slimy Steps","Pounce"],
 	"Crocodile": ["Vicious Bite","Pounce"],
 	"Spider": ["Sticky Webbing", "Poisonous Bite"],
-	"Devil": ["Mass Explosion","Fire Bolt","Scratch"],
+	"Devil": ["Mass Explosion","Fire Bolt","Vicious Scratch"],
 	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Skeleton Warrior": ["Hardened Bones","Slash"],
@@ -47,7 +54,7 @@ func _ready() -> void:
 func max_mana(attacker):
 	if attacker.unit_stats.mana > 5:
 		attacker.unit_stats.mana = 5
-		
+
 func use_melee_move(attacker, target_tile):
 	var unit_name = attacker.unit_stats.name 
 	available_moves = unit_moves.get(unit_name, [])
@@ -63,37 +70,39 @@ func use_melee_move(attacker, target_tile):
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))
 			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,2,roll))	
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,2, Buff, roll))	
 			"Hardened Bones":
-				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,2,roll))	
+				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,2, Buff,roll))	
 			"Necrotic Touch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Green_Blast, roll))
+			"Vicious Claws":
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1,3,0, Scratch, roll))	
 			"Cleave":
-				move_used = await(cleave(attacker, attacker.turn_queue, roll))
+				move_used = await(cleave(attacker, attacker.turn_queue, Slash, roll))
 			"Vicious Bite":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 3, 5, 4, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 3, 5, 4, Bite, roll))
 			"Scratch":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, Scratch, roll))
 			"Unarmed Strike":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 0, 1, 0, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 0, 1, 0, Punch, roll))
 			"Pounce":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, Punch, roll))
 			"Poisonous Bite":
-				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, Bite, roll))
 			"Poisonous Sting":
-				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, roll))
+				move_used = await(poison_melee(attacker, target_tile, attacker.turn_queue, Scratch, roll))
 			"Stab":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 2, 0, Slash, roll))
 			"Slash":
-				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, roll))
+				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1, 3, 0, Slash, roll))
 			"Water Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Punch, roll))
 			"Fire Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Punch, roll))
 			"Rock Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Punch, roll))
 			"Wind Punch":
-				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, roll))			
+				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Punch, roll))			
 			"Boss Shout":
 				move_used = await(boss_dialogue())
 				
@@ -119,25 +128,25 @@ func use_ranged_move(attacker):
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
 			"Slimy Steps":
-				move_used = await(self_buff("Slimy Steps", attacker, attacker.turn_queue,"movement_speed",5,-5,2,roll))
+				move_used = await(self_buff("Slimy Steps", attacker, attacker.turn_queue,"movement_speed",5,-5,2, Increase, roll))
 			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",4,-2,2,roll))
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",4,-2,2, Buff, roll))
 			"Water Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Blue_Blast, roll))
 			"Fire Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Red_Blast, roll))
 			"Rock Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, null, roll))
 			"Wind Blast":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Green_Blast, roll))
 			"Water Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Blue_Blast, roll))
 			"Fire Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Red_Blast, roll))
 			"Rock Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, null, roll))
 			"Wind Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Green_Blast, roll))
 			"Hex":
 				move_used = await(hex_ranged(attacker,attacker.turn_queue, 5, roll))
 			"Sticky Webbing":
@@ -153,11 +162,11 @@ func use_ranged_move(attacker):
 			"Royal Reproduction":
 				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Slime", 2, roll))
 			"Poison Spit":
-				move_used = await(poison_ranged(attacker, attacker.turn_queue, roll))
+				move_used = await(poison_ranged(attacker, attacker.turn_queue, Green_Blast, roll))
 			"Aura Missile":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Blue_Blast, roll))
 			"Fire Bolt":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Red_Blast, roll))
 			"Piercing Shot":
 				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, roll))
 			"Arrow Shot":
@@ -233,7 +242,7 @@ func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: S
 	return true
 
 #Single melee basic attack 
-func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage: int, mana_cost: int, roll) -> bool:
+func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage: int, mana_cost: int, animation, roll) -> bool:
 	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
@@ -249,11 +258,11 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
 			
-			var slash = Slash.instantiate()
+			var slash = animation.instantiate()
 			get_tree().current_scene.add_child(slash)
 			slash.global_position = player.global_position
 			slash.rotation = (player.global_position - attacker.global_position).angle()
-		
+
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(min_damage, max_damage) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
@@ -279,7 +288,7 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 	return false
 	
 #Attacks all players adjacent to the enemy in a circle
-func cleave(attacker, turn_queue, roll) -> bool:
+func cleave(attacker, turn_queue, animation, roll) -> bool:
 
 	var hit_anyone = false
 	var players = 0
@@ -295,7 +304,7 @@ func cleave(attacker, turn_queue, roll) -> bool:
 				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 					var line = draw_attack_line(attacker, player)
 					
-					var slash = Slash.instantiate()
+					var slash = animation.instantiate()
 					get_tree().current_scene.add_child(slash)
 					slash.global_position = player.global_position
 					slash.rotation = (player.global_position - attacker.global_position).angle()
@@ -400,7 +409,7 @@ func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
 	return false
 	
 #Single melee basic attack 
-func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
+func magic_melee(attacker, target_tile, turn_queue, mana_cost, animation, roll) -> bool:
 	
 	if attacker.unit_stats.mana < mana_cost:
 		return false
@@ -415,10 +424,10 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, roll) -> bool:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment) :
 			var line = draw_attack_line(attacker, player)
 			
-			var magic_melee = Magic_Melee.instantiate()
-			get_tree().current_scene.add_child(magic_melee)
-			magic_melee.global_position = player.global_position
-			magic_melee.rotation = (player.global_position - attacker.global_position).angle()
+			var melee = animation.instantiate()
+			get_tree().current_scene.add_child(melee)
+			melee.global_position = player.global_position
+			melee.rotation = (player.global_position - attacker.global_position).angle()
 			
 			await get_tree().create_timer(1.0).timeout
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment))
@@ -556,7 +565,7 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 	return hit_anyone
 	
 #Basic single target magic attack
-func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
+func magic_ranged(attacker, turn_queue, mana_cost, animation, roll) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	if attacker.unit_stats.mana < mana_cost:
@@ -573,10 +582,11 @@ func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 				var line = draw_attack_line(attacker, player)
 				
-				var beam = Beam.instantiate()
-				get_tree().current_scene.add_child(beam)
-				beam.global_position = player.global_position
-				beam.rotation = (player.global_position - attacker.global_position).angle()
+				if !animation == null:
+					var beam = animation.instantiate()
+					get_tree().current_scene.add_child(beam)
+					beam.global_position = player.global_position
+					beam.rotation = (player.global_position - attacker.global_position).angle()
 				
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -602,7 +612,7 @@ func magic_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 	return false
 
 #Ranged attack that applies poison
-func poison_ranged(attacker, turn_queue, roll) -> bool:
+func poison_ranged(attacker, turn_queue, animation, roll) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
@@ -610,6 +620,12 @@ func poison_ranged(attacker, turn_queue, roll) -> bool:
 		if player != null:
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 				var line = draw_attack_line(attacker, player)
+				
+				var beam = animation.instantiate()
+				get_tree().current_scene.add_child(beam)
+				beam.global_position = player.global_position
+				beam.rotation = (player.global_position - attacker.global_position).angle()
+				
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
@@ -639,13 +655,13 @@ func poison_ranged(attacker, turn_queue, roll) -> bool:
 	return false
 	
 #Melee attack that applies poison
-func poison_melee(attacker, target_tile, turn_queue, roll) -> bool:
+func poison_melee(attacker, target_tile, turn_queue, animation, roll) -> bool:
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
 		if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brawns - player.unit_stats.brawns):
 			var line = draw_attack_line(attacker, player)
 			
-			var slash = Slash.instantiate()
+			var slash = animation.instantiate()
 			get_tree().current_scene.add_child(slash)
 			slash.global_position = player.global_position
 			slash.rotation = (player.global_position - attacker.global_position).angle()
@@ -805,7 +821,7 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 				if roll >= ally.unit_stats.armor_class/2:
 					var line = draw_attack_line(attacker, ally)
 					
-					var heal = Heal.instantiate()
+					var heal = Yellow_Blast.instantiate()
 					get_tree().current_scene.add_child(heal)
 					heal.global_position = attacker.global_position
 					
@@ -853,7 +869,7 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
 						
-						var heal = Heal.instantiate()
+						var heal = Yellow_Blast.instantiate()
 						get_tree().current_scene.add_child(heal)
 						heal.global_position = attacker.global_position
 					
@@ -911,7 +927,7 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 					if roll >= ally.unit_stats.armor_class/2:
 						var line = draw_attack_line(attacker, ally)
 						
-						var heal = Heal.instantiate()
+						var heal = Yellow_Blast.instantiate()
 						get_tree().current_scene.add_child(heal)
 						heal.global_position = attacker.global_position
 						
@@ -938,7 +954,7 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 	return healed
 
-func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost:int, stat_change: int, num_of_turns: int, roll):
+func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost:int, stat_change: int, num_of_turns: int, animation, roll):
 	if attacker.unit_stats.mana < mana_cost or attacker.unit_stats.used_self_buff == true:
 		return false
 	
@@ -953,7 +969,7 @@ func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost
 	
 	if roll >= attacker.unit_stats.armor_class:
 		
-		var buff = Buff.instantiate()
+		var buff = animation.instantiate()
 		get_tree().current_scene.add_child(buff)
 		buff.global_position = attacker.global_position
 			

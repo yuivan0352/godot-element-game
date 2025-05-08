@@ -18,7 +18,6 @@ var line_tiles: Array[Vector2i]
 var actions: int
 var bonus_actions : int
 
-
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
 @onready var overview_camera = $"../../../Environment/OverviewCamera"
@@ -27,7 +26,6 @@ var bonus_actions : int
 @export var unit_stats: Stats
 @export var equipped_spells: Array[Spell]
 @export var unit_elements: Array[Spell.ELEMENTAL_TYPE]
-
 
 signal turn_complete
 signal unit_still

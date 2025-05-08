@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkhpy6ibj1qqr"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_xsfiq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cpd53"]
+load_path = "res://.godot/imported/Red_Lightning.png-8f8d17f9a6747ba6848e85480d5c3685.ctex"
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_xsfiq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-2, 0)
+rotation = 3.14129
+scale = Vector2(0.0378621, 0.0335593)
+texture = SubResource("CompressedTexture2D_cpd53")

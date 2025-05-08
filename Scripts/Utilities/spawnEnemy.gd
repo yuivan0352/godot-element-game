@@ -2,7 +2,6 @@ extends Node2D
 
 # Preload enemy scenes and stat files
 var enemy_scenes: Dictionary = {
-
 	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
@@ -16,11 +15,9 @@ var enemy_scenes: Dictionary = {
 	"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
 	"Spider": preload("res://Scenes/Enemy/Spider.tscn")
 
-	
 }
 
 var enemy_stats: Dictionary = {
-	
 	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
