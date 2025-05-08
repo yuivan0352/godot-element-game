@@ -17,7 +17,6 @@ var line_tiles: Array[Vector2i]
 var actions: int
 var bonus_actions : int
 
-
 @onready var tile_layer_zero = $"../../../Environment/Layer0"
 @onready var tile_layer_one = $"../../../Environment/Layer1"
 @onready var overview_camera = $"../../../Environment/OverviewCamera"
@@ -40,6 +39,16 @@ func _ready():
 		initiative_roll = rng.randi_range(1, 20) + unit_stats.brawns
 		actions = 1
 		bonus_actions = 1
+		
+		if Global.level - 1 == 1:
+			character_camera.limit_bottom = 272
+			character_camera.limit_right = 272
+		elif Global.level - 1 == 2:
+			character_camera.limit_bottom = 272
+			character_camera.limit_right = 544
+		elif Global.level - 1 > 2:
+			character_camera.limit_bottom = 528
+			character_camera.limit_right = 528
 		
 		_update_adj_tiles()
 

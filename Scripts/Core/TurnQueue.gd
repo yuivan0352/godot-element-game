@@ -13,6 +13,7 @@ var turn_order: Array[Unit] = []
 var turn_num = 0
 var round_num = 0
 
+@onready var user_interface = %UserInterface
 @onready var overview_camera = $"../../Environment/OverviewCamera"
 @onready var layer_zero = $"../../Environment/Layer0"
 @onready var layer_one = $"../../Environment/Layer1"
@@ -27,8 +28,8 @@ func _ready():
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	var enemy_units = enemy_chars.spawn_characters(1, layer_zero)
 	
-	for stat in Global.characters_stats:
-		print(stat, " : ", stat.health)
+	#for stat in Global.characters_stats:
+		#print(stat, " : ", stat.health)
 	
 	for unit in player_units:
 		pc_positions[unit] = layer_zero.local_to_map(unit.global_position)
@@ -76,9 +77,11 @@ func setup_turn_order():
 	set_current_unit_stats()
 	
 	if current_unit is Enemy:
-		print(current_unit.unit_stats.name, "'s name")
+		_update_combat_log(str(current_unit.unit_stats.name, "'s turn"))
+		#print(current_unit.unit_stats.name, "'s turn")
 	elif current_unit is Character:
-		print(current_unit_stats.name, "'s turn")
+		_update_combat_log(str(current_unit_stats.name, "'s turn"))
+		#print(current_unit_stats.name, "'s turn")
 	current_character.emit(current_unit)
 	overview_camera.set_camera_position(current_unit)
 	
@@ -139,11 +142,16 @@ func _play_turn():
 	
 	if current_unit is Character:
 		set_current_unit_stats()
+		_update_combat_log(str(current_unit_stats.name, "'s turn"))
 		current_unit.update_action_econ.emit(1, 1, current_unit_stats.mana, current_unit_stats.movement_speed, current_unit_stats.movement_speed)
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
 	elif current_unit is Enemy:
+		_update_combat_log(str(current_unit.unit_stats.name, "'s turn"))
 		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		print("Processing enemy turn")
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
+		
+func _update_combat_log(line: String):
+	user_interface._add_combat_line(line)

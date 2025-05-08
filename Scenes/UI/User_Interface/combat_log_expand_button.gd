@@ -5,8 +5,8 @@ extends TextureButton
 
 var _up_anchor_offset = -200
 var _down_anchor_offset = 0
-var _target_anchor_offset : float = _down_anchor_offset
-var _popped_up = false
+var _target_anchor_offset : float = _up_anchor_offset
+var _popped_up = true
 
 func expand_combat_log():
 	if !_popped_up:

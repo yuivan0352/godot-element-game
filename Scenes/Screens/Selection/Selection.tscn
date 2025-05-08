@@ -4,14 +4,14 @@
 [ext_resource type="Theme" uid="uid://cnxp8brcgw5s5" path="res://Resources/Themes/Button.tres" id="2_vgm7y"]
 [ext_resource type="PackedScene" uid="uid://bjvmoxonb0fd8" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="2_wbgcf"]
 [ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="3_xej07"]
-[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="4_1g3a2"]
 [ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_xej07"]
 [ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="5_evsem"]
+[ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="5_vgm7y"]
 [ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_1g3a2"]
 
 [sub_resource type="Resource" id="Resource_vgm7y"]
 resource_local_to_scene = true
-script = ExtResource("4_1g3a2")
+script = ExtResource("5_vgm7y")
 name = "Arius"
 health = 15
 max_health = 15
@@ -21,11 +21,11 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-potions = 0
+potions = 3
 
 [sub_resource type="Resource" id="Resource_qx0en"]
 resource_local_to_scene = true
-script = ExtResource("4_1g3a2")
+script = ExtResource("5_vgm7y")
 name = "Brylla"
 health = 12
 max_health = 12
@@ -35,11 +35,11 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-potions = 0
+potions = 3
 
 [sub_resource type="Resource" id="Resource_gii8f"]
 resource_local_to_scene = true
-script = ExtResource("4_1g3a2")
+script = ExtResource("5_vgm7y")
 name = "Pyrrha"
 health = 11
 max_health = 11
@@ -49,11 +49,11 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-potions = 0
+potions = 3
 
 [sub_resource type="Resource" id="Resource_gyeut"]
 resource_local_to_scene = true
-script = ExtResource("4_1g3a2")
+script = ExtResource("5_vgm7y")
 name = "Quorral"
 health = 10
 max_health = 10
@@ -63,7 +63,7 @@ movement_speed = 30
 brains = 5
 brawns = 5
 bewitchment = 5
-potions = 0
+potions = 3
 
 [node name="Selection" type="Control"]
 layout_mode = 3
