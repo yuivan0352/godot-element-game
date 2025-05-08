@@ -30,14 +30,15 @@ var elements = ["Fire","Water","Earth","Wind"]
 var status_effects: Dictionary = {}
 
 func _ready():	
-	#Final Boss Level Spawn
-	#var enemy_units = enemy_chars.spawn_enemy("Boss", layer_zero)
-	
-	#for element in elements:
-		#var obelisk = enemy_chars.spawn_enemy(element + " Obelisk", layer_zero)
-		#enemy_units.append_array(obelisk)
+	#Final Boss Level Spawnv
+	var boss = enemy_chars.spawn_enemy("Boss", layer_zero)
+	var obelisk1 = enemy_chars.spawn_enemy("Fire Obelisk", layer_zero)
+	var obelisk2 = enemy_chars.spawn_enemy("Water Obelisk", layer_zero)
+	var obelisk3 = enemy_chars.spawn_enemy("Wind Obelisk", layer_zero)
+	var obelisk4 = enemy_chars.spawn_enemy("Earth Obelisk", layer_zero)
+	var enemy_units = [boss[0],obelisk1[0],obelisk2[0],obelisk3[0],obelisk4[0]]
 		
-	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+	#var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	
 	#for stat in Global.characters_stats:
@@ -174,22 +175,24 @@ func _on_user_interface_switch_mode(mode: Variant) -> void:
 
 #Spawning enemy reinforcements during battle
 func spawn_enemy_during_battle(enemy_name: String):
-	var enemy = enemy_chars.spawn_specific_enemy(enemy_name, layer_zero)
+	var enemy = enemy_chars.spawn_enemy(enemy_name, layer_zero)
+	
 	if enemy == null:
 		print("No valid spawn tile for ", enemy_name)
 		return
 	
 	_update_combat_log(str("Enemy ", enemy_name, " has arrived on the battlefield!"))
-	var tile_coords = layer_zero.local_to_map(enemy.global_position)
-	enemy_positions[enemy] = tile_coords
+	var tile_coords = layer_zero.local_to_map(enemy[0].global_position)
+	enemy_positions[enemy[0]] = tile_coords
 	layer_zero._set_char_pos_solid(enemy_positions)
 
-	turn_order.append(enemy)
-	enemy.turn_complete.connect(_play_turn)
-	enemy.unit_moving.connect(_transition_character_cam)
+	turn_order.append(enemy[0])
+	enemy[0].turn_complete.connect(_play_turn)
+	enemy[0].unit_moving.connect(_transition_character_cam)
 
 #Apply status effect for X amount of turns
 func apply_status_effect(unit: Unit) -> void:
+
 	if status_effects.has(unit):
 		var effects = status_effects[unit]
 		for i in range(effects.size() - 1, -1, -1):
@@ -202,10 +205,10 @@ func apply_status_effect(unit: Unit) -> void:
 			
 			if effect.duration >= 1:
 				if effect.original_value - effect.changed_value > 0:
-					_update_combat_log(str(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name))
+					_update_combat_log(str(unit.unit_stats.name + " has " + str(effect.duration) + " turn/s left of " + effect.name))
 					_update_combat_log(str(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value)))
 				else:
-					_update_combat_log(str(unit.unit_stats.name + " used " + effect.name + " on itself and has " + str(effect.duration) + " turns left of it"))
+					_update_combat_log(str(unit.unit_stats.name + " has " + str(effect.duration) + " turn/s left of " + effect.name))
 					_update_combat_log(str(unit.unit_stats.name + " had its " + stat_altered + " increased by " + str((-1 * (effect.original_value - effect.changed_value)))))
 			else:
 				unit.unit_stats.set(stat_altered, effect.original_value)

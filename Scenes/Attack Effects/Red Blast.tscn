@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dclfi1o3a3ilv"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_2480e"]
+[ext_resource type="Texture2D" uid="uid://bolfpytavnld2" path="res://Assets/Attack Effects/Red_Lightning.png" id="2_2480e"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_2480e")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-1.90735e-06, 0)
+rotation = 3.13064
+scale = Vector2(0.0220412, 0.0189183)
+texture = ExtResource("2_2480e")

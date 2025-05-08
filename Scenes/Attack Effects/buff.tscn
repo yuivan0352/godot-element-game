@@ -8,7 +8,7 @@ position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_0oj0f")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(-0.0817522, -3.32701)
 rotation = -0.00767767
-scale = Vector2(0.0157788, 0.0161621)
+scale = Vector2(0.0121256, 0.0118091)
 texture = ExtResource("2_0oj0f")
