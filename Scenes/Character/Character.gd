@@ -75,7 +75,7 @@ func _attack_action(attack_type_array):
 				else:
 					damage = rng.randi_range(50, 100)
 				target_unit.unit_stats.health -= damage
-				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health))
+				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name))
 				#print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
 				
 				if target_unit.unit_stats.health <= 0:
@@ -85,7 +85,7 @@ func _attack_action(attack_type_array):
 					tile_layer_zero._unsolid_coords(mouse_tile)
 					_update_adj_tiles()
 			else:
-				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health))
+				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name))
 				#print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
 		if mode == "magic":
 			actions -= current_spell.action_cost
@@ -98,6 +98,7 @@ func _attack_action(attack_type_array):
 		return
 	
 	if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
+		await get_tree().create_timer(1.5).timeout
 		get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
 
 func _input(event):

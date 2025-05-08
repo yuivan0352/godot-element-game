@@ -82,7 +82,6 @@ func setup_turn_order():
 		if unit is Enemy:
 			unit.turn_complete.connect(_play_turn)
 		unit.unit_moving.connect(_transition_character_cam)
-		print(unit.global_position)
 	
 	current_unit = turn_order[0]
 	set_current_unit_stats()

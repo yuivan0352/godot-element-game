@@ -8,7 +8,7 @@ func _ready() -> void:
 func perform_melee_attack(attacker, target_tile: Vector2i, turn_queue, tile_layer_zero):
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	var attack_roll = rng.randi_range(1, 20)
-	var log_message: String
+	var log_message: String = ""
 	print("Enemy is adjacent to player!")
 	if player != null:
 		if attack_roll >= player.unit_stats.armor_class:
@@ -37,7 +37,7 @@ func perform_melee_attack(attacker, target_tile: Vector2i, turn_queue, tile_laye
 func perform_ranged_attack(attacker, target_tile: Vector2i, turn_queue, tile_layer_zero):
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	var attack_roll = rng.randi_range(1, 20)
-	var log_message: String
+	var log_message: String = ""
 	if attacker.circle_tiles.has(target_tile):
 		print("Player is within range!")
 		if attack_roll >= player.unit_stats.armor_class:
