@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=53 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
@@ -60,10 +60,6 @@ region = Rect2(32, 32, 16, 16)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_geroj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lny1u"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c87su"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_714rb"]
 atlas = ExtResource("13_c87su")
@@ -285,7 +281,6 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_geroj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lny1u")
-icon = SubResource("AtlasTexture_c87su")
 expand_icon = true
 script = ExtResource("13_lny1u")
 
