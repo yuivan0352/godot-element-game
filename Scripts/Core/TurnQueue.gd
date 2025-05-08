@@ -36,7 +36,7 @@ func _ready():
 		#var obelisk = enemy_chars.spawn_enemy(element + " Obelisk", layer_zero)
 		#enemy_units.append_array(obelisk)
 		
-	var enemy_units = enemy_chars.spawn_characters(5, layer_zero)
+	var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 	
 	for stat in Global.characters_stats:

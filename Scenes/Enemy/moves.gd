@@ -32,6 +32,7 @@ var unit_moves = {
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Skeleton Warrior": ["Hardened Bones","Slash"],
 	"Slime Monster": ["Slimy Steps","Pounce"],
+	"Hungershroom": ["Poisonous Bite"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
 	"The Omnipotent Eye": ["Obelisk Restoration","Boss Shout"]
