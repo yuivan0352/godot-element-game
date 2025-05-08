@@ -57,7 +57,10 @@ func set_terrain():
 	
 	if pattern:
 		set_pattern(piecePositions[0], pattern)
-	
+		if Global.level == 4:
+			pattern = tile_set.get_pattern(15);	
+			set_pattern(Vector2i(-3,-3),pattern)
+			return;
 		if Global.level >= 2:
 			pieceNum = piece_choser(2)
 			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
@@ -68,12 +71,8 @@ func set_terrain():
 			if pieceNum == 4:
 				pieceNum -= 1
 			set_pattern(piecePositions[pieceNum],pattern)
-		if Global.level == 4:
-			pieceNum = piece_choser(3)
-			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
-			if pieceNum == 4:
-				pieceNum -= 1
-			set_pattern(piecePositions[pieceNum],pattern)
+		
+			
 			
 		print()
 
