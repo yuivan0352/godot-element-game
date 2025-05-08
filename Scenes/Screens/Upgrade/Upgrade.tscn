@@ -1,16 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://be21h85tc2gbi"]
+[gd_scene load_steps=15 format=3 uid="uid://be21h85tc2gbi"]
 
 [ext_resource type="Script" uid="uid://b6msb4pro24c1" path="res://Scenes/Screens/Upgrade/upgrade.gd" id="1_cp5m0"]
 [ext_resource type="Script" uid="uid://c44rfkyosbdip" path="res://Scenes/Screens/Upgrade/team.gd" id="1_g3own"]
 [ext_resource type="PackedScene" uid="uid://bhqcy1oe7cn5l" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
-[ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="2_g3own"]
 [ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="3_7uw2u"]
-[ext_resource type="Texture2D" uid="uid://cipfi4fhb6j7i" path="res://Assets/Sprites/metal sprite.png" id="4_cp5m0"]
-[ext_resource type="Texture2D" uid="uid://bg3o7ow0u6dp" path="res://Assets/Sprites/fire sprite.png" id="5_cvvpl"]
-[ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_ypp3r"]
+[ext_resource type="Texture2D" uid="uid://b034d3q82i4mk" path="res://Assets/Sprites/free_character_1-3.png" id="4_j13i5"]
 [ext_resource type="Theme" uid="uid://cnxp8brcgw5s5" path="res://Resources/Themes/Button.tres" id="9_cvvpl"]
 
-[sub_resource type="Resource" id="Resource_cp5m0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3own"]
+atlas = ExtResource("4_j13i5")
+region = Rect2(17, 2, 15, 18)
+
+[sub_resource type="Resource" id="Resource_7uw2u"]
 resource_local_to_scene = true
 script = ExtResource("3_7uw2u")
 name = "Arius"
@@ -23,10 +24,12 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
-enemy_class = ""
-used_self_buff = false
 
-[sub_resource type="Resource" id="Resource_cvvpl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j13i5"]
+atlas = ExtResource("4_j13i5")
+region = Rect2(64, 2, 16, 18)
+
+[sub_resource type="Resource" id="Resource_cp5m0"]
 resource_local_to_scene = true
 script = ExtResource("3_7uw2u")
 name = "Brylla"
@@ -39,10 +42,12 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
-enemy_class = ""
-used_self_buff = false
 
-[sub_resource type="Resource" id="Resource_ypp3r"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7uw2u"]
+atlas = ExtResource("4_j13i5")
+region = Rect2(112, 2, 16, 18)
+
+[sub_resource type="Resource" id="Resource_cvvpl"]
 resource_local_to_scene = true
 script = ExtResource("3_7uw2u")
 name = "Pyrrha"
@@ -55,10 +60,12 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
-enemy_class = ""
-used_self_buff = false
 
-[sub_resource type="Resource" id="Resource_3w7n4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cp5m0"]
+atlas = ExtResource("4_j13i5")
+region = Rect2(145, 2, 15, 18)
+
+[sub_resource type="Resource" id="Resource_ypp3r"]
 resource_local_to_scene = true
 script = ExtResource("3_7uw2u")
 name = "Quorral"
@@ -71,8 +78,6 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
-enemy_class = ""
-used_self_buff = false
 
 [node name="Upgrade" type="Control"]
 layout_mode = 3
@@ -114,26 +119,26 @@ script = ExtResource("1_g3own")
 [node name="Arius" parent="Team" instance=ExtResource("1_j13i5")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Arius.tscn"
-characterTexture = ExtResource("2_g3own")
-characterStat = SubResource("Resource_cp5m0")
+characterTexture = SubResource("AtlasTexture_g3own")
+characterStat = SubResource("Resource_7uw2u")
 
 [node name="Brylla" parent="Team" instance=ExtResource("1_j13i5")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Brylla.tscn"
-characterTexture = ExtResource("4_cp5m0")
-characterStat = SubResource("Resource_cvvpl")
+characterTexture = SubResource("AtlasTexture_j13i5")
+characterStat = SubResource("Resource_cp5m0")
 
 [node name="Pyrrha" parent="Team" instance=ExtResource("1_j13i5")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Pyrrha.tscn"
-characterTexture = ExtResource("5_cvvpl")
-characterStat = SubResource("Resource_ypp3r")
+characterTexture = SubResource("AtlasTexture_7uw2u")
+characterStat = SubResource("Resource_cvvpl")
 
 [node name="Quorral" parent="Team" instance=ExtResource("1_j13i5")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Quorral.tscn"
-characterTexture = ExtResource("6_ypp3r")
-characterStat = SubResource("Resource_3w7n4")
+characterTexture = SubResource("AtlasTexture_cp5m0")
+characterStat = SubResource("Resource_ypp3r")
 
 [node name="GoButton" type="Button" parent="."]
 layout_mode = 1
