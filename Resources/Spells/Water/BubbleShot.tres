@@ -1,11 +1,7 @@
-[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3 uid="uid://bg2ex1bym45te"]
+[gd_resource type="Resource" script_class="Spell" load_steps=3 format=3 uid="uid://bg2ex1bym45te"]
 
-[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="1_fneog"]
+[ext_resource type="Texture2D" uid="uid://dxy4p7d1fnt6n" path="res://Assets/Texture/bubble_shot.png" id="1_fneog"]
 [ext_resource type="Script" uid="uid://ddamvpuo6hhxo" path="res://Scripts/Core/Spell.gd" id="1_gff48"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4q8ui"]
-atlas = ExtResource("1_fneog")
-region = Rect2(80, 0, 16, 16)
 
 [resource]
 script = ExtResource("1_gff48")
@@ -19,4 +15,4 @@ elemental_type = 1
 mana_cost = 1
 action_cost = 1
 bonus_action_cost = 0
-button_texture = SubResource("AtlasTexture_4q8ui")
+button_texture = ExtResource("1_fneog")

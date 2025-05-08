@@ -1,9 +1,8 @@
-[gd_scene load_steps=54 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=52 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
 [ext_resource type="Theme" uid="uid://oc6jtms3k4b4" path="res://Resources/Themes/UIBackground.tres" id="2_x3eeq"]
-[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_woo7i"]
 [ext_resource type="Script" uid="uid://c7xlcgx60sbmg" path="res://Scenes/UI/User_Interface/turn_scroll.gd" id="4_13sfg"]
 [ext_resource type="Texture2D" uid="uid://bqhuok67rdqcj" path="res://Assets/Texture/attack_icon.png" id="5_1aga7"]
 [ext_resource type="Script" uid="uid://cswnqpumxdpea" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
@@ -14,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://5kgjmtmpd164" path="res://Assets/Texture/potion_icon.png" id="9_0cpsf"]
 [ext_resource type="Texture2D" uid="uid://du8h7tswt4jt3" path="res://Assets/Texture/icon_border.png" id="11_s63p1"]
 [ext_resource type="Texture2D" uid="uid://ck6cd0r7gfhx6" path="res://Assets/Texture/action_empty.png" id="13_c87su"]
-[ext_resource type="Script" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
+[ext_resource type="Script" uid="uid://bm8p1h0qebg2d" path="res://Scenes/UI/User_Interface/spell_button.gd" id="13_lny1u"]
 [ext_resource type="Texture2D" uid="uid://dp1a66ryayh4b" path="res://Assets/Texture/action_filled.png" id="14_714rb"]
 [ext_resource type="Texture2D" uid="uid://c0b7vjivymdx4" path="res://Assets/Texture/bonus_action_empty.png" id="15_mad2t"]
 [ext_resource type="Texture2D" uid="uid://bduolaqadmr14" path="res://Assets/Texture/bonus_action_filled.png" id="16_rp5le"]
@@ -27,7 +26,8 @@
 [ext_resource type="FontFile" uid="uid://daym5ucp03gyb" path="res://Assets/Fonts/C&C Red Alert [INET].ttf" id="23_xvgfx"]
 [ext_resource type="Texture2D" uid="uid://c31mh0syxbxy4" path="res://Assets/Texture/GUI.png" id="24_xvgfx"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
-[ext_resource type="Script" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
+[ext_resource type="Script" uid="uid://vj1lb7u563hw" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
+[ext_resource type="Script" uid="uid://bj0ksvuj6nab6" path="res://Scenes/UI/User_Interface/scroll_container.gd" id="29_0cpsf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
@@ -53,17 +53,9 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp5le"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d1c4k"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(32, 32, 16, 16)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_geroj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lny1u"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c87su"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_714rb"]
 atlas = ExtResource("13_c87su")
@@ -100,6 +92,7 @@ region = Rect2(149, 35, 7, 8)
 
 [sub_resource type="LabelSettings" id="LabelSettings_x3eeq"]
 font = ExtResource("23_xvgfx")
+shadow_size = 0
 shadow_color = Color(0.0507813, 0.0482025, 0.0456238, 1)
 
 [node name="UserInterface" type="CanvasLayer"]
@@ -233,7 +226,6 @@ expand_icon = true
 script = ExtResource("8_luhdb")
 
 [node name="MagicBar" type="Panel" parent="."]
-visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -245,6 +237,7 @@ offset_right = -144.0
 offset_bottom = -80.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("2_x3eeq")
 
 [node name="MarginContainer" type="MarginContainer" parent="MagicBar"]
 layout_mode = 0
@@ -274,7 +267,6 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mad2t")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rp5le")
-icon = SubResource("AtlasTexture_d1c4k")
 expand_icon = true
 script = ExtResource("13_lny1u")
 
@@ -284,7 +276,6 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_geroj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lny1u")
-icon = SubResource("AtlasTexture_c87su")
 expand_icon = true
 script = ExtResource("13_lny1u")
 
@@ -494,6 +485,7 @@ position = Vector2(5.796, 2.961)
 rotation = 4.71239
 scale = Vector2(0.5, 1.10609)
 texture = SubResource("AtlasTexture_1thyp")
+flip_h = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CombatLogController/CombatLog"]
 layout_mode = 0
@@ -501,8 +493,9 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 376.0
 offset_bottom = 192.0
+script = ExtResource("29_0cpsf")
 
-[node name="Label" type="Label" parent="CombatLogController/CombatLog/ScrollContainer"]
+[node name="CombatLog" type="Label" parent="CombatLogController/CombatLog/ScrollContainer"]
 custom_minimum_size = Vector2(356, 184)
 layout_mode = 2
 label_settings = SubResource("LabelSettings_x3eeq")
