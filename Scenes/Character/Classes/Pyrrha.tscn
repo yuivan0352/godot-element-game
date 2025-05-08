@@ -31,7 +31,6 @@ script = ExtResource("4_x1s27")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/clickableArea"]
 position = Vector2(-0.999998, 1.14794e-41)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_1cd2p")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]

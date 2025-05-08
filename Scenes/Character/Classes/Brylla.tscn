@@ -22,17 +22,14 @@ unit_elements = Array[int]([2])
 script = ExtResource("2_ig3x3")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -1)
 scale = Vector2(0.75, 0.75)
 texture = SubResource("AtlasTexture_qvsfw")
 
 [node name="clickableArea" type="Area2D" parent="Sprite"]
-position = Vector2(-1.06831e-07, -79.447)
 scale = Vector2(7.16929, 5.67479)
 script = ExtResource("4_rq14n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/clickableArea"]
-position = Vector2(1.49012e-08, 14.2349)
 shape = SubResource("RectangleShape2D_1cd2p")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
@@ -45,7 +42,7 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(2.38419e-07, 4.17233e-07)
+position = Vector2(3.38813e-21, 1.69407e-21)
 scale = Vector2(0.8, 0.8)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]

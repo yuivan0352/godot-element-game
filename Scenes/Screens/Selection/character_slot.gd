@@ -1,7 +1,7 @@
 extends Panel
 
 @export var characterPath: String
-@export var characterTexture: CompressedTexture2D
+@export var characterTexture: AtlasTexture
 @export var characterStat: Resource
 
 @onready var statMenu = $StatsMenu

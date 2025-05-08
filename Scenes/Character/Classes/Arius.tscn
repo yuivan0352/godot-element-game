@@ -22,17 +22,15 @@ unit_elements = Array[int]([1])
 script = ExtResource("2_fmajt")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(-0.0625002, 0)
 scale = Vector2(0.75, 0.75)
 texture = SubResource("AtlasTexture_hn837")
 
 [node name="clickableArea" type="Area2D" parent="Sprite"]
-position = Vector2(0.779072, -78.9333)
 scale = Vector2(6.23256, 4.93333)
 script = ExtResource("4_dlp70")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/clickableArea"]
-position = Vector2(-0.11163, 16)
+position = Vector2(-2.23517e-08, 9.53674e-07)
 scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_1cd2p")
 
