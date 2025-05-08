@@ -187,6 +187,9 @@ func take_turn():
 					return
 			
 			check_and_end_turn()
+		
+		else:
+			print("No enemy class for the stats")
 			
 func move_towards_target(_delta):
 	if super.move_towards_target(_delta): 

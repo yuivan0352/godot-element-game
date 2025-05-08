@@ -6,15 +6,15 @@ var enemy_scenes: Dictionary = {
 	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
 	"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
-	#"Crocodile": preload("res://Scenes/Enemy/Crocodile.tscn"),
-	#"Cultist": preload("res://Scenes/Enemy/Cultist.tscn"),
-	#"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
-	#"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
-	#"Hungershroom": preload("res://Scenes/Enemy/Hungershroom.tscn"),
-	#"Scorpion": preload("res://Scenes/Enemy/Scorpion.tscn"),
-	#"Skeleton Warrior": preload("res://Scenes/Enemy/SkeletonWarrior.tscn"),
-	#"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
-	#"Spider": preload("res://Scenes/Enemy/Spider.tscn")
+	"Crocodile": preload("res://Scenes/Enemy/Crocodile.tscn"),
+	"Cultist": preload("res://Scenes/Enemy/Cultist.tscn"),
+	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
+	"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
+	"Hungershroom": preload("res://Scenes/Enemy/Hungershroom.tscn"),
+	"Scorpion": preload("res://Scenes/Enemy/Scorpion.tscn"),
+	"Skeleton Warrior": preload("res://Scenes/Enemy/SkeletonWarrior.tscn"),
+	"Slime Monster": preload("res://Scenes/Enemy/SlimeMonster.tscn"),
+	"Spider": preload("res://Scenes/Enemy/Spider.tscn")
 
 	
 }
@@ -24,16 +24,16 @@ var enemy_stats: Dictionary = {
 	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
 	"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
-	#"Crocodile": preload("res://Resources/Stats/Enemies/Crocodile.tres"),
-	#"Cultist": preload("res://Resources/Stats/Enemies/Cultist.tres"),
-	#"Devil": preload("res://Resources/Stats/Enemies/Devil.tres"),
-	#"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
-	#"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
-	#"Hungershroom": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
-	#"Scorpion": preload("res://Resources/Stats/Enemies/Scorpion.tres"),
-	#"Skeleton Warrior": preload("res://Resources/Stats/Enemies/SkeletonWarrior.tres"),
-	#"Slime Monster": preload("res://Resources/Stats/Enemies/SlimeMonster.tres"),
-	#"Spider": preload("res://Resources/Stats/Enemies/Spider.tres")
+	"Crocodile": preload("res://Resources/Stats/Enemies/Crocodile.tres"),
+	"Cultist": preload("res://Resources/Stats/Enemies/Cultist.tres"),
+	"Devil": preload("res://Resources/Stats/Enemies/Devil.tres"),
+	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
+	"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
+	"Hungershroom": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
+	"Scorpion": preload("res://Resources/Stats/Enemies/Scorpion.tres"),
+	"Skeleton Warrior": preload("res://Resources/Stats/Enemies/SkeletonWarrior.tres"),
+	"Slime Monster": preload("res://Resources/Stats/Enemies/SlimeMonster.tres"),
+	"Spider": preload("res://Resources/Stats/Enemies/Spider.tres")
 }
 
 var reinforcement_enemy_scenes: Dictionary = {
