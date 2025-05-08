@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cg34o3eayyees" path="res://Assets/Sprites/Snake.png" id="2_vvcjj"]
 [ext_resource type="Script" uid="uid://bw67hnie482xf" path="res://Scenes/Enemy/enemy_path.gd" id="3_dfrj0"]
 
-[node name="Enemy3" type="Node2D"]
+[node name="Enemy4" type="Node2D"]
 position = Vector2(2.98023e-08, -2.98023e-08)
 script = ExtResource("1_vvcjj")
 

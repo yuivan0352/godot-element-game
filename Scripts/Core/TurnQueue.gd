@@ -164,7 +164,6 @@ func _play_turn():
 	elif current_unit is Enemy:
 		_update_combat_log(str(current_unit.unit_stats.name, "'s turn"))
 		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
-		print("Processing enemy turn")
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
 
@@ -181,7 +180,7 @@ func spawn_enemy_during_battle(enemy_name: String):
 		print("No valid spawn tile for ", enemy_name)
 		return
 	
-	print("Enemy ", enemy_name, " has arrived on the battlefield!")
+	_update_combat_log(str("Enemy ", enemy_name, " has arrived on the battlefield!"))
 	var tile_coords = layer_zero.local_to_map(enemy.global_position)
 	enemy_positions[enemy] = tile_coords
 	layer_zero._set_char_pos_solid(enemy_positions)
@@ -204,15 +203,15 @@ func apply_status_effect(unit: Unit) -> void:
 			
 			if effect.duration >= 1:
 				if effect.original_value - effect.changed_value > 0:
-					print(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name)
-					print(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value))
+					_update_combat_log(str(unit.unit_stats.name + " suffers from " + effect.name + " and has " + str(effect.duration) + " turns left of " + effect.name))
+					_update_combat_log(str(unit.unit_stats.name + " had its " + stat_altered + " reduced by " + str(effect.original_value - effect.changed_value)))
 				else:
-					print(unit.unit_stats.name + " used " + effect.name + " on itself and has " + str(effect.duration) + " turns left of it")
-					print(unit.unit_stats.name + " had its " + stat_altered + " increased by " + str((-1 * (effect.original_value - effect.changed_value))) )
+					_update_combat_log(str(unit.unit_stats.name + " used " + effect.name + " on itself and has " + str(effect.duration) + " turns left of it"))
+					_update_combat_log(str(unit.unit_stats.name + " had its " + stat_altered + " increased by " + str((-1 * (effect.original_value - effect.changed_value)))))
 			else:
 				unit.unit_stats.set(stat_altered, effect.original_value)
 				#Make sure update movement_speed back to normal if slow
-				print(effect.name + " has wore off on " + unit.unit_stats.name)
+				_update_combat_log(str(effect.name + " has wore off on " + unit.unit_stats.name))
 				unit.movement_limit = unit.unit_stats.movement_speed/5
 				effects.remove_at(i)
 				
@@ -239,9 +238,9 @@ func check_obelisks_and_boss():
 	
 	#Check if boss exists and obelisk count is 0, therefore kill the boss automatically and wipe it out
 	if boss_unit != null and obelisk_count == 0:
-		print("All obelisks have been destroyed! The boss has no energy to take from!")
+		_update_combat_log(str("All obelisks have been destroyed! The boss has no energy to take from!"))
 		boss_unit.unit_stats.health = 0
-		print("The boss has been slain!")
+		_update_combat_log(str("The boss has been slain!"))
 		boss_unit.erase()
 		return true
 	

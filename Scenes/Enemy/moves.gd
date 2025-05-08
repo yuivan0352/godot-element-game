@@ -40,6 +40,7 @@ var unit_moves = {
 }
 
 var available_moves = []
+var log_message: String
 
 func _ready() -> void:
 	#Initalizes all elementals + obelisks into the unit_moves list
@@ -110,10 +111,10 @@ func use_melee_move(attacker, target_tile):
 			"Wind Punch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Punch, roll))			
 			"Boss Shout":
-				move_used = await(boss_dialogue())
+				move_used = await(boss_dialogue(attacker))
 				
 		if move_used:
-			print(move, " has been used (roll: ", roll, ")")
+			attacker.turn_queue._update_combat_log(str(move + " has been used (roll: ", roll, ")"))
 			break
 
 	await get_tree().create_timer(1.5).timeout
@@ -182,9 +183,9 @@ func use_ranged_move(attacker):
 			"Arrow Shot":
 				move_used = await(arrow_shot(attacker, attacker.turn_queue, Bullseye,  roll))
 			"Boss Shout":
-				move_used = await(boss_dialogue())
+				move_used = await(boss_dialogue(attacker))
 		if move_used:
-			print(move, " has been used (roll: ", roll, ")")
+			attacker.turn_queue._update_combat_log(str(move + " has been used (roll: ", roll, ")"))			
 			break
 		else:
 			continue
@@ -192,7 +193,7 @@ func use_ranged_move(attacker):
 	await get_tree().create_timer(1.5).timeout
 	attacker.turn_complete.emit()
 
-func boss_dialogue():
+func boss_dialogue(attacker):
 	var boss_lines = [
 		"YOU WILL NOT BEAT ME AS LONG AS MY OBELISKS STAND! I AM IMMORTAL!",
 		"YOUR ATTACKS ARE FUTILE! THE OBELISKS GRANT ME UNENDING POWER!",
@@ -212,9 +213,9 @@ func boss_dialogue():
 	var chosen_line = boss_lines[randi() % boss_lines.size()]
 	var chosen_laugh = evil_laughs[randi() % evil_laughs.size()]
 
-	print(chosen_line)
+	attacker.turn_queue._update_combat_log(str(chosen_line))
 	await get_tree().create_timer(1).timeout
-	print(chosen_laugh)
+	attacker.turn_queue._update_combat_log(str(chosen_laugh))
 	return true
 
 
@@ -245,9 +246,9 @@ func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: S
 	turn_queue.status_effects[player].append(status_effect)
 	
 	if(attacker.unit_stats.name == player.unit_stats.name):
-		print(attacker.unit_stats.name, " uses ", status_name, " for ", turns, " turns.")
+		attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " uses ", status_name, " for ", turns, " turns."))
 	else:
-		print(attacker.unit_stats.name, " applies ", status_name, " to ", player.unit_stats.name, " for ", turns, " turns.")
+		attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " applies ", status_name, " to ", player.unit_stats.name, " for ", turns, " turns."))
 		
 	return true
 
@@ -281,10 +282,10 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 
 			if player.unit_stats.health <= 0:
-				print(player.unit_stats.name, " has been defeated!")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 				turn_queue.pc_positions.erase(player)
 				turn_queue.turn_order.erase(player)
 				player.queue_free()
@@ -292,7 +293,7 @@ func basic_melee(attacker, target_tile, turn_queue, min_damage: int, max_damage:
 			line.queue_free()
 			return true
 		else:
-			print(attacker.unit_stats.name, " missed")
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 			return true
 
 	return false
@@ -328,10 +329,10 @@ func cleave(attacker, turn_queue, animation, roll) -> bool:
 					else:
 						damage = 0
 					
-					print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 
 					if player.unit_stats.health <= 0:
-						print(player.unit_stats.name, " has been defeated!")
+						attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 						turn_queue.pc_positions.erase(player)
 						turn_queue.turn_order.erase(player)
 						player.queue_free()
@@ -339,7 +340,7 @@ func cleave(attacker, turn_queue, animation, roll) -> bool:
 					hit_anyone = true
 					line.queue_free()
 				else:
-					print(attacker.unit_stats.name + " missed " + player.unit_stats.name)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name + " missed " + player.unit_stats.name))
 					
 	return hit_anyone
 
@@ -366,11 +367,11 @@ func arrow_shot(attacker, turn_queue, animation, roll) -> bool:
 				else:
 					damage = 0
 					
-				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 
 
 				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
+					attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 					turn_queue.pc_positions.erase(player)
 					turn_queue.turn_order.erase(player)
 					player.queue_free()
@@ -378,7 +379,7 @@ func arrow_shot(attacker, turn_queue, animation, roll) -> bool:
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed")
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 				return true
 		else:
 			return false
@@ -415,10 +416,10 @@ func piercing_shot(attacker, turn_queue, mana_cost,animation, roll) -> bool:
 				else:
 					damage = 0
 					
-				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 				
 				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
+					attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 					turn_queue.pc_positions.erase(player)
 					turn_queue.turn_order.erase(player)
 					player.queue_free()
@@ -426,7 +427,7 @@ func piercing_shot(attacker, turn_queue, mana_cost,animation, roll) -> bool:
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed")
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 				return true
 	return false
 	
@@ -459,10 +460,10 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, animation, roll) 
 			else:
 				damage = 0
 				
-			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 
 			if player.unit_stats.health <= 0:
-				print(player.unit_stats.name, " has been defeated!")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 				turn_queue.pc_positions.erase(player)
 				turn_queue.turn_order.erase(player)
 				player.queue_free()
@@ -470,7 +471,7 @@ func magic_melee(attacker, target_tile, turn_queue, mana_cost, animation, roll) 
 			line.queue_free()
 			return true
 		else:
-			print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 			return true
 			
 	return false
@@ -516,10 +517,10 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 					else:
 						damage = 0
 						
-					print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 					
 					if player.unit_stats.health <= 0:
-						print(player.unit_stats.name, " has been defeated!")
+						attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 						turn_queue.pc_positions.erase(player)
 						turn_queue.turn_order.erase(player)
 						player.queue_free()
@@ -527,7 +528,7 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 					hit_anyone = true
 					line.queue_free()
 				else:
-					print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 	else:
 		return hit_anyone
 			
@@ -575,10 +576,10 @@ func multi_shot(attacker, turn_queue, animation, mana_cost) -> bool:
 					else:
 						damage = 0
 						
-					print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 					
 					if player.unit_stats.health <= 0:
-						print(player.unit_stats.name, " has been defeated!")
+						attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 						turn_queue.pc_positions.erase(player)
 						turn_queue.turn_order.erase(player)
 						player.queue_free()
@@ -586,7 +587,7 @@ func multi_shot(attacker, turn_queue, animation, mana_cost) -> bool:
 					hit_anyone = true
 					line.queue_free()
 				else:
-					print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 	else:
 		return hit_anyone
 			
@@ -623,10 +624,10 @@ func magic_ranged(attacker, turn_queue, mana_cost, animation, roll) -> bool:
 				else:
 					damage = 0
 					
-				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 
 				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
+					attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 					turn_queue.pc_positions.erase(player)
 					turn_queue.turn_order.erase(player)
 					player.queue_free()
@@ -634,7 +635,7 @@ func magic_ranged(attacker, turn_queue, mana_cost, animation, roll) -> bool:
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 				return true
 	return false
 
@@ -657,19 +658,19 @@ func poison_ranged(attacker, turn_queue, animation, roll) -> bool:
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 				
 				player.unit_stats.health -= damage	
-				print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 				
 				#Apply poison effect if you get the roll
 				var poison_roll = rng.randi_range(1,20)
 				if poison_roll >= player.unit_stats.armor_class:
 					var poison_dmg = rng.randi_range(1, 2)
 					player.unit_stats.health -= poison_dmg
-					print(player.unit_stats.name + " is inflicted with poison and takes an extra " + str(poison_dmg) + " dmg!")
+					attacker.turn_queue._update_combat_log(str(player.unit_stats.name + " is inflicted with poison and takes an extra " + str(poison_dmg) + " dmg!"))
 				else:
-					print("Poison is not inflicted (", poison_roll, "/20)")
+					attacker.turn_queue._update_combat_log(str("Poison is not inflicted (", poison_roll, "/20)"))
 					
 				if player.unit_stats.health <= 0:
-					print(player.unit_stats.name, " has been defeated!")
+					attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 					turn_queue.pc_positions.erase(player)
 					turn_queue.turn_order.erase(player)
 					player.queue_free()
@@ -677,7 +678,7 @@ func poison_ranged(attacker, turn_queue, animation, roll) -> bool:
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 				return true
 	return false
 	
@@ -697,19 +698,19 @@ func poison_melee(attacker, target_tile, turn_queue, animation, roll) -> bool:
 			var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brawns))
 			
 			player.unit_stats.health -= damage					
-			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 			
 			#Apply poison effect if you get the roll
 			var poison_roll = rng.randi_range(1,20)
 			if poison_roll >= player.unit_stats.armor_class:
 				var poison_dmg = rng.randi_range(1, 2)
 				player.unit_stats.health -= poison_dmg
-				print(player.unit_stats.name + " is inflicted with poison and takes an extra " + str(poison_dmg) + " dmg!")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name + " is inflicted with poison and takes an extra " + str(poison_dmg) + " dmg!"))
 			else:
-				print("Poison is not inflicted (", poison_roll, "/20)")
+				attacker.turn_queue._update_combat_log(str("Poison is not inflicted (", poison_roll, "/20)"))
 				
 			if player.unit_stats.health <= 0:
-				print(player.unit_stats.name, " has been defeated!")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name, " has been defeated!"))
 				turn_queue.pc_positions.erase(player)
 				turn_queue.turn_order.erase(player)
 				player.queue_free()
@@ -717,7 +718,7 @@ func poison_melee(attacker, target_tile, turn_queue, animation, roll) -> bool:
 			line.queue_free()
 			return true
 		else:
-			print(attacker.unit_stats.name, " missed")
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 			return true
 
 	return false
@@ -757,11 +758,11 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 				var stat_affected = affectable_stats[randi() % affectable_stats.size()]
 			
 				apply_status_effect(attacker,player,turn_queue,"Hex: " + stat_affected.capitalize(), 1,stat_affected,3)
-				print(player.unit_stats.name + " is cursed and has their " + stat_affected.capitalize() + " stat lowered!")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name + " is cursed and has their " + stat_affected.capitalize() + " stat lowered!"))
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 				return true
 	return false
 
@@ -786,12 +787,12 @@ func slow_ranged(attacker, turn_queue, status_effect, animation, roll) -> bool:
 				await get_tree().create_timer(1.0).timeout
 								
 				#Apply slow effect if you get the roll
-				print(player.unit_stats.name + " is inflicted with slow")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name + " is inflicted with slow"))
 				apply_status_effect(attacker,player,turn_queue,status_effect,5,"movement_speed",3)
 				line.queue_free()
 				return true
 			else:
-				print(attacker.unit_stats.name, " missed ", player.unit_stats.name)
+				attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed ", player.unit_stats.name))
 				return true
 	return false
 
@@ -817,20 +818,20 @@ func slow_melee(attacker, target_tile, turn_queue, status_effect, animation, rol
 			
 			player.unit_stats.health -= damage
 
-			print(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health)
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " rolled a ", roll, " and did ", damage, " to ", player.unit_stats.name, ": ", player.unit_stats.health, "/", player.unit_stats.max_health))
 			
 			#Apply slow effect if you get the roll
 			var slow_roll = rng.randi_range(1,20)
 			if slow_roll >= player.unit_stats.armor_class:
-				print(player.unit_stats.name + " is inflicted with slow")
+				attacker.turn_queue._update_combat_log(str(player.unit_stats.name + " is inflicted with slow"))
 				apply_status_effect(attacker,player,turn_queue,status_effect,5,"movement_speed",3)
 			else:
-				print("Enweb is not inflicted (", slow_roll, "/20)")
+				attacker.turn_queue._update_combat_log(str("Enweb is not inflicted (", slow_roll, "/20)"))
 			
 			line.queue_free()
 			return true
 		else:
-			print(attacker.unit_stats.name, " missed")
+			attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 			return true
 
 	return false
@@ -862,14 +863,14 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 					var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 					ally.unit_stats.health = min(ally.unit_stats.health + healing_health, ally.unit_stats.max_health)
 					
-					print(attacker.unit_stats.name, " is healing!")
-					print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
-					print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " is healing!"))
+					attacker.turn_queue._update_combat_log(str("Healing ", ally.unit_stats.name, " for ", healing_health, " health!"))
+					attacker.turn_queue._update_combat_log(str(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left"))
 					
 					line.queue_free()
 					return true
 				else:
-					print(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name)
+					attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name))
 					return true	
 	return false
 
@@ -915,14 +916,14 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 						else:
 							ally.unit_stats.health += healing_health
 							
-						print(attacker.unit_stats.name, " is healing!")
-						print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
-						print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
+						attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " is healing!"))
+						attacker.turn_queue._update_combat_log(str("Healing ", ally.unit_stats.name, " for ", healing_health, " health!"))
+						attacker.turn_queue._update_combat_log(str(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left"))
 
 						healed = true
 						line.queue_free()
 					else:
-						print(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name)
+						attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name))
 	else:
 		return healed
 			
@@ -973,14 +974,14 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 						else:
 							ally.unit_stats.health += healing_health
 							
-						print(attacker.unit_stats.name, " is healing!")
-						print("Healing ", ally.unit_stats.name, " for ", healing_health, " health!")
-						print(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left")
+						attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " is healing!"))
+						attacker.turn_queue._update_combat_log(str("Healing ", ally.unit_stats.name, " for ", healing_health, " health!"))
+						attacker.turn_queue._update_combat_log(str(ally.unit_stats.name, " has " + str(ally.unit_stats.health), " HP left"))
 
 						healed = true
 						line.queue_free()
 					else:
-						print(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name)
+						attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " couldn't heal " , ally.unit_stats.name))
 	else:
 		return healed
 			
@@ -993,11 +994,7 @@ func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost
 	if !check_status_effect(attacker,attacker,turn_queue,buff_name):
 		return false
 	
-	print("Before taking away mana: " + str(attacker.unit_stats.mana))
-	
 	attacker.unit_stats.mana -= mana_cost
-	
-	print("After taking away mana: " + str(attacker.unit_stats.mana))
 	
 	if roll >= attacker.unit_stats.armor_class:
 		
@@ -1011,7 +1008,7 @@ func self_buff(buff_name: String, attacker, turn_queue, stat_affected, mana_cost
 		attacker.unit_stats.used_self_buff = true
 		return true
 	else:
-		print(attacker.unit_stats.name, " missed")
+		attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " missed"))
 		return true
 
 #spawns in enemies during the game (enemy abilities to call reinforcements)
@@ -1032,7 +1029,7 @@ func call_reinforcements(attacker, turn_queue, enemy_name, mana_cost, roll):
 		turn_queue.spawn_enemy_during_battle(enemy_name)
 		return true
 	else:
-		print(attacker.unit_stats.name, " failed to call reinforcements into battle")
+		attacker.turn_queue._update_combat_log(str(attacker.unit_stats.name, " failed to call reinforcements into battle"))
 		return true
 
 func draw_attack_line(attacker: Node2D, target: Node2D) -> Line2D:
