@@ -16,7 +16,8 @@ const Red_Blast = preload("res://Scenes/Attack Effects/red_blast.tscn")
 const Scratch = preload("res://Scenes/Attack Effects/scratch.tscn")
 const Punch = preload("res://Scenes/Attack Effects/punch.tscn")
 const Increase = preload("res://Scenes/Attack Effects/increase.tscn")
-
+const Bullseye = preload("res://Scenes/Attack Effects/bullseye.tscn")
+const Spider_Web = preload("res://Scenes/Attack Effects/spider_web.tscn")
 
 
 var unit_moves = {
@@ -27,12 +28,12 @@ var unit_moves = {
 	"Slime": ["Slimy Steps","Pounce"],
 	"Crocodile": ["Vicious Bite","Pounce"],
 	"Spider": ["Sticky Webbing", "Poisonous Bite"],
-	"Devil": ["Mass Explosion","Fire Bolt","Vicious Scratch"],
+	"Devil": ["Mass Explosion","Fire Bolt","Vicious Swipe"],
 	"Scorpion": ["Poisonous Sting"],
 	"Snake": ["Poisonous Bite", "Poison Spit"],
 	"Skeleton Warrior": ["Hardened Bones","Slash"],
 	"Slime Monster": ["Slimy Steps","Pounce"],
-	"Hungershroom": ["Poisonous Bite"],
+	"Hungershroom": ["Spore Surge","Poisonous Bite"],
 	"King Slime": ["Royal Reproduction", "Pounce"],
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
 	"The Omnipotent Eye": ["Obelisk Restoration","Boss Shout"]
@@ -47,7 +48,7 @@ func _ready() -> void:
 		var elemental_name = element + " Elemental"
 		var blast_name = element + " Blast"
 		var melee_name = element + " Punch"
-		unit_moves[obelisk_name] = ["Elemental Summoning", element + " Beam"]
+		unit_moves[obelisk_name] = ["Arcane Resonance","Elemental Summoning", element + " Beam"]
 		unit_moves[elemental_name] = [blast_name, melee_name]
 		
 	rng.randomize()
@@ -69,14 +70,18 @@ func use_melee_move(attacker, target_tile):
 				#Summons specific elemental for specific obelisk with that element
 				for element in elements:
 					if attacker.unit_stats.name.findn(element) != -1:
-						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))
+						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 5, roll))	
+			"Arcane Resonance":
+				move_used = await(self_buff("Arcane Resonance", attacker, attacker.turn_queue,"bewitchment",5,-2,2, Increase, roll))						
+			"Spore Surge":
+				move_used = await(self_buff("Spore Surge", attacker, attacker.turn_queue,"brawns",3,-2,3, Increase, roll))			
 			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,2, Buff, roll))	
+				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,3, Buff, roll))	
 			"Hardened Bones":
-				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,2, Buff,roll))	
+				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,3, Buff,roll))	
 			"Necrotic Touch":
 				move_used = await(magic_melee(attacker, target_tile, attacker.turn_queue, 2, Green_Blast, roll))
-			"Vicious Claws":
+			"Vicious Swipe":
 				move_used = await(basic_melee(attacker, target_tile, attacker.turn_queue, 1,3,0, Scratch, roll))	
 			"Cleave":
 				move_used = await(cleave(attacker, attacker.turn_queue, Slash, roll))
@@ -128,6 +133,10 @@ func use_ranged_move(attacker):
 				for element in elements:
 					if attacker.unit_stats.name.findn(element) != -1:
 						move_used = await(call_reinforcements(attacker, attacker.turn_queue, element + " Elemental", 2, roll))
+			"Arcane Resonance":
+				move_used = await(self_buff("Arcane Resonance", attacker, attacker.turn_queue,"bewitchment",5,-2,2, Increase, roll))						
+			"Spore Surge":
+				move_used = await(self_buff("Spore Surge", attacker, attacker.turn_queue,"brawns",3,-2,3, Increase, roll))			
 			"Slimy Steps":
 				move_used = await(self_buff("Slimy Steps", attacker, attacker.turn_queue,"movement_speed",5,-5,2, Increase, roll))
 			"Iron Defense":
@@ -141,17 +150,17 @@ func use_ranged_move(attacker):
 			"Wind Blast":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Green_Blast, roll))
 			"Water Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Blue_Blast, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Blue_Blast, roll))
 			"Fire Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Red_Blast, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Red_Blast, roll))
 			"Rock Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, null, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, null, roll))
 			"Wind Beam":
-				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Green_Blast, roll))
+				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Green_Blast, roll))
 			"Hex":
 				move_used = await(hex_ranged(attacker,attacker.turn_queue, 5, roll))
 			"Sticky Webbing":
-				move_used = await(slow_ranged(attacker, attacker.turn_queue, "Enweb", roll))
+				move_used = await(slow_ranged(attacker, attacker.turn_queue, "Enweb", Spider_Web, roll))
 			"Healing Spell":
 				move_used = await(healing_spell(attacker, attacker.turn_queue, 3, roll))
 			"Mass Healing":
@@ -159,7 +168,7 @@ func use_ranged_move(attacker):
 			"Mass Explosion":
 				move_used = await(magic_missiles(attacker, attacker.turn_queue, 3))
 			"Multi-Shot":
-				move_used = await(multi_shot(attacker, attacker.turn_queue, 2))
+				move_used = await(multi_shot(attacker, attacker.turn_queue, Bullseye, 2))
 			"Royal Reproduction":
 				move_used = await(call_reinforcements(attacker, attacker.turn_queue, "Slime", 2, roll))
 			"Poison Spit":
@@ -169,9 +178,9 @@ func use_ranged_move(attacker):
 			"Fire Bolt":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 0, Red_Blast, roll))
 			"Piercing Shot":
-				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, roll))
+				move_used = await(piercing_shot(attacker, attacker.turn_queue, 1, Bullseye, roll))
 			"Arrow Shot":
-				move_used = await(arrow_shot(attacker, attacker.turn_queue, roll))
+				move_used = await(arrow_shot(attacker, attacker.turn_queue, Bullseye,  roll))
 			"Boss Shout":
 				move_used = await(boss_dialogue())
 		if move_used:
@@ -335,7 +344,7 @@ func cleave(attacker, turn_queue, animation, roll) -> bool:
 	return hit_anyone
 
 #Single target normal ranged attack
-func arrow_shot(attacker, turn_queue, roll) -> bool:
+func arrow_shot(attacker, turn_queue, animation, roll) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
@@ -343,6 +352,12 @@ func arrow_shot(attacker, turn_queue, roll) -> bool:
 		if player != null:
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 				var line = draw_attack_line(attacker, player)
+				
+				var melee = animation.instantiate()
+				get_tree().current_scene.add_child(melee)
+				melee.global_position = player.global_position
+				melee.rotation = (player.global_position - attacker.global_position).angle()
+			
 				await get_tree().create_timer(1.0).timeout
 				var damage = (rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.brains)) 
 				
@@ -370,7 +385,7 @@ func arrow_shot(attacker, turn_queue, roll) -> bool:
 	return false
 
 #Ignores armor class for shot
-func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
+func piercing_shot(attacker, turn_queue, mana_cost,animation, roll) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	if attacker.unit_stats.mana < mana_cost:
@@ -386,6 +401,12 @@ func piercing_shot(attacker, turn_queue, mana_cost, roll) -> bool:
 			
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 				var line = draw_attack_line(attacker, player)
+				
+				var melee = animation.instantiate()
+				get_tree().current_scene.add_child(melee)
+				melee.global_position = player.global_position
+				melee.rotation = (player.global_position - attacker.global_position).angle()
+			
 				await get_tree().create_timer(1.0).timeout
 				var damage = (rng.randi_range(2, 4) + rng.randi_range(1, attacker.unit_stats.brains))
 				
@@ -513,7 +534,7 @@ func magic_missiles(attacker, turn_queue, mana_cost) -> bool:
 	return hit_anyone
 
 #Attacks all within the radius
-func multi_shot(attacker, turn_queue, mana_cost) -> bool:
+func multi_shot(attacker, turn_queue, animation, mana_cost) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	var hit_anyone = false
@@ -540,6 +561,12 @@ func multi_shot(attacker, turn_queue, mana_cost) -> bool:
 			if player != null:
 				if roll >= player.unit_stats.armor_class - (attacker.unit_stats.brains - player.unit_stats.brains):
 					var line = draw_attack_line(attacker, player)
+					
+					var melee = animation.instantiate()
+					get_tree().current_scene.add_child(melee)
+					melee.global_position = player.global_position
+					melee.rotation = (player.global_position - attacker.global_position).angle()
+			
 					await get_tree().create_timer(1.5).timeout
 					var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
 					
@@ -583,11 +610,10 @@ func magic_ranged(attacker, turn_queue, mana_cost, animation, roll) -> bool:
 			if roll >= player.unit_stats.armor_class - (attacker.unit_stats.bewitchment - player.unit_stats.bewitchment):
 				var line = draw_attack_line(attacker, player)
 				
-				if !animation == null:
-					var beam = animation.instantiate()
-					get_tree().current_scene.add_child(beam)
-					beam.global_position = player.global_position
-					beam.rotation = (player.global_position - attacker.global_position).angle()
+				var beam = animation.instantiate()
+				get_tree().current_scene.add_child(beam)
+				beam.global_position = player.global_position
+				beam.rotation = (player.global_position - attacker.global_position).angle()
 				
 				await get_tree().create_timer(1.0).timeout
 				var damage = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -740,7 +766,7 @@ func hex_ranged(attacker, turn_queue, mana_cost, roll) -> bool:
 	return false
 
 #Applies slow
-func slow_ranged(attacker, turn_queue, status_effect, roll) -> bool:
+func slow_ranged(attacker, turn_queue, status_effect, animation, roll) -> bool:
 	attacker._update_circle_tiles(4)
 	
 	for tile in attacker.circle_tiles:
@@ -752,6 +778,11 @@ func slow_ranged(attacker, turn_queue, status_effect, roll) -> bool:
 				
 			if roll >= player.unit_stats.armor_class:
 				var line = draw_attack_line(attacker, player)
+				
+				var curse = animation.instantiate()
+				get_tree().current_scene.add_child(curse)
+				curse.global_position = player.global_position
+				
 				await get_tree().create_timer(1.0).timeout
 								
 				#Apply slow effect if you get the roll
@@ -765,7 +796,7 @@ func slow_ranged(attacker, turn_queue, status_effect, roll) -> bool:
 	return false
 
 #Single melee basic attack 
-func slow_melee(attacker, target_tile, turn_queue, status_effect, roll) -> bool:
+func slow_melee(attacker, target_tile, turn_queue, status_effect, animation, roll) -> bool:
 	
 	var player = turn_queue.pc_positions.find_key(target_tile)
 	if player != null:
@@ -776,7 +807,7 @@ func slow_melee(attacker, target_tile, turn_queue, status_effect, roll) -> bool:
 		if roll >= player.unit_stats.armor_class:
 			var line = draw_attack_line(attacker, player)
 			
-			var slash = Slash.instantiate()
+			var slash = animation.instantiate()
 			get_tree().current_scene.add_child(slash)
 			slash.global_position = player.global_position
 			slash.rotation = (player.global_position - attacker.global_position).angle()

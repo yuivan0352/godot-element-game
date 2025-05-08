@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://61peddtep1om"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_4xndm"]
+[ext_resource type="Texture2D" uid="uid://dkvboxq0o2npw" path="res://Assets/Attack Effects/spider_web.png" id="2_4xndm"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_4xndm")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.0356955, 0.0356163)
+texture = ExtResource("2_4xndm")

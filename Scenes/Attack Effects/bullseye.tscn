@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxuj6kmr0f5ur"]
+
+[ext_resource type="Script" uid="uid://difg75wpc0qkl" path="res://Scenes/Attack Effects/slash_effect.gd" id="1_a331e"]
+[ext_resource type="Texture2D" uid="uid://cs5q7mjoca5j1" path="res://Assets/Attack Effects/bullseye.png" id="2_a331e"]
+
+[node name="Swipe" type="Node2D"]
+position = Vector2(2.98023e-08, -2.98023e-08)
+script = ExtResource("1_a331e")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.040141, 0.0403445)
+texture = ExtResource("2_a331e")
