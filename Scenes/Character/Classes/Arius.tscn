@@ -1,13 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://b24dty02wrihw"]
+[gd_scene load_steps=8 format=3 uid="uid://b24dty02wrihw"]
 
 [ext_resource type="Script" uid="uid://b7rye3k8armrb" path="res://Scenes/Character/Character.gd" id="1_3tcdr"]
 [ext_resource type="Resource" uid="uid://5pkcymurr54d" path="res://Resources/Stats/Characters/Arius.tres" id="2_1peq1"]
 [ext_resource type="Script" uid="uid://eyy4qva83pwu" path="res://Scenes/Character/Path.gd" id="2_fmajt"]
-[ext_resource type="Texture2D" uid="uid://bpu1flu0wb7nj" path="res://Assets/Sprites/water sprite.png" id="3_g51rt"]
+[ext_resource type="Texture2D" uid="uid://b034d3q82i4mk" path="res://Assets/Sprites/free_character_1-3.png" id="4_1peq1"]
 [ext_resource type="Script" uid="uid://ccsmoeym7wdng" path="res://Scenes/Character/clickable_area.gd" id="4_dlp70"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_hn837"]
+atlas = ExtResource("4_1peq1")
+region = Rect2(17, 2, 15, 18)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1cd2p"]
-size = Vector2(20, 22)
+size = Vector2(4.56385, 5.76577)
 
 [node name="Arius" type="Node2D"]
 script = ExtResource("1_3tcdr")
@@ -19,8 +23,8 @@ script = ExtResource("2_fmajt")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(-0.0625002, 0)
-scale = Vector2(0.0802239, 0.101351)
-texture = ExtResource("3_g51rt")
+scale = Vector2(0.75, 0.75)
+texture = SubResource("AtlasTexture_hn837")
 
 [node name="clickableArea" type="Area2D" parent="Sprite"]
 position = Vector2(0.779072, -78.9333)
@@ -28,7 +32,8 @@ scale = Vector2(6.23256, 4.93333)
 script = ExtResource("4_dlp70")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/clickableArea"]
-position = Vector2(4.76837e-07, 13)
+position = Vector2(-0.11163, 16)
+scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_1cd2p")
 
 [node name="CharacterCamera" type="Camera2D" parent="."]
@@ -41,8 +46,8 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 
 [node name="VisibilityNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(0, -1)
-scale = Vector2(0.535651, 0.520002)
+position = Vector2(2.38419e-07, 4.17233e-07)
+scale = Vector2(0.8, 0.8)
 
 [connection signal="turn_complete" from="." to="Path" method="_on_character_unit_still"]
 [connection signal="unit_moving" from="." to="Path" method="_on_character_unit_moving"]

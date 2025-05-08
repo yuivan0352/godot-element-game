@@ -1,9 +1,8 @@
-[gd_scene load_steps=54 format=3 uid="uid://dy2jmabyaai8m"]
+[gd_scene load_steps=52 format=3 uid="uid://dy2jmabyaai8m"]
 
 [ext_resource type="Script" uid="uid://lxt5u3vonr0f" path="res://Scenes/UI/User_Interface/user_interface.gd" id="1_csm4g"]
 [ext_resource type="PackedScene" uid="uid://l5f56njyk6gi" path="res://Scenes/UI/Healthbar/HealthBar.tscn" id="2_txa2e"]
 [ext_resource type="Theme" uid="uid://oc6jtms3k4b4" path="res://Resources/Themes/UIBackground.tres" id="2_x3eeq"]
-[ext_resource type="Texture2D" uid="uid://b7oa2whf61p8g" path="res://Assets/Texture/point and click cursor.png" id="3_woo7i"]
 [ext_resource type="Script" uid="uid://c7xlcgx60sbmg" path="res://Scenes/UI/User_Interface/turn_scroll.gd" id="4_13sfg"]
 [ext_resource type="Texture2D" uid="uid://bqhuok67rdqcj" path="res://Assets/Texture/attack_icon.png" id="5_1aga7"]
 [ext_resource type="Script" uid="uid://cswnqpumxdpea" path="res://Scenes/UI/User_Interface/unit_info.gd" id="5_yx8tb"]
@@ -53,10 +52,6 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mad2t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rp5le"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d1c4k"]
-atlas = ExtResource("3_woo7i")
-region = Rect2(32, 32, 16, 16)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_geroj"]
 
@@ -232,7 +227,7 @@ script = ExtResource("8_luhdb")
 
 [node name="MagicBar" type="Panel" parent="."]
 visible = false
-anchors_preset = 3
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -272,7 +267,6 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mad2t")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rp5le")
-icon = SubResource("AtlasTexture_d1c4k")
 expand_icon = true
 script = ExtResource("13_lny1u")
 

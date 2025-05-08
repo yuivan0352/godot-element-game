@@ -86,9 +86,9 @@ func setup_turn_order():
 	overview_camera.set_camera_position(current_unit)
 	
 	if current_unit is Enemy:
+		buttons_disabled.emit(true)
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
-		buttons_disabled.emit(true)
 	else:
 		current_unit.spell_info.emit(current_unit.equipped_spells)
 
