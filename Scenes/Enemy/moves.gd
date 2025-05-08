@@ -22,7 +22,7 @@ const Spider_Web = preload("res://Scenes/Attack Effects/spider_web.tscn")
 
 var unit_moves = {
 	#Put most important move to least important
-	"Warrior": ["Iron Defense","Arrow Shot","Cleave","Slash"],
+	"Warrior": ["Shield of Resolve","Arrow Shot","Cleave","Slash"],
 	"Mage": ["Mass Healing", "Healing Spell","Aura Missile", "Necrotic Touch", "Unarmed Strike"],
 	"Archer": ["Multi-Shot","Piercing Shot","Arrow Shot", "Stab"],
 	"Slime": ["Slimy Steps","Pounce"],
@@ -75,8 +75,8 @@ func use_melee_move(attacker, target_tile):
 				move_used = await(self_buff("Arcane Resonance", attacker, attacker.turn_queue,"bewitchment",5,-2,2, Increase, roll))						
 			"Spore Surge":
 				move_used = await(self_buff("Spore Surge", attacker, attacker.turn_queue,"brawns",3,-2,3, Increase, roll))			
-			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",5,-2,3, Buff, roll))	
+			"Shield of Resolve":
+				move_used = await(self_buff("Shield of Resolve", attacker, attacker.turn_queue,"armor_class",5,-2,3, Buff, roll))	
 			"Hardened Bones":
 				move_used = await(self_buff("Hardened Bones", attacker, attacker.turn_queue,"armor_class",5,-2,3, Buff,roll))	
 			"Necrotic Touch":
@@ -127,7 +127,7 @@ func use_ranged_move(attacker):
 		var roll = rng.randi_range(1, 20)
 		match move:
 			"Obelisk Restoration":
-				move_used = await(obelisk_restoration(attacker, attacker.turn_queue, 4, roll))
+				move_used = await(obelisk_restoration(attacker, attacker.turn_queue, 5, roll))
 			"Elemental Summoning":
 				#Summons specific elemental for specific obelisk with that element
 				for element in elements:
@@ -139,8 +139,8 @@ func use_ranged_move(attacker):
 				move_used = await(self_buff("Spore Surge", attacker, attacker.turn_queue,"brawns",3,-2,3, Increase, roll))			
 			"Slimy Steps":
 				move_used = await(self_buff("Slimy Steps", attacker, attacker.turn_queue,"movement_speed",5,-5,2, Increase, roll))
-			"Iron Defense":
-				move_used = await(self_buff("Iron Defense", attacker, attacker.turn_queue,"armor_class",4,-2,2, Buff, roll))
+			"Shield of Resolve":
+				move_used = await(self_buff("Shield of Resolve", attacker, attacker.turn_queue,"armor_class",4,-2,2, Buff, roll))
 			"Water Blast":
 				move_used = await(magic_ranged(attacker, attacker.turn_queue, 2, Blue_Blast, roll))
 			"Fire Blast":
@@ -213,7 +213,7 @@ func boss_dialogue():
 	var chosen_laugh = evil_laughs[randi() % evil_laughs.size()]
 
 	print(chosen_line)
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1).timeout
 	print(chosen_laugh)
 	return true
 
@@ -855,7 +855,7 @@ func healing_spell(attacker, turn_queue, mana_cost, roll) -> bool:
 					
 					var heal = Yellow_Blast.instantiate()
 					get_tree().current_scene.add_child(heal)
-					heal.global_position = attacker.global_position
+					heal.global_position = ally.global_position
 					
 					await get_tree().create_timer(1.0).timeout
 					
@@ -903,7 +903,7 @@ func mass_healing(attacker, turn_queue, mana_cost, roll) -> bool:
 						
 						var heal = Yellow_Blast.instantiate()
 						get_tree().current_scene.add_child(heal)
-						heal.global_position = attacker.global_position
+						heal.global_position = ally.global_position
 					
 						await get_tree().create_timer(1.0).timeout
 						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
@@ -961,7 +961,7 @@ func obelisk_restoration(attacker, turn_queue, mana_cost, roll) -> bool:
 						
 						var heal = Yellow_Blast.instantiate()
 						get_tree().current_scene.add_child(heal)
-						heal.global_position = attacker.global_position
+						heal.global_position = ally.global_position
 						
 						await get_tree().create_timer(1.0).timeout
 						var healing_health = rng.randi_range(1, 3) + rng.randi_range(1, attacker.unit_stats.bewitchment)
