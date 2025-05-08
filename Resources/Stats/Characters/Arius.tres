@@ -6,8 +6,8 @@
 resource_local_to_scene = true
 script = ExtResource("1_prsbx")
 name = "Arius"
-health = 1000
-max_health = 1000
+health = 15
+max_health = 15
 mana = 1
 armor_class = 6
 movement_speed = 30
