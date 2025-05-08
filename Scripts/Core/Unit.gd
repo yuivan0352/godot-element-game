@@ -41,6 +41,16 @@ func _ready():
 		actions = 1
 		bonus_actions = 1
 		
+		if Global.level - 1 == 1:
+			character_camera.limit_bottom = 272
+			character_camera.limit_right = 272
+		elif Global.level - 1 == 2:
+			character_camera.limit_bottom = 272
+			character_camera.limit_right = 544
+		elif Global.level - 1 > 2:
+			character_camera.limit_bottom = 528
+			character_camera.limit_right = 528
+		
 		_update_adj_tiles()
 
 func _update_adj_tiles():

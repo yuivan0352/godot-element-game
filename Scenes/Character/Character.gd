@@ -2,6 +2,7 @@ extends Unit
 class_name Character
 
 var mode : String = "idle"
+
 @onready var path = $Path
 @onready var clickable_area = $Sprite/clickableArea
 
@@ -74,7 +75,9 @@ func _attack_action(attack_type_array):
 				else:
 					damage = rng.randi_range(50, 100)
 				target_unit.unit_stats.health -= damage
-				print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
+				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health))
+				#print(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health)
+				
 				if target_unit.unit_stats.health <= 0:
 					turn_queue.enemy_positions.erase(target_unit)
 					turn_queue.turn_order.erase(target_unit)
@@ -82,7 +85,8 @@ func _attack_action(attack_type_array):
 					tile_layer_zero._unsolid_coords(mouse_tile)
 					_update_adj_tiles()
 			else:
-				print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
+				turn_queue._update_combat_log(str(unit_stats.name, " rolled a ", attack_roll, " and did ", damage, " to ", target_unit.unit_stats.name, ": ", target_unit.unit_stats.health, "/", target_unit.unit_stats.max_health))
+				#print(unit_stats.name, " rolled a ", attack_roll, " and missed their attack!")
 		if mode == "magic":
 			actions -= current_spell.action_cost
 		else:

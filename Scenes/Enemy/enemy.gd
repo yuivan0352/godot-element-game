@@ -215,6 +215,14 @@ func check_and_end_turn():
 		overview_camera.set_camera_position(self)
 		overview_camera.make_current()
 		turn_complete.emit()
+
+		#This is for enemyAttacks ( starts from is_Adjacent_to_closest_player)
+			turn_queue._update_combat_log(EnemyAttacks.perform_melee_attack(self, player_tile_pos, turn_queue, tile_layer_zero))
+			update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, moved_distance)
+		else:
+			turn_queue._update_combat_log(EnemyAttacks.perform_ranged_attack(self, player_tile_pos, turn_queue, tile_layer_zero))
+			unit_stats.mana -= 1
+			update_action_econ.emit(0, 1, unit_stats.mana, unit_stats.movement_speed, moved_distance)
 	
 	moved_distance = 0
 	current_id_path = []
