@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="5_vgm7y"]
 [ext_resource type="Texture2D" uid="uid://yrrpr5lxu84m" path="res://Assets/Sprites/wood sprite.png" id="6_1g3a2"]
 
-[sub_resource type="Resource" id="Resource_qx0en"]
+[sub_resource type="Resource" id="Resource_vgm7y"]
 resource_local_to_scene = true
 script = ExtResource("5_vgm7y")
 name = "Arius"
@@ -23,7 +23,7 @@ brawns = 5
 bewitchment = 5
 potions = 3
 
-[sub_resource type="Resource" id="Resource_gii8f"]
+[sub_resource type="Resource" id="Resource_qx0en"]
 resource_local_to_scene = true
 script = ExtResource("5_vgm7y")
 name = "Brylla"
@@ -37,7 +37,7 @@ brawns = 5
 bewitchment = 5
 potions = 3
 
-[sub_resource type="Resource" id="Resource_gyeut"]
+[sub_resource type="Resource" id="Resource_gii8f"]
 resource_local_to_scene = true
 script = ExtResource("5_vgm7y")
 name = "Pyrrha"
@@ -51,7 +51,7 @@ brawns = 5
 bewitchment = 5
 potions = 3
 
-[sub_resource type="Resource" id="Resource_2pyo4"]
+[sub_resource type="Resource" id="Resource_gyeut"]
 resource_local_to_scene = true
 script = ExtResource("5_vgm7y")
 name = "Quorral"
@@ -114,25 +114,25 @@ theme_override_constants/separation = 30
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Arius.tscn"
 characterTexture = ExtResource("3_xej07")
-characterStat = SubResource("Resource_qx0en")
+characterStat = SubResource("Resource_vgm7y")
 
 [node name="Brylla" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Brylla.tscn"
 characterTexture = ExtResource("4_xej07")
-characterStat = SubResource("Resource_gii8f")
+characterStat = SubResource("Resource_qx0en")
 
 [node name="Pyrrha" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Pyrrha.tscn"
 characterTexture = ExtResource("5_evsem")
-characterStat = SubResource("Resource_gyeut")
+characterStat = SubResource("Resource_gii8f")
 
 [node name="Quorral" parent="Team" instance=ExtResource("2_wbgcf")]
 layout_mode = 2
 characterPath = "res://Scenes/Character/Classes/Quorral.tscn"
 characterTexture = ExtResource("6_1g3a2")
-characterStat = SubResource("Resource_2pyo4")
+characterStat = SubResource("Resource_gyeut")
 
 [node name="GoButton" type="Button" parent="."]
 layout_mode = 1
