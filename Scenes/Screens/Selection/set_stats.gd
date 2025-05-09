@@ -22,7 +22,6 @@ func _ready() -> void:
 			if characterSlot.characterStat.name == stat.name:
 				characterStat = stat
 		
-
 func _on_subtract_pressed() -> void:
 	if characterStat[statName] > 0:
 		if trackAllocation <= 0:
@@ -76,12 +75,18 @@ func update_addButton() -> void:
 			addButton.disabled = true
 		if trackAllocation > -3:
 			subtractButton.disabled = false
+	else:
+		if statMenu.points == 0 and trackAllocation:
+			subtractButton.disabled = false
 	
 func update_subtractButton() -> void:
 	if get_tree().current_scene.name == "Selection":
 		if trackAllocation < 3:
 			addButton.disabled = false
 		if trackAllocation == -3:
+			subtractButton.disabled = true
+	else:
+		if statMenu.points > 0:
 			subtractButton.disabled = true
 
 func update_difference_label() -> void:
@@ -96,6 +101,7 @@ func update_stats(factor) -> void:
 		if statName == "brawns":
 			characterStat.armor_class += 1
 		if statName == "brains":
+			characterStat.max_health += 1
 			characterStat.health += 1
 		if statName == "bewitchment":
 			characterStat.mana += 1
@@ -103,6 +109,7 @@ func update_stats(factor) -> void:
 		if statName == "brawns":
 			characterStat.armor_class -= 1
 		if statName == "brains":
+			characterStat.max_health -= 1
 			characterStat.health -= 1
 		if statName == "bewitchment":
 			characterStat.mana -= 1

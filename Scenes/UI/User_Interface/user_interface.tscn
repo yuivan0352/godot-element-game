@@ -27,7 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://c31mh0syxbxy4" path="res://Assets/Texture/GUI.png" id="24_xvgfx"]
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="25_1thyp"]
 [ext_resource type="Script" uid="uid://vj1lb7u563hw" path="res://Scenes/UI/User_Interface/combat_log_expand_button.gd" id="25_aita3"]
-[ext_resource type="Script" uid="uid://bj0ksvuj6nab6" path="res://Scenes/UI/User_Interface/scroll_container.gd" id="29_0cpsf"]
+[ext_resource type="Script" path="res://Scenes/UI/User_Interface/scroll_container.gd" id="29_0cpsf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_luhdb"]
 
