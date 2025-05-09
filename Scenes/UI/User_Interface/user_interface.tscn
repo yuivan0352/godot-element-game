@@ -546,4 +546,6 @@ autowrap_mode = 3
 [connection signal="mouse_entered" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_entered"]
 [connection signal="mouse_exited" from="UnitInfo/CloseButton" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="pressed" from="UnitInfo/CloseButton" to="UnitInfo" method="close"]
+[connection signal="mouse_entered" from="CombatLogController" to="." method="_on_ui_element_mouse_entered"]
+[connection signal="mouse_exited" from="CombatLogController" to="." method="_on_ui_element_mouse_exited"]
 [connection signal="pressed" from="CombatLogController/CombatLog/ExpandButton" to="CombatLogController/CombatLog/ExpandButton" method="expand_combat_log"]
