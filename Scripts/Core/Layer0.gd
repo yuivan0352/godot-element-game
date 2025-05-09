@@ -46,7 +46,12 @@ func _ready():
 	
 
 func set_terrain():
-	var terrain_background_index = 12 + (Global.biomeNum % 3)
+	var terrain_background_index = 0
+	if Global.level == 1:
+		terrain_background_index = 16
+	else:
+		terrain_background_index = 12 + (Global.biomeNum % 3)
+	
 	var background = tile_set.get_pattern(terrain_background_index)
 	
 	set_pattern(Vector2i(-3,-3),background)
