@@ -38,14 +38,6 @@ func _update_camera_limits():
 
 func set_camera_position(target: Unit):
 	self.global_position = target.global_position
-	if global_position.x > movementRightLimit:
-		self.global_position.x = movementRightLimit
-	elif global_position.x < movementLeftLimit:
-		self.global_position.x = movementLeftLimit
-	if global_position.y > movementBottomLimit:
-		self.global_position.y = movementBottomLimit
-	elif global_position.y < movementTopLimit:
-		self.global_position.y = movementTopLimit
 
 func transition_camera(from: Camera2D, to: Camera2D, duration: float):
 	if transitioning: 
