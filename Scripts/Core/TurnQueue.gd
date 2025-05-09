@@ -30,17 +30,21 @@ var elements = ["Fire","Water","Earth","Wind"]
 var status_effects: Dictionary = {}
 
 func _ready():	
-	#Final Boss Level Spawnv
-	var boss = enemy_chars.spawn_enemy("Boss", layer_zero)
-	var obelisk1 = enemy_chars.spawn_enemy("Fire Obelisk", layer_zero)
-	var obelisk2 = enemy_chars.spawn_enemy("Water Obelisk", layer_zero)
-	var obelisk3 = enemy_chars.spawn_enemy("Wind Obelisk", layer_zero)
-	var obelisk4 = enemy_chars.spawn_enemy("Earth Obelisk", layer_zero)
-	var enemy_units = [boss[0],obelisk1[0],obelisk2[0],obelisk3[0],obelisk4[0]]
-		
-	#var enemy_units = enemy_chars.spawn_characters(3, layer_zero)
-	var player_units = player_chars.spawn_characters(3, layer_zero)
+	#Final Boss Level Spawn
+	var enemy_units = []
 	
+	if Global.level - 1 == 4:
+		var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
+		if boss_unit:
+			enemy_units.append(boss_unit)
+			for unit in enemy_chars.get_children():
+				if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
+					enemy_units.append(unit)
+	else:
+		enemy_units = enemy_chars.spawn_characters(1, layer_zero)
+
+	var player_units = player_chars.spawn_characters(3, layer_zero)
+
 	#for stat in Global.characters_stats:
 		#print(stat, " : ", stat.health)
 	
@@ -49,6 +53,7 @@ func _ready():
 	for unit in enemy_units:
 		enemy_positions[unit] = layer_zero.local_to_map(unit.global_position)
 	
+	print(pc_positions)
 	layer_zero._set_char_pos_solid(pc_positions)
 	layer_zero._set_char_pos_solid(enemy_positions)
 	

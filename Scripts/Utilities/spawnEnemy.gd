@@ -2,12 +2,12 @@ extends Node2D
 
 # Preload enemy scenes and stat files
 var enemy_scenes: Dictionary = {
-	#"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
+	"Warrior": preload("res://Scenes/Enemy/EnemyWarrior.tscn"),
 	#"Archer": preload("res://Scenes/Enemy/EnemyArcher.tscn"),
 	#"Mage": preload("res://Scenes/Enemy/EnemyMage.tscn"),
 	#"Crocodile": preload("res://Scenes/Enemy/Crocodile.tscn"),
 	#"Cultist": preload("res://Scenes/Enemy/Cultist.tscn"),
-	"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
+	#"King Slime": preload("res://Scenes/Enemy/EnemyKingSlime.tscn"),
 	#"Snake": preload("res://Scenes/Enemy/EnemySnake.tscn"),
 	#"Hungershroom": preload("res://Scenes/Enemy/Hungershroom.tscn"),
 	#"Scorpion": preload("res://Scenes/Enemy/Scorpion.tscn"),
@@ -18,13 +18,13 @@ var enemy_scenes: Dictionary = {
 }
 
 var enemy_stats: Dictionary = {
-	#"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
+	"Warrior": preload("res://Resources/Stats/Enemies/EnemyWarrior.tres"),
 	#"Archer": preload("res://Resources/Stats/Enemies/EnemyArcher.tres"),
 	#"Mage": preload("res://Resources/Stats/Enemies/EnemyMage.tres"),
 	#"Crocodile": preload("res://Resources/Stats/Enemies/Crocodile.tres"),
 	#"Cultist": preload("res://Resources/Stats/Enemies/Cultist.tres"),
 	#"Devil": preload("res://Resources/Stats/Enemies/Devil.tres"),
-	"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
+	#"King Slime": preload("res://Resources/Stats/Enemies/EnemyKingSlime.tres"),
 	#"Snake": preload("res://Resources/Stats/Enemies/EnemySnake.tres"),
 	#"Hungershroom": preload("res://Resources/Stats/Enemies/Hungershroom.tres"),
 	#"Scorpion": preload("res://Resources/Stats/Enemies/Scorpion.tres"),
@@ -163,7 +163,86 @@ func spawn_enemy(enemy_name: String, layer: TileMapLayer) -> Array[Enemy]:
 
 	return spawned_characters
 
-
 func get_random_enemy_type() -> String:
 	var enemy_keys = enemy_scenes.keys()
 	return enemy_keys[rng.randi_range(0, enemy_keys.size() - 1)]
+
+#Spawns the boss including the 4 obelisks
+func spawn_2x2_enemy_center(enemy_type: String, layer: TileMapLayer) -> Enemy:
+	var map_size = layer.get_used_rect().size
+	var center = layer.get_used_rect().position + map_size / 2
+	var top_left = Vector2i(center) - Vector2i(1, 1)  
+	var tile_positions = [
+		top_left,
+		top_left + Vector2i(1, 0),
+		top_left + Vector2i(0, 1),
+		top_left + Vector2i(1, 1),
+	]
+	var can_spawn = true
+	for pos in tile_positions:
+		var tile_data = layer.get_cell_tile_data(pos)
+		if !tile_data or !tile_data.get_custom_data("walkable") or positions.has(pos) or player_chars.positions.has(pos):
+			can_spawn = false
+			break
+	if can_spawn:
+		var char_instance = boss_enemy_scenes[enemy_type].instantiate()
+		var stats = boss_enemy_stats[enemy_type].duplicate()
+		char_instance.unit_stats = stats
+		var world_position = Vector2(top_left) * tile_size + Vector2(tile_size, tile_size)
+		char_instance.global_position = world_position
+		add_child(char_instance)
+		for pos in tile_positions:
+			positions[pos] = char_instance
+		char_instance.update_action_econ.connect(user_interface._update_actions)
+		
+		var boss_map_pos = layer.local_to_map(char_instance.global_position)
+		
+		var obelisk_placements = {
+			"north": {"offset": Vector2i(-1, -6), "type": "Wind Obelisk"},
+			"south": {"offset": Vector2i(0, 4), "type": "Earth Obelisk"},
+			"east": {"offset": Vector2i(6, 0), "type": "Water Obelisk"},
+			"west": {"offset": Vector2i(-5, -1), "type": "Fire Obelisk"},
+		}
+		
+		for direction in obelisk_placements:
+			var target_pos = boss_map_pos + obelisk_placements[direction]["offset"]
+			var obelisk_type = obelisk_placements[direction]["type"]
+			var obelisk_spawned = false
+			
+			var tile_data = layer.get_cell_tile_data(target_pos)
+			if tile_data and tile_data.get_custom_data("walkable") and !positions.has(target_pos) and !player_chars.positions.has(target_pos):
+
+				var obelisk_position = Vector2(target_pos) * tile_size + Vector2(tile_size / 2, tile_size / 2)
+				var obelisk_instance = reinforcement_enemy_scenes[obelisk_type].instantiate()
+				var obelisk_stats = reinforcement_enemy_stats[obelisk_type].duplicate()
+				obelisk_instance.unit_stats = obelisk_stats
+				obelisk_instance.global_position = obelisk_position
+				add_child(obelisk_instance)
+				positions[target_pos] = obelisk_instance
+				obelisk_instance.update_action_econ.connect(user_interface._update_actions)
+				obelisk_spawned = true
+			else:
+				for offset_x in range(-1, 2):
+					for offset_y in range(-1, 2):
+						if offset_x == 0 and offset_y == 0:
+							continue
+						
+						var alternate_pos = target_pos + Vector2i(offset_x, offset_y)
+						tile_data = layer.get_cell_tile_data(alternate_pos)
+						if tile_data and tile_data.get_custom_data("walkable") and !positions.has(alternate_pos) and !player_chars.positions.has(alternate_pos):
+
+							var obelisk_position = Vector2(alternate_pos) * tile_size + Vector2(tile_size / 2, tile_size / 2)
+							var obelisk_instance = reinforcement_enemy_scenes[obelisk_type].instantiate()
+							var obelisk_stats = reinforcement_enemy_stats[obelisk_type].duplicate()
+							obelisk_instance.unit_stats = obelisk_stats
+							obelisk_instance.global_position = obelisk_position
+							add_child(obelisk_instance)
+							positions[alternate_pos] = obelisk_instance
+							obelisk_instance.update_action_econ.connect(user_interface._update_actions)
+							obelisk_spawned = true
+							break
+							
+					if obelisk_spawned:
+						break
+		return char_instance
+	return null
