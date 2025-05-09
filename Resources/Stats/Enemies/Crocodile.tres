@@ -6,8 +6,8 @@
 resource_local_to_scene = true
 script = ExtResource("1_glh04")
 name = "Crocodile"
-health = 25
-max_health = 25
+health = 15
+max_health = 15
 mana = 2
 armor_class = 5
 movement_speed = 20

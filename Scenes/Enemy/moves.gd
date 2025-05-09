@@ -38,7 +38,7 @@ var unit_moves = {
 	"Cultist": ["Healing Spell","Hex", "Fire Bolt"],
 	"Water Elemental": ["Water Blast","Water Punch"],
 	"Fire Elemental": ["Fire Blast","Fire Punch"],
-	"Earth Elemental": ["Earth Blast","Earth Punch"],
+	"Earth Elemental": ["Rock Blast","Rock Punch"],
 	"Wind Elemental": ["Wind Blast","Wind Punch"],
 	"Water Obelisk": ["Dormant State", "Arcane Resonance","Tidal Summoning","Water Beam"],
 	"Fire Obelisk": ["Dormant State","Arcane Resonance","Inferno Summoning","Fire Beam"],

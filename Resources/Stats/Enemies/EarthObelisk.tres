@@ -6,8 +6,8 @@
 resource_local_to_scene = true
 script = ExtResource("1_ek2vy")
 name = "Earth Obelisk"
-health = 30
-max_health = 30
+health = 20
+max_health = 20
 mana = 4
 armor_class = 5
 movement_speed = 0

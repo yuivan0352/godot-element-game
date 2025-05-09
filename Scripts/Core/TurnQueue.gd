@@ -41,7 +41,7 @@ func _ready():
 				if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
 					enemy_units.append(unit)
 	else:
-		enemy_units = enemy_chars.spawn_characters(1, layer_zero)
+		enemy_units = enemy_chars.spawn_characters(3, layer_zero)
 
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 
@@ -166,11 +166,13 @@ func _play_turn():
 		current_unit.update_action_econ.emit(1, 1, current_unit_stats.mana, current_unit_stats.movement_speed, current_unit_stats.movement_speed)
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
+		check_obelisks_and_boss()
 	elif current_unit is Enemy:
 		_update_combat_log(str(current_unit.unit_stats.name, "'s turn"))
 		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
 		await get_tree().create_timer(1.5).timeout
 		current_unit.take_turn()
+		check_obelisks_and_boss()
 
 func _update_combat_log(line: String):
 	user_interface._add_combat_line(line)
@@ -236,7 +238,6 @@ func check_obelisks_and_boss():
 	var boss_unit = null
 	var obelisk_count = 0
 	
-	# Locate boss and count obelisks left
 	for unit in turn_order:
 		if unit is Enemy and unit.unit_stats.name == "The Omnipotent Eye":
 			boss_unit = unit
@@ -247,13 +248,23 @@ func check_obelisks_and_boss():
 	if boss_unit != null and obelisk_count == 0:
 		_update_combat_log("--------------------------------------------------")
 		_update_combat_log(str("All obelisks have been destroyed! The boss has no energy to take from!"))
+		await get_tree().create_timer(2).timeout
+		_update_combat_log("--------------------------------------------------")
+		_update_combat_log(str("IMPOSSIBLE! HOW COULD MERE MORTALS DEFEAT A GOD LIKE ME?!"))
+		_update_combat_log("--------------------------------------------------")
 		boss_unit.unit_stats.health = 0
+		for unit in turn_order:
+			if unit is Enemy:
+				pc_positions.erase(unit)
+				turn_order.erase(unit)
+				unit.queue_free()
+		
+		await get_tree().create_timer(5).timeout
 		_update_combat_log(str("The boss has been slain!"))
-		boss_unit.erase()
 		_update_combat_log(str("The world has been saved due to your heroic efforts!"))
 		_update_combat_log(str("!☺!!☺!!☺!"))
 		_update_combat_log("--------------------------------------------------")
-		await get_tree().create_timer(2).timeout
+		await get_tree().create_timer(5).timeout
 		return true
 	
 	
