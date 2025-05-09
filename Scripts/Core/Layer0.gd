@@ -25,24 +25,6 @@ func _ready():
 		var tile_data = get_cell_tile_data(tile)
 		if tile_data == null or !tile_data.get_custom_data("walkable"):
 			astar_grid.set_point_solid(tile, true)
-
-# Might need this function for round changes
-#func _update_a_star():
-	#astar_grid.region = get_used_rect()
-	#astar_grid.update()
-	#
-	#for x in get_used_rect().size.x:
-		#for y in get_used_rect().size.y:
-			#var tile = Vector2i(
-				#x + get_used_rect().position.x,
-				#y + get_used_rect().position.y
-			#)	
-			#dictionary[str(tile)] = null
-#
-			#var tile_data = get_cell_tile_data(tile)
-			#
-			#if tile_data == null or !tile_data.get_custom_data("walkable"):
-				#astar_grid.set_point_solid(tile, true)
 	
 
 func set_terrain():
@@ -74,8 +56,6 @@ func set_terrain():
 			if pieceNum == 4:
 				pieceNum -= 1
 			set_pattern(piecePositions[pieceNum],pattern)
-			
-		print()
 
 func piece_choser(limit):
 	var pieceNum = (randi() % limit)

@@ -10,6 +10,7 @@ class_name UserInterface
 @onready var mana_bar = $ActionEcon/ManaBar
 @onready var magic_buttons = $MagicBar/MarginContainer/MagicButtons
 @onready var potion_button = $Hotbar/MarginContainer/MainButtons/PotionButton
+@onready var combat_log = $CombatLogController/CombatLog/ScrollContainer/CombatLog
 
 var current_unit
 var turn_array
@@ -84,3 +85,6 @@ func _fill_spell_buttons(spell_array):
 	for i in range(spell_array.size()):
 		magic_buttons.get_children()[i].spell_info = spell_array[i]
 		magic_buttons.get_children()[i].update_button()
+		
+func _add_combat_line(line: String):
+	combat_log.text = combat_log.text + line + "\n"

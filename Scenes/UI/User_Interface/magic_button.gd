@@ -16,12 +16,11 @@ func _ui_mode_switch():
 		_target_anchor_offset = _up_anchor_offset
 	else:
 		magic_container.visible = false
-		magic_bar.visible = false
 		_target_anchor_offset = _down_anchor_offset
 	_popped_up = !_popped_up
 
 func _process(delta: float) -> void:
-	magic_bar.offset_top = lerp(magic_bar.offset_top, _target_anchor_offset, 0.2)
+	magic_bar.offset_top = lerp(magic_bar.offset_top, _target_anchor_offset, 0.3)
 	if is_equal_approx(magic_bar.offset_top, _down_anchor_offset):
 		magic_bar.visible = false
 	pass
