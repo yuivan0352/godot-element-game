@@ -171,5 +171,8 @@ func _physics_process(_delta):
 		move_towards_target(_delta)
 
 func _on_area_clicked():
-	if turn_queue.current_unit.mode == "idle":
+	if turn_queue.current_unit is Character:
+		if turn_queue.current_unit.mode == "idle":
+			emit_signal("unit_clicked", self)
+	else:
 		emit_signal("unit_clicked", self)
