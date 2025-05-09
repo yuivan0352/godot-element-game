@@ -53,14 +53,12 @@ func set_terrain():
 	
 	var pieceNum = (randi() % 4)
 	currentPieces.append(0)
-	var pattern = tile_set.get_pattern(Global.biomeNum)
+	var pattern = tile_set.get_pattern(15)
 	
 	if pattern:
 		set_pattern(piecePositions[0], pattern)
 		if Global.level == 4:
-			pattern = tile_set.get_pattern(15);	
-			set_pattern(Vector2i(-3,-3),pattern)
-			return;
+			set_pattern(piecePositions[0], pattern)
 		if Global.level >= 2:
 			pieceNum = piece_choser(2)
 			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
@@ -71,8 +69,6 @@ func set_terrain():
 			if pieceNum == 4:
 				pieceNum -= 1
 			set_pattern(piecePositions[pieceNum],pattern)
-		
-			
 			
 		print()
 

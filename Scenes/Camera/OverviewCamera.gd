@@ -20,7 +20,7 @@ func track_char_cam(character: Unit):
 		transition_camera(self, character.find_child("CharacterCamera"), 1.0)
 		
 func _update_camera_limits():
-	if Global.level - 1 == 1:
+	if Global.level - 1 == 1 or Global.level - 1 == 4:
 		movementBottomLimit = 200
 		movementRightLimit = 144
 		limit_bottom = 272
@@ -30,7 +30,7 @@ func _update_camera_limits():
 		movementRightLimit = 392
 		limit_bottom = 272
 		limit_right = 544
-	elif Global.level - 1 > 2:
+	elif Global.level - 1 == 3:
 		movementBottomLimit = 456
 		movementRightLimit = 400
 		limit_bottom = 528
