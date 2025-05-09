@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://cuvbj55tvd08f" path="res://Resources/Themes/Slot.tres" id="1_nxyla"]
 [ext_resource type="Script" uid="uid://b4dneigklt1p3" path="res://Scenes/Screens/Selection/character_slot.gd" id="2_cccb4"]
 [ext_resource type="Theme" uid="uid://dbykdefbhwgsj" path="res://Resources/Themes/StatBackground.tres" id="4_1v6t6"]
-[ext_resource type="Script" uid="uid://bfxr4fu0reb1j" path="res://Scenes/Screens/Selection/stat_allocation_menu.gd" id="4_1vnqu"]
+[ext_resource type="Script" path="res://Scenes/Screens/Selection/stat_allocation_menu.gd" id="4_1vnqu"]
 [ext_resource type="Theme" uid="uid://cwwbma604omfg" path="res://Resources/Themes/StatButton.tres" id="5_12rrr"]
 [ext_resource type="Script" uid="uid://c2fktmojesjap" path="res://Scenes/Screens/Selection/set_stats.gd" id="5_g5fs5"]
 [ext_resource type="Script" uid="uid://dssqijtjt3xf1" path="res://Scenes/Screens/Selection/points.gd" id="5_t1pdx"]

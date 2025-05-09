@@ -46,30 +46,30 @@ func _ready():
 	
 
 func set_terrain():
-	var terrain_background_index = 12 + (Global.biomeNum % 3)
+	var terrain_background_index = 0
+	if Global.level == 1:
+		terrain_background_index = 16
+	else:
+		terrain_background_index = 12 + (Global.biomeNum % 3)
+	
 	var background = tile_set.get_pattern(terrain_background_index)
 	
 	set_pattern(Vector2i(-3,-3),background)
 	
 	var pieceNum = (randi() % 4)
 	currentPieces.append(0)
-	var pattern = tile_set.get_pattern(Global.biomeNum)
+	var pattern = tile_set.get_pattern(15)
 	
 	if pattern:
 		set_pattern(piecePositions[0], pattern)
-	
+		if Global.level == 4:
+			set_pattern(piecePositions[0], pattern)
 		if Global.level >= 2:
 			pieceNum = piece_choser(2)
 			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
 			set_pattern(piecePositions[pieceNum],pattern)
 		if Global.level >= 3:
 			pieceNum = piece_choser(1)
-			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
-			if pieceNum == 4:
-				pieceNum -= 1
-			set_pattern(piecePositions[pieceNum],pattern)
-		if Global.level == 4:
-			pieceNum = piece_choser(3)
 			pattern = tile_set.get_pattern(Global.biomeNum + pieceNum)
 			if pieceNum == 4:
 				pieceNum -= 1
