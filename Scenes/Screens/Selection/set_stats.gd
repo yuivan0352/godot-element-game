@@ -96,6 +96,7 @@ func update_stats(factor) -> void:
 		if statName == "brawns":
 			characterStat.armor_class += 1
 		if statName == "brains":
+			characterStat.max_health += 1
 			characterStat.health += 1
 		if statName == "bewitchment":
 			characterStat.mana += 1
@@ -103,6 +104,7 @@ func update_stats(factor) -> void:
 		if statName == "brawns":
 			characterStat.armor_class -= 1
 		if statName == "brains":
+			characterStat.max_health -= 1
 			characterStat.health -= 1
 		if statName == "bewitchment":
 			characterStat.mana -= 1
