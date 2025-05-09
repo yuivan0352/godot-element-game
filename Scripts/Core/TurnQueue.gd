@@ -33,6 +33,7 @@ func _ready():
 	#Final Boss Level Spawn
 	var enemy_units = []
 	
+	print("Global level: ", Global.level)
 	if Global.level - 1 == 4:
 		var boss_unit = enemy_chars.spawn_2x2_enemy_center("Boss", layer_zero)
 		if boss_unit:
@@ -41,7 +42,7 @@ func _ready():
 				if unit != boss_unit and "Obelisk" in unit.unit_stats.name:
 					enemy_units.append(unit)
 	else:
-		enemy_units = enemy_chars.spawn_characters(3, layer_zero)
+		enemy_units = enemy_chars.spawn_characters(1, layer_zero)
 
 	var player_units = player_chars.spawn_characters(3, layer_zero)
 
@@ -167,6 +168,7 @@ func _play_turn():
 		_change_current_unit_mode("idle", null)
 		buttons_disabled.emit(false)
 		check_obelisks_and_boss()
+		
 	elif current_unit is Enemy:
 		_update_combat_log(str(current_unit.unit_stats.name, "'s turn"))
 		current_unit.update_action_econ.emit(1, 1, current_unit.unit_stats.mana, current_unit.unit_stats.movement_speed, current_unit.unit_stats.movement_speed)
@@ -243,7 +245,7 @@ func check_obelisks_and_boss():
 			boss_unit = unit
 		elif unit is Enemy and "Obelisk" in unit.unit_stats.name:
 			obelisk_count += 1
-	
+
 	#Check if boss exists and obelisk count is 0, therefore kill the boss automatically and wipe it out
 	if boss_unit != null and obelisk_count == 0:
 		_update_combat_log("--------------------------------------------------")
@@ -259,14 +261,10 @@ func check_obelisks_and_boss():
 				turn_order.erase(unit)
 				unit.queue_free()
 		
-		await get_tree().create_timer(5).timeout
+		await get_tree().create_timer(3).timeout
 		_update_combat_log(str("The boss has been slain!"))
 		_update_combat_log(str("The world has been saved due to your heroic efforts!"))
 		_update_combat_log(str("!☺!!☺!!☺!"))
 		_update_combat_log("--------------------------------------------------")
-		await get_tree().create_timer(5).timeout
-		return true
-	
-	
-	return false
-		
+		await get_tree().create_timer(3).timeout
+		get_tree().change_scene_to_file("res://Scenes/Screens/End/End.tscn")	

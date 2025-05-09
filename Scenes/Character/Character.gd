@@ -98,7 +98,7 @@ func _attack_action(attack_type_array):
 		return
 	
 	if turn_queue.enemy_positions.size() == 0: # end game - enemies all killed
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(1).timeout
 		get_tree().change_scene_to_file("res://Scenes/Screens/Upgrade/Upgrade.tscn")
 
 func _input(event):

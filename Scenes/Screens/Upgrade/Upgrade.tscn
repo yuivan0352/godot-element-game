@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b6msb4pro24c1" path="res://Scenes/Screens/Upgrade/upgrade.gd" id="1_cp5m0"]
 [ext_resource type="Script" uid="uid://c44rfkyosbdip" path="res://Scenes/Screens/Upgrade/team.gd" id="1_g3own"]
-[ext_resource type="PackedScene" uid="uid://bjvmoxonb0fd8" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
+[ext_resource type="PackedScene" uid="uid://bhqcy1oe7cn5l" path="res://Scenes/Screens/Selection/CharacterSlot.tscn" id="1_j13i5"]
 [ext_resource type="Script" uid="uid://nrrksgjdl3ta" path="res://Scripts/Stats/stat_sheet.gd" id="3_7uw2u"]
 [ext_resource type="Texture2D" uid="uid://b034d3q82i4mk" path="res://Assets/Sprites/free_character_1-3.png" id="4_j13i5"]
 [ext_resource type="Theme" uid="uid://cnxp8brcgw5s5" path="res://Resources/Themes/Button.tres" id="9_cvvpl"]
@@ -24,6 +24,8 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
+enemy_class = ""
+used_self_buff = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j13i5"]
 atlas = ExtResource("4_j13i5")
@@ -42,6 +44,8 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
+enemy_class = ""
+used_self_buff = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7uw2u"]
 atlas = ExtResource("4_j13i5")
@@ -60,6 +64,8 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
+enemy_class = ""
+used_self_buff = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cp5m0"]
 atlas = ExtResource("4_j13i5")
@@ -78,6 +84,8 @@ brains = 5
 brawns = 5
 bewitchment = 5
 potions = 0
+enemy_class = ""
+used_self_buff = false
 
 [node name="Upgrade" type="Control"]
 layout_mode = 3

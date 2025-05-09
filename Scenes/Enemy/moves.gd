@@ -256,7 +256,6 @@ func check_status_effect(attacker, player, turn_queue, status_name):
 			return false 
 			
 func apply_status_effect(attacker, player, turn_queue: TurnQueue, status_name: String, stat_reduction: int, stat_altered: String, turns: int) -> bool:
-	
 	var stats
 			
 	for stat in Global.characters_stats:
