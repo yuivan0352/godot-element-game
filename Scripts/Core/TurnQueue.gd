@@ -245,11 +245,17 @@ func check_obelisks_and_boss():
 	
 	#Check if boss exists and obelisk count is 0, therefore kill the boss automatically and wipe it out
 	if boss_unit != null and obelisk_count == 0:
+		_update_combat_log("--------------------------------------------------")
 		_update_combat_log(str("All obelisks have been destroyed! The boss has no energy to take from!"))
 		boss_unit.unit_stats.health = 0
 		_update_combat_log(str("The boss has been slain!"))
 		boss_unit.erase()
+		_update_combat_log(str("The world has been saved due to your heroic efforts!"))
+		_update_combat_log(str("!☺!!☺!!☺!"))
+		_update_combat_log("--------------------------------------------------")
+		await get_tree().create_timer(2).timeout
 		return true
+	
 	
 	return false
 		
