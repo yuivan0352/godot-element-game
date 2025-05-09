@@ -58,8 +58,11 @@ func _reset_action_econ():
 	mode = "idle"
 	
 func heal():
+	set_unit_stats()
 	if unit_stats.health < unit_stats.max_health:
 		unit_stats.health += rng.randi_range(1, 6)
+		if unit_stats.health > unit_stats.max_health:
+			unit_stats.health = unit_stats.max_health
 		unit_stats.potions -= 1
 	
 func _attack_action(attack_type_array):
